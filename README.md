@@ -72,7 +72,7 @@ Date: `23/02/2026`
 
 ## Authors and acknowledgment
 
-LCOM Project for group GRUPO_2LEIC<m><n>_<p>.
+LCOM Project for group GRUPO_2LEIC<m>12<n>_2<p>.
 Group members:
 
 Gabriela Felgueiras (up2024061596@up.pt)
