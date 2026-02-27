@@ -37,8 +37,21 @@ uint8_t msb(uint16_t wide_msk) {
 
  }
 
-uint8_t mask(int pos, ...) { 
+uint8_t mask(int pos, ...) {
+  uint8_t m = 0;
+
+  va_list ap;
+  va_start(ap, pos);              
+
+  while (pos != MSK_END) {        
+    if (pos >= 0 && pos < 8) {
+      m |= (uint8_t)(1 << pos);
+    }
+    pos = va_arg(ap, int);        
+  }
+
+  va_end(ap);
+  return m;
+}
 
 
-
- }

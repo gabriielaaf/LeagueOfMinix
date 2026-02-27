@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdbool.h>
+#include <stdarg.h>
 #include <stdint.h>
 
 #define MSK_END -1
