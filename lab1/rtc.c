@@ -17,16 +17,29 @@ static int bdc_to_bin(uint8_t bcd) {
 
  }
 
+static int setup(){
+
+  uint8_t a;
+  uint32_t tmp;
+
+  do {
+    sys_outb(RTC_ADDR_REG, RTC_REG_A);
+    sys_inb(RTC_DATA_REG, &tmp);
+    a = (uint8_t) tmp;
+  } while (a & RTC_UIP_MSK);
+
+  sys_outb(RTC_ADDR_REG, RTC_REG_B);
+  sys_inb(RTC_DATA_REG, &tmp);
+  a = (uint8_t) tmp;
+
+  return  (a & RTC_DM_MSK) != 0;
+
+}
+
+
 int rtc_read_date(rtc_date *date) { 
-
-     if (sys_outb(RTC_ADDR_REG, RTC_REG_A) != 0) return 1;
-  if (sys_inb(RTC_DATA_REG, &a) != 0) return 1;
-
-
-    while (RTC_REG_A & RTC_UIP_MSK){
-
-
-    }
+  
+  
 
 
 }
