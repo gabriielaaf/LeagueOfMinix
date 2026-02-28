@@ -16,6 +16,13 @@ static int bdc_to_bin(uint8_t bcd) {
 
 
  }
+static uint8_t rtc_read_reg(uint8_t reg) {
+  uint32_t tmp;
+  sys_outb(RTC_ADDR_REG, reg);
+  sys_inb(RTC_DATA_REG, &tmp);
+  return (uint8_t) tmp;
+}
+
 
 static int setup(){
 
@@ -23,13 +30,10 @@ static int setup(){
   uint32_t tmp;
 
   do {
-    sys_outb(RTC_ADDR_REG, RTC_REG_A);
-    sys_inb(RTC_DATA_REG, &tmp);
-    a = (uint8_t) tmp;
+    a = rtc_read_reg(RTC_REG_A);
   } while (a & RTC_UIP_MSK);
 
-  sys_outb(RTC_ADDR_REG, RTC_REG_B);
-  sys_inb(RTC_DATA_REG, &tmp);
+  a = rtc_read_reg(RTC_REG_B);
   a = (uint8_t) tmp;
 
   return  (a & RTC_DM_MSK) != 0;
@@ -37,7 +41,11 @@ static int setup(){
 }
 
 
+
+
 int rtc_read_date(rtc_date *date) { 
 
+    TODO;
 
+    
 }
