@@ -14,7 +14,10 @@
 
 static int bdc_to_bin(uint8_t bcd) {
 
-    
+    uint8_t ms4 = bcd >> 4;
+    uint8_t ls4 = bcd & (0x0F);
+
+    return ms4 * 10 + ls4;
 
 }
 
@@ -51,19 +54,19 @@ int rtc_read_date(rtc_date *date) {
 
   int is_binary = setup();
   uint8_t day = rtc_read_reg(RTC_REG_DAY);
-  if (!is_binary) day = bcd_to_bin(day);
+  if (is_binary) day = bcd_to_bin(day);
 
   date->day = day;
 
   is_binary = setup();
   uint8_t month = rtc_read_reg(RTC_REG_MONTH);
-  if (!is_binary) month = bcd_to_bind(month);
+  if (is_binary) month = bcd_to_bind(month);
 
   date->month = month;
 
   is_binary = setup();
   uint8_t year = rtc_read_reg(RTC_REG_MONTH);
-  if (!is_binary) year = bcd_to_bind(year);
+  if (is_binary) year = bcd_to_bind(year);
 
   date->year = year;
     
