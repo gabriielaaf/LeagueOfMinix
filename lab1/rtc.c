@@ -38,8 +38,6 @@ static int setup(){
 
 
 int rtc_read_date(rtc_date *date) { 
-  
-  
 
 
 }
