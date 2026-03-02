@@ -16,11 +16,13 @@ static int bcd_to_bin(uint8_t bcd) {
   return ms4 * 10 + ls4;
 }
 
-static uint8_t rtc_read_reg(uint8_t reg) {
+static int rtc_read_reg(uint8_t reg,uint8_t *value) {
   uint32_t tmp;
-  sys_outb(RTC_ADDR_REG, reg);
-  sys_inb(RTC_DATA_REG, &tmp);
-  return (uint8_t)tmp;
+  if(sys_outb(RTC_ADDR_REG, reg)!= 0) return -1;
+  
+  if(sys_inb(RTC_DATA_REG, &tmp) != 0) return -1;
+  *value = (uint8_t)tmp;
+  return 0;
 }
 
 static int setup(void) {
@@ -37,9 +39,14 @@ static int setup(void) {
 int rtc_read_date(rtc_date *date) {
   int is_binary = setup();
 
-  uint8_t day = rtc_read_reg(RTC_REG_DAY);
-  uint8_t month = rtc_read_reg(RTC_REG_MONTH);
-  uint8_t year = rtc_read_reg(RTC_REG_YEAR);
+  uint8_t day;
+  
+  uint8_t month;
+  uint8_t year;
+  
+  if(rtc_read_reg(RTC_REG_DAY, &day) != 0) return -1;
+  if(rtc_read_reg(RTC_REG_MONTH, &month) != 0) return -1;
+  if(rtc_read_reg(RTC_REG_YEAR, &year) != 0) return -1;
 
   if (!is_binary) {
     day = (uint8_t)bcd_to_bin(day);
