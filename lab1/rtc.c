@@ -25,7 +25,7 @@ static int rtc_read_reg(uint8_t reg,uint8_t *value) {
   return 0;
 }
 
-static int setup(void) {
+static int setup(void) {rtc_read_reg(RTC_REG_DAY);
   uint8_t a;
 
   do {
@@ -43,7 +43,7 @@ int rtc_read_date(rtc_date *date) {
   
   uint8_t month;
   uint8_t year;
-  
+
   if(rtc_read_reg(RTC_REG_DAY, &day) != 0) return -1;
   if(rtc_read_reg(RTC_REG_MONTH, &month) != 0) return -1;
   if(rtc_read_reg(RTC_REG_YEAR, &year) != 0) return -1;
