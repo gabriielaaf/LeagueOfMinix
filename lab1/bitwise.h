@@ -1,8 +1,13 @@
 #pragma once
 
 #include <stdbool.h>
+<<<<<<< HEAD
 #include <stdint.h>
 #include <stdarg.h>
+=======
+#include <stdarg.h>
+#include <stdint.h>
+>>>>>>> 20c8c3a53f16cfc0133721d61c000e721f50ecc6
 
 #define MSK_END -1
 
