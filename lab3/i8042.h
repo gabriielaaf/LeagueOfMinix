@@ -25,3 +25,19 @@
 #define AUX BIT(5)
 #define INPUT_BUFFER_FULL BIT(1)
 #define OUTPUT_BUFFER_FULL BIT(0)
+
+// KBC commands
+
+#define READ_CMD_BYTE 0x20
+#define WRITE_CMD_BYTE 0x60
+#define CHECK_KBC 0xAA //returns 0x55 if ok 0xFC if error
+#define CHECK_KEYBOARD_INTERFACE 0xAB
+#define DISABLE_KBD 0xAD
+#define ENABLE_KBD 0xAE
+
+// command byte
+
+#define DISABLE_MOUSE_INTERFACE BIT(5)
+#define DISABLE_KEYBOARD_INTERFACE BIT(4)
+#define ENABLE_MOUSE_INTERRUPTS BIT(1)
+#define ENABLE_KEYBOARD_INTERRUPTS BIT(0)

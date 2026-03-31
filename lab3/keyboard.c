@@ -1,5 +1,7 @@
 #include "keyboard.h"
 #include "i8042.h"
+#define DELAY_US 20000
+#define MAX_ATTEMPTS 5
 
 int hook_id = KBD_IRQ;
 bool kbd_error = false;
@@ -61,3 +63,90 @@ uint8_t *get_scancode_bytes(void) {
 void reset_scancode(void) { 
   current_scancode.complete = false; current_scancode.size = 0; 
 }
+
+int kbc_send_command(uint8_t cmd){
+    int attempts = 0;
+    int max_attempts = 5;
+    uint8_t stat;
+    while (attempts < max_attempts) {
+    if (sys_inb(STATUS_REGISTER, &stat) != 0) return 1;
+    /* loop while 8042 input buffer is not empty */
+    if( (stat & INPUT_BUFFER_FULL) == 0 ) {
+        sys_outb(COMMAND_REGISTER, cmd); /* no args command */
+        return 0;
+    }
+    tickdelay(micros_to_ticks(DELAY_US));
+    attempts++;
+}
+
+return 1;
+
+}
+
+int kbc_read_response(uint8_t* data){
+
+
+    uint8_t stat;
+    int attempts = 0;
+    int max_attempts = 5;
+    while(attempts < max_attempts) {
+        if (sys_inb(STATUS_REGISTER, &stat) != 0) return 1;
+        if( stat & OUTPUT_BUFFER_FULL ) {
+            sys_inb(OUTPUT_BUFFER, data); /* ass. it returns OK */
+            if ( (stat &(PARITY_ERROR | TIMEOUT_ERROR)) == 0 )
+                return 0;
+            else
+                return 1;
+        }
+        tickdelay(micros_to_ticks(DELAY_US));
+        attempts++;
+    }
+
+    return 1;
+
+
+}
+
+int enable_keyboard_interrupts(){
+    uint8_t cmd_byte;
+
+    if (kbc_send_command(READ_CMD_BYTE) != 0) return 1;
+
+    if (kbc_read_response(&cmd_byte) != 0) return 1;
+
+    cmd_byte |= ENABLE_KEYBOARD_INTERRUPTS;
+
+    if (kbc_send_command(WRITE_CMD_BYTE) != 0)
+        return 1;
+
+    if (sys_outb(INPUT_BUFFER, cmd_byte) != 0)
+        return 1;
+
+    return 0;
+
+}
+
+
+int disable_keyboard_interrupts(){
+     uint8_t cmd_byte;
+
+    // Read current command byte
+    if (kbc_send_command(READ_CMD_BYTE) != 0)
+        return 1;
+
+    if (kbc_read_response(&cmd_byte) != 0)
+        return 1;
+
+    // Clear INT bit (disable keyboard interrupts)
+    cmd_byte &= ~ENABLE_KEYBOARD_INTERRUPTS;
+
+    // Write command byte back
+    if (kbc_send_command(WRITE_CMD_BYTE) != 0)
+        return 1;
+
+    if (sys_outb(OUTPUT_BUFFER, cmd_byte) != 0)
+        return 1;
+
+    return 0;
+}
+

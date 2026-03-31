@@ -5,6 +5,11 @@
 typedef struct Scancode scancode;
 extern bool kbd_error;
 
+int kbc_send_command(uint8_t cmd);
+int kbc_read_response(uint8_t* data);
+int enable_keyboard_interrupts();
+int disable_keyboard_interrupts();
+
 /* Keyboard interrupt management */
 int kbd_subscribe_int(uint8_t *bit_no);
 int kbd_unsubscribe_int(void);
