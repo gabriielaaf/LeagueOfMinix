@@ -58,7 +58,7 @@ int (kbd_test_scan)(void) {
                             uint8_t size = get_scancode_size();
                             uint8_t *bytes = get_scancode_bytes();
                             bool is_make = !(bytes[size - 1] & BREAKCODE);
-                            if (size == 1 && bytes[0] == 0x81) running = false;
+                            if (size == 1 && bytes[0] == (ESC | BREAKCODE)) running = false;
                             if (kbd_print_scancode(is_make, size, bytes) != 0) return 1;
                             reset_scancode();
                         }

@@ -54,7 +54,7 @@ bool scancode_complete(void) {
 }
 uint8_t get_scancode_size(void) {
    return current_scancode.size; 
-  }
+}
 uint8_t *get_scancode_bytes(void) {
    return current_scancode.bytes; 
   }
