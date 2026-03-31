@@ -102,8 +102,9 @@ int(kbd_test_poll)() {
 
                 uint8_t *bytes = get_scancode_bytes();
                 uint8_t size = get_scancode_size();
+                bool is_make = !(bytes[size-1] & BREAKCODE);
 
-               
+                if (kbd_print_scancode(is_make, size, bytes) != 0) continue;
 
                 if (bytes[0] == (ESC | BREAKCODE)) {
                     running = false;

@@ -130,7 +130,7 @@ int enable_keyboard_interrupts(){
 int disable_keyboard_interrupts(){
      uint8_t cmd_byte;
 
-    // Read current command byte
+
     if (kbc_send_command(READ_CMD_BYTE) != 0)
         return 1;
 
@@ -140,7 +140,7 @@ int disable_keyboard_interrupts(){
     // Clear INT bit (disable keyboard interrupts)
     cmd_byte &= ~ENABLE_KEYBOARD_INTERRUPTS;
 
-    // Write command byte back
+
     if (kbc_send_command(WRITE_CMD_BYTE) != 0)
         return 1;
 
