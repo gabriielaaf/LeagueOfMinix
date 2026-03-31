@@ -50,8 +50,36 @@ return timer_set_frequency(timer,freq);
 }
 
 int(timer_test_int)(uint8_t time) {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+  int(timer_test_int)(uint8_t time) {
+  int ipc_status, r;
+  message msg;
+  uint8_t bit_no;
 
-  return 1;
+  if (timer_subscribe_int(&bit_no) != 0) return 1;
+
+  uint32_t irq_set = bit_no;
+
+  while(counter < (time * sys_hz())) { 
+    /* Get a request message. */
+    if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0 ) { 
+      printf("driver_receive failed with: %d", r);
+      continue;
+    }
+    if (is_ipc_notify(ipc_status)) { /* received notification */
+      switch (_ENDPOINT_P(msg.m_source)) {
+        case HARDWARE: /* hardware interrupt notification */				
+          if (msg.m_notify.interrupts & irq_set) { /* subscribed interrupt */
+            timer_int_handler();   /* process it */
+
+            if (counter % sys_hz() == 0) {
+              timer_print_elapsed_time();
+            }
+          }
+          break;
+      }
+    }
+  }
+
+  timer_unsubscribe_int();
+
 }

@@ -2,6 +2,7 @@
 #include <lcom/timer.h>
 
 #include <stdint.h>
+uint32_t counter = 0;
 
 #include "i8254.h"
 
@@ -39,22 +40,24 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
 
 
 int (timer_subscribe_int)(uint8_t *bit_no) {
-    /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+  *bit_no = BIT(hook_id);
 
-  return 1;
+
+  if(sys_irqsetpolicy(TIMER0_IRQ, IRQ_REENABLE, &hook_id) != OK) return 1;
+
 }
 
 int (timer_unsubscribe_int)() {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
 
-  return 1;
+   if(sys_irqrmpolicy(&hook_id) != OK) return 1;
+
+  return 0;
+
 }
 
 void (timer_int_handler)() {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+
+  counter++;
 }
 
 int (timer_get_conf)(uint8_t timer, uint8_t *st) {
