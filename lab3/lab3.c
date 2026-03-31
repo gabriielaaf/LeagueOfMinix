@@ -76,24 +76,22 @@ int (kbd_test_scan)(void) {
 }
 
 int(kbd_test_poll)() {
-    uint8_t scancode;
     uint8_t status;
+    uint8_t scancode;
     bool running = true;
-
-    if (disable_keyboard_interrupts() != 0)
-        return 1;
 
     while (running) {
 
-        if (sys_inb(STATUS_REGISTER, &status) != 0)
+        if (util_sys_inb(STATUS_REGISTER, &status) != 0)
             continue;
+
 
         if (status & OUTPUT_BUFFER_FULL) {
 
-            if (sys_inb(OUTPUT_BUFFER, &scancode) != 0)
+            if (status & (PARITY_ERROR | TIMEOUT_ERROR))
                 continue;
 
-            if (status & (PARITY_ERROR | TIMEOUT_ERROR))
+            if (util_sys_inb(OUTPUT_BUFFER, &scancode) != 0)
                 continue;
 
             process_scancode_byte(scancode);
@@ -104,9 +102,10 @@ int(kbd_test_poll)() {
                 uint8_t size = get_scancode_size();
                 bool is_make = !(bytes[size-1] & BREAKCODE);
 
-                if (kbd_print_scancode(is_make, size, bytes) != 0) continue;
+                if (kbd_print_scancode(is_make, size, bytes) != 0)
+                    continue;
 
-                if (bytes[0] == (ESC | BREAKCODE)) {
+                if (bytes[size - 1] == (ESC | BREAKCODE)) {
                     running = false;
                 }
 
@@ -116,6 +115,7 @@ int(kbd_test_poll)() {
 
         tickdelay(micros_to_ticks(DELAY_US));
     }
+
     return 0;
 }
 

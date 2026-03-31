@@ -9,6 +9,7 @@ int kbc_send_command(uint8_t cmd);
 int kbc_read_response(uint8_t* data);
 int enable_keyboard_interrupts();
 int disable_keyboard_interrupts();
+int kbc_write_data(uint8_t data);
 
 /* Keyboard interrupt management */
 int kbd_subscribe_int(uint8_t *bit_no);

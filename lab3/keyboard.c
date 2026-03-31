@@ -69,7 +69,7 @@ int kbc_send_command(uint8_t cmd){
     int max_attempts = 5;
     uint8_t stat;
     while (attempts < max_attempts) {
-    if (sys_inb(STATUS_REGISTER, &stat) != 0) return 1;
+    if (util_sys_inb(STATUS_REGISTER, &stat) != 0) return 1;
     /* loop while 8042 input buffer is not empty */
     if( (stat & INPUT_BUFFER_FULL) == 0 ) {
         sys_outb(COMMAND_REGISTER, cmd); /* no args command */
@@ -90,9 +90,9 @@ int kbc_read_response(uint8_t* data){
     int attempts = 0;
     int max_attempts = 5;
     while(attempts < max_attempts) {
-        if (sys_inb(STATUS_REGISTER, &stat) != 0) return 1;
+        if (util_sys_inb(STATUS_REGISTER, &stat) != 0) return 1;
         if( stat & OUTPUT_BUFFER_FULL ) {
-            sys_inb(OUTPUT_BUFFER, data); /* ass. it returns OK */
+            util_sys_inb(OUTPUT_BUFFER, data); /* ass. it returns OK */
             if ( (stat &(PARITY_ERROR | TIMEOUT_ERROR)) == 0 )
                 return 0;
             else
@@ -106,47 +106,35 @@ int kbc_read_response(uint8_t* data){
 
 
 }
+int kbc_write_data(uint8_t data) {
+    uint8_t stat;
+    int attempts = 0;
+    while (attempts++ < MAX_ATTEMPTS) {
+        if (util_sys_inb(STATUS_REGISTER, &stat) != 0) return 1;
+        if (!(stat & INPUT_BUFFER_FULL))
+            return sys_outb(INPUT_BUFFER, data);
+        tickdelay(micros_to_ticks(DELAY_US));
+    }
+    return 1;
+}
 
 int enable_keyboard_interrupts(){
     uint8_t cmd_byte;
-
     if (kbc_send_command(READ_CMD_BYTE) != 0) return 1;
-
     if (kbc_read_response(&cmd_byte) != 0) return 1;
-
     cmd_byte |= ENABLE_KEYBOARD_INTERRUPTS;
-
-    if (kbc_send_command(WRITE_CMD_BYTE) != 0)
-        return 1;
-
-    if (sys_outb(INPUT_BUFFER, cmd_byte) != 0)
-        return 1;
-
+    if (kbc_send_command(WRITE_CMD_BYTE) != 0) return 1;
+    if (kbc_write_data(cmd_byte) != 0) return 1;
     return 0;
-
 }
 
-
-int disable_keyboard_interrupts(){
-     uint8_t cmd_byte;
-
-
-    if (kbc_send_command(READ_CMD_BYTE) != 0)
-        return 1;
-
-    if (kbc_read_response(&cmd_byte) != 0)
-        return 1;
-
-    // Clear INT bit (disable keyboard interrupts)
+int disable_keyboard_interrupts(){ // initally i though i had to implement this function, it is redundant but it is kept anyway
+    uint8_t cmd_byte;
+    if (kbc_send_command(READ_CMD_BYTE) != 0) return 1;
+    if (kbc_read_response(&cmd_byte) != 0) return 1;
     cmd_byte &= ~ENABLE_KEYBOARD_INTERRUPTS;
-
-
-    if (kbc_send_command(WRITE_CMD_BYTE) != 0)
-        return 1;
-
-    if (sys_outb(OUTPUT_BUFFER, cmd_byte) != 0)
-        return 1;
-
+    if (kbc_send_command(WRITE_CMD_BYTE) != 0) return 1;
+    if (kbc_write_data(cmd_byte) != 0) return 1;
     return 0;
 }
 
