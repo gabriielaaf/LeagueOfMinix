@@ -3,7 +3,7 @@
 #define DELAY_US 20000
 #define MAX_ATTEMPTS 5
 
-int hook_id = KBD_IRQ;
+int hook_id_keyboard = KBD_IRQ;
 bool kbd_error = false;
 
 struct Scancode {
@@ -15,13 +15,13 @@ struct Scancode {
 static struct Scancode current_scancode = {{0, 0}, 0, false};
 
 int (kbd_subscribe_int)(uint8_t *bit_no) {
-    *bit_no = hook_id;
-    if (sys_irqsetpolicy(KBD_IRQ, IRQ_REENABLE | IRQ_EXCLUSIVE, &hook_id) != 0) return 1;
+    *bit_no = hook_id_keyboard;
+    if (sys_irqsetpolicy(KBD_IRQ, IRQ_REENABLE | IRQ_EXCLUSIVE, &hook_id_keyboard) != 0) return 1;
     return 0;
 }
 
 int (kbd_unsubscribe_int)(void) {
-    if (sys_irqrmpolicy(&hook_id) != 0) return 1;
+    if (sys_irqrmpolicy(&hook_id_keyboard) != 0) return 1;
     return 0;
 }
 
