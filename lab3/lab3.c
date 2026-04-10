@@ -4,6 +4,7 @@
 #include "i8042.h"
 #include <stdbool.h>
 #include <stdint.h>
+#include <lcom/timer.h>
 #define DELAY_US 20000
 
 int main(int argc, char *argv[]) {
@@ -120,8 +121,80 @@ int(kbd_test_poll)() {
 }
 
 int(kbd_test_timed_scan)(uint8_t n) {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
+    int r, ipc_status;
+    message msg;
+    bool running = true;
+    uint8_t bit_kbd, bit_timer;
+    uint32_t irq_set_timer, irq_set_kbd;
+    uint32_t keyboard_time = 0;
 
-  return 1;
+    extern uint32_t counter;
+
+    counter = 0;
+
+    if (timer_subscribe_int(&bit_timer) != 0) return 1;
+    if (kbd_subscribe_int(&bit_kbd) != 0) {
+        timer_unsubscribe_int();
+        return 1;
+    }
+
+    irq_set_timer = BIT(bit_timer);
+    irq_set_kbd = BIT(bit_kbd);
+
+    while (running) {
+        if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+            printf("driver_receive failed with: %d\n", r);
+            continue;
+        }
+
+        if (is_ipc_notify(ipc_status)) {
+            switch (_ENDPOINT_P(msg.m_source)) {
+                case HARDWARE:
+                    if (msg.m_notify.interrupts & irq_set_kbd) {
+                        kbd_ih();
+
+                        if (kbd_error) {
+                            kbd_error = false;
+                            reset_scancode();
+                            continue;
+                        }
+
+                        keyboard_time = counter;
+
+                        if (scancode_complete()) {
+                            uint8_t size = get_scancode_size();
+                            uint8_t *bytes = get_scancode_bytes();
+                            bool is_make = !(bytes[size - 1] & BREAKCODE);
+
+                            if (kbd_print_scancode(is_make, size, bytes) != 0) {
+                                kbd_unsubscribe_int();
+                                timer_unsubscribe_int();
+                                return 1;
+                            }
+
+                            if (size == 1 && bytes[0] == (ESC | BREAKCODE))
+                                running = false;
+
+                            reset_scancode();
+                        }
+                    }
+
+                    if (msg.m_notify.interrupts & irq_set_timer) {
+                        timer_int_handler();
+
+                        if ((counter - keyboard_time) >= n * sys_hz())
+                            running = false;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    if (kbd_unsubscribe_int() != 0) return 1;
+    if (timer_unsubscribe_int() != 0) return 1;
+
+    return 0;
 }
