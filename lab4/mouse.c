@@ -4,7 +4,8 @@
 static uint8_t packet_bytes[3];
 static uint8_t packet_index = 0;
 static struct packet pp;
-uint8_t hook_id_mouse = MOUSE_IRQ;
+static int hook_id_mouse = MOUSE_IRQ;
+static bool pckt_complete = false;
 
 static int mouse_send_cmd(uint8_t cmd, uint8_t* ack){
     if (kbc_send_command(WRITE_TO_MOUSE) != 0) return 1;
@@ -47,11 +48,85 @@ int mouse_send_command_with_sync(uint8_t cmd) {
 
 int (mouse_subscribe_int)(uint8_t *bit_no) {
     *bit_no = hook_id_mouse;
-    if (sys_irqsetpolicy(KBD_IRQ, IRQ_REENABLE | IRQ_EXCLUSIVE, &hook_id_mouse) != 0) return 1;
+    if (sys_irqsetpolicy(MOUSE_IRQ, IRQ_REENABLE | IRQ_EXCLUSIVE, &hook_id_mouse) != 0) return 1;
     return 0;
 }
 
 int (mouse_unsubscribe_int)() {
     if (sys_irqrmpolicy(&hook_id_mouse) != 0) return 1;
     return 0;
+}
+
+
+void (mouse_ih)(){
+
+    uint8_t status;
+    uint8_t byte;
+
+    if (util_sys_inb(STATUS_REGISTER,&status) != 0) return;
+
+    if (!(status & OUTPUT_BUFFER_FULL)) return;
+
+    if (status & (PARITY_ERROR | TIMEOUT_ERROR)) return;
+
+    if (!(status & (AUX))) return;
+
+    if (util_sys_inb(OUTPUT_BUFFER, &byte) != 0) return;
+
+    if (process_packet(byte) != 0) return;
+
+}
+
+int process_packet(uint8_t byte) {
+
+    if (packet_index == 0) {
+        if (!(byte & SYNCRONIZED)) return 1;
+    }
+
+    packet_bytes[packet_index] = byte;
+    packet_index++;
+
+    if (packet_index == 3) {
+        pp.bytes[0] = packet_bytes[0];
+        pp.bytes[1] = packet_bytes[1];
+        pp.bytes[2] = packet_bytes[2];
+
+        pp.lb = (packet_bytes[0] & LEFT_BUTTON) != 0;
+        pp.rb = (packet_bytes[0] & RIGHT_BUTTON) != 0;
+        pp.mb = (packet_bytes[0] & MIDDLE_BUTTON) != 0;
+
+        pp.x_ov = (packet_bytes[0] & X_OVERFLOW) != 0;
+        pp.y_ov = (packet_bytes[0] & Y_OVERFLOW) != 0;
+
+        if (packet_bytes[0] & X_SIGN)
+            pp.delta_x = (int16_t)(0xFF00 | packet_bytes[1]);
+        else
+            pp.delta_x = packet_bytes[1];
+
+        if (packet_bytes[0] & Y_SIGN)
+            pp.delta_y = (int16_t)(0xFF00 | packet_bytes[2]);
+        else
+            pp.delta_y = packet_bytes[2];
+
+        packet_index = 0;
+        pckt_complete = true;
+    }
+
+    return  0;
+}
+
+bool packet_complete(){
+    return pckt_complete;
+}
+
+void reset_packet(){
+    packet_index = 0;
+    pckt_complete = false;
+    packet_bytes[0] = 0;
+    packet_bytes[1] = 0;
+    packet_bytes[2] = 0;
+}
+
+struct packet *get_packet() {
+    return &pp;
 }

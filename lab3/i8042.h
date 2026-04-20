@@ -56,3 +56,12 @@
 #define MOUSE_IRQ 12
 
 
+#define LEFT_BUTTON    BIT(0)
+#define RIGHT_BUTTON   BIT(1)
+#define MIDDLE_BUTTON  BIT(2)
+#define X_SIGN         BIT(4)
+#define Y_SIGN         BIT(5)
+#define X_OVERFLOW     BIT(6)
+#define Y_OVERFLOW     BIT(7)
+
+
