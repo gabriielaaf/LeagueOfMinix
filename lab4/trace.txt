@@ -1,0 +1,584 @@
+@lcflib.a:2019, lcf_start
+  mouse_test_packet(cnt)
+> mouse_test_packet(5)
+  @mouse.c:11, mouse_send_cmd
+    printf("a")
+    "a"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:75, kbc_send_command
+    sys_outb(COMMAND_REGISTER, cmd)
+  > sys_outb(0x64, 0xd4 = 0b11010100)
+  @mouse.c:13, mouse_send_cmd
+    printf("b")
+    "b"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:120, kbc_write_data
+    sys_outb(INPUT_BUFFER, data)
+  > sys_outb(0x60, 0xf4 = 0b11110100)
+  @mouse.c:15, mouse_send_cmd
+    printf("c")
+    "c"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @mouse.c:17, mouse_send_cmd
+    printf("d")
+    "d"
+  @mouse.c:11, mouse_send_cmd
+    printf("a")
+    "a"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:75, kbc_send_command
+    sys_outb(COMMAND_REGISTER, cmd)
+  > sys_outb(0x64, 0xd4 = 0b11010100)
+  @mouse.c:13, mouse_send_cmd
+    printf("b")
+    "b"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:120, kbc_write_data
+    sys_outb(INPUT_BUFFER, data)
+  > sys_outb(0x60, 0xf4 = 0b11110100)
+  @mouse.c:15, mouse_send_cmd
+    printf("c")
+    "c"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @mouse.c:17, mouse_send_cmd
+    printf("d")
+    "d"
+  @mouse.c:11, mouse_send_cmd
+    printf("a")
+    "a"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:75, kbc_send_command
+    sys_outb(COMMAND_REGISTER, cmd)
+  > sys_outb(0x64, 0xd4 = 0b11010100)
+  @mouse.c:13, mouse_send_cmd
+    printf("b")
+    "b"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:120, kbc_write_data
+    sys_outb(INPUT_BUFFER, data)
+  > sys_outb(0x60, 0xf4 = 0b11110100)
+  @mouse.c:15, mouse_send_cmd
+    printf("c")
+    "c"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @mouse.c:17, mouse_send_cmd
+    printf("d")
+    "d"
+  @mouse.c:11, mouse_send_cmd
+    printf("a")
+    "a"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:75, kbc_send_command
+    sys_outb(COMMAND_REGISTER, cmd)
+  > sys_outb(0x64, 0xd4 = 0b11010100)
+  @mouse.c:13, mouse_send_cmd
+    printf("b")
+    "b"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:120, kbc_write_data
+    sys_outb(INPUT_BUFFER, data)
+  > sys_outb(0x60, 0xf4 = 0b11110100)
+  @mouse.c:15, mouse_send_cmd
+    printf("c")
+    "c"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @mouse.c:17, mouse_send_cmd
+    printf("d")
+    "d"
+  @mouse.c:11, mouse_send_cmd
+    printf("a")
+    "a"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:75, kbc_send_command
+    sys_outb(COMMAND_REGISTER, cmd)
+  > sys_outb(0x64, 0xd4 = 0b11010100)
+  @mouse.c:13, mouse_send_cmd
+    printf("b")
+    "b"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:120, kbc_write_data
+    sys_outb(INPUT_BUFFER, data)
+  > sys_outb(0x60, 0xf4 = 0b11110100)
+  @mouse.c:15, mouse_send_cmd
+    printf("c")
+    "c"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @keyboard.c:93, kbc_read_response
+    printf("whatever")
+    "whatever"
+  @utils.c:22, util_sys_inb
+    sys_inb(port, &val)
+  > sys_inb(0x64, addr: 0xeffff6ac)
+  < sys_inb(0x64, addr: 0xeffff6ac [0x1c = 0b00011100])
+  @keyboard.c:95, kbc_read_response
+    printf("entrou")
+    "entrou"
+  @keyboard.c:105, kbc_read_response
+    micros_to_ticks(DELAY_US)
+  @keyboard.c:105, kbc_read_response
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @keyboard.c:106, kbc_read_response
+    printf("attemps++")
+    "attemps++"
+  @mouse.c:17, mouse_send_cmd
+    printf("d")
+    "d"
+< mouse_test_packet(5) -> (ret: 1)

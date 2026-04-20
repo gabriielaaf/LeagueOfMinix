@@ -9,8 +9,8 @@
 int mouse_send_command(uint8_t cmd);
 int mouse_send_command_with_sync(uint8_t cmd);
 
-int mouse_subscribe_int(uint8_t *bit_no);
-int mouse_unsubscribe_int(void);
+int (mouse_subscribe_int)(uint8_t *bit_no);
+int (mouse_unsubscribe_int)(void);
 
 void (mouse_ih)(void);
 

@@ -84,16 +84,18 @@ return 1;
 }
 
 int kbc_read_response(uint8_t* data){
+   
     uint8_t stat;
     int attempts = 0;
-    int max_attempts = 5;
+    int max_attempts = 5; 
+
     while(attempts < max_attempts) {
         if (util_sys_inb(STATUS_REGISTER, &stat) != 0) return 1;
         if( stat & OUTPUT_BUFFER_FULL ) {
             util_sys_inb(OUTPUT_BUFFER, data); /* ass. it returns OK */
-            if ( (stat &(PARITY_ERROR | TIMEOUT_ERROR)) == 0 )
-                return 0;
-            else
+            if ( (stat &(PARITY_ERROR | TIMEOUT_ERROR)) == 0 ){
+                 return 0;
+            } else
                 return 1;
         }
         tickdelay(micros_to_ticks(DELAY_US));

@@ -38,14 +38,14 @@ int (mouse_test_packet)(uint32_t cnt) {
     uint8_t bit_no;
     uint32_t irq_set;
     uint32_t packets_read = 0;
+   if (mouse_send_command(ENABLE_DATA_REPORTING) != 0) {
 
+        return 1;
+    }
     if (mouse_subscribe_int(&bit_no) != 0) return 1;
     irq_set = BIT(bit_no);
 
-    if (mouse_send_command(ENABLE_DATA_REPORTING) != 0) {
-        mouse_unsubscribe_int();
-        return 1;
-    }
+ 
 
     while (packets_read < cnt) {
         if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -72,13 +72,16 @@ int (mouse_test_packet)(uint32_t cnt) {
             }
         }
     }
+  
+    if (mouse_unsubscribe_int() != 0) return 1;
+
 
     if (mouse_send_command(DISABLE_DATA_REPORTING) != 0) {
         mouse_unsubscribe_int();
         return 1;
     }
 
-    if (mouse_unsubscribe_int() != 0) return 1;
+    
 
     return 0;
 }
