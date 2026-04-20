@@ -84,8 +84,6 @@ return 1;
 }
 
 int kbc_read_response(uint8_t* data){
-
-
     uint8_t stat;
     int attempts = 0;
     int max_attempts = 5;

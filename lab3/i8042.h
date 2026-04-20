@@ -41,3 +41,16 @@
 #define DISABLE_KEYBOARD_INTERFACE BIT(4)
 #define ENABLE_MOUSE_INTERRUPTS BIT(1)
 #define ENABLE_KEYBOARD_INTERRUPTS BIT(0)
+
+
+// ==================================LAB4=====================================
+
+#define WRITE_TO_MOUSE 0xD4
+#define ACK 0xFA
+#define MOUSE_ERROR  0xFC
+#define DISABLE_DATA_REPORTING 0xF5
+#define ENABLE_DATA_REPORTING  0xF4
+#define SET_STREAM_MODE        0xEA
+#define SYNCRONIZED BIT(3)
+
+

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef KEYBOARD_H
+#define KEYBOARD_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -23,3 +24,5 @@ bool scancode_complete(void);
 uint8_t get_scancode_size(void);
 uint8_t* get_scancode_bytes(void);
 void reset_scancode(void);
+
+#endif

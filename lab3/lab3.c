@@ -117,6 +117,8 @@ int(kbd_test_poll)() {
         tickdelay(micros_to_ticks(DELAY_US));
     }
 
+    enable_keyboard_interrupts();
+
     return 0;
 }
 
