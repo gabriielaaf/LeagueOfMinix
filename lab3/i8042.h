@@ -53,4 +53,6 @@
 #define SET_STREAM_MODE        0xEA
 #define SYNCRONIZED BIT(3)
 
+#define MOUSE_IRQ 12
+
 
