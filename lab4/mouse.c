@@ -26,6 +26,7 @@ int mouse_send_command(uint8_t cmd){
 
         if (ack == ACK) return 0;
 
+        tickdelay(micros_to_ticks(20000));
        
         attempts++;
     }
@@ -48,6 +49,7 @@ int mouse_send_command_with_sync(uint8_t cmd) {
 
     return 0;
 }
+
 
 int (mouse_subscribe_int)(uint8_t *bit_no) {
     *bit_no = hook_id_mouse;

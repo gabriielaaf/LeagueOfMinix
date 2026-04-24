@@ -39,15 +39,16 @@ int (mouse_test_packet)(uint32_t cnt) {
     uint32_t irq_set;
     uint32_t packets_read = 0;
     
+    
+ 
 
     if (mouse_subscribe_int(&bit_no) != 0) return 1;
     irq_set = BIT(bit_no);
 
- 
-    if (mouse_enable_data_reporting() != 0) {
-        mouse_unsubscribe_int();
+    if (mouse_send_command(ENABLE_DATA_REPORTING) != 0) {
         return 1;
     }
+  
 
     while (packets_read < cnt) {
         if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -75,12 +76,12 @@ int (mouse_test_packet)(uint32_t cnt) {
         }
     }
   
-    if (mouse_unsubscribe_int() != 0) return 1;
+
 
 
     if (mouse_send_command(DISABLE_DATA_REPORTING) != 0) return 1;
 
-
+    if (mouse_unsubscribe_int() != 0) return 1;
     
 
     return 0;
@@ -98,17 +99,17 @@ int (mouse_test_async)(uint8_t idle_time) {
     uint32_t mouse_time = 0;
     counter = 0;
 
+
     if (timer_subscribe_int(&bit_timer) != 0) return 1;
     if (mouse_subscribe_int(&bit_mouse) != 0) {
         timer_unsubscribe_int();
         return 1;
     }
 
-    if (mouse_enable_data_reporting() != 0) {
-        mouse_unsubscribe_int();
+
+    if (mouse_send_command(ENABLE_DATA_REPORTING) != 0) {
         return 1;
     }
-
 
 
     irq_set_timer = BIT(bit_timer);
@@ -147,10 +148,10 @@ int (mouse_test_async)(uint8_t idle_time) {
         }
     }
 
+  
+    if (mouse_send_command(DISABLE_DATA_REPORTING) != 0) return 1;
     if (mouse_unsubscribe_int() != 0) return 1;
     if (timer_unsubscribe_int() != 0) return 1;
-
-    if (mouse_send_command(DISABLE_DATA_REPORTING) != 0) return 1;
 
     return 0;
 }
