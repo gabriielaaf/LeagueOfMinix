@@ -38,14 +38,16 @@ int (mouse_test_packet)(uint32_t cnt) {
     uint8_t bit_no;
     uint32_t irq_set;
     uint32_t packets_read = 0;
-   if (mouse_send_command(ENABLE_DATA_REPORTING) != 0) {
+    
 
-        return 1;
-    }
     if (mouse_subscribe_int(&bit_no) != 0) return 1;
     irq_set = BIT(bit_no);
 
  
+    if (mouse_enable_data_reporting() != 0) {
+        mouse_unsubscribe_int();
+        return 1;
+    }
 
     while (packets_read < cnt) {
         if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -76,10 +78,8 @@ int (mouse_test_packet)(uint32_t cnt) {
     if (mouse_unsubscribe_int() != 0) return 1;
 
 
-    if (mouse_send_command(DISABLE_DATA_REPORTING) != 0) {
-        mouse_unsubscribe_int();
-        return 1;
-    }
+    if (mouse_send_command(DISABLE_DATA_REPORTING) != 0) return 1;
+
 
     
 
@@ -87,7 +87,70 @@ int (mouse_test_packet)(uint32_t cnt) {
 }
 
 int (mouse_test_async)(uint8_t idle_time) {
-    /* To be completed */
-    printf("%s(%u): under construction\n", __func__, idle_time);
-    return 1;
+    int r, ipc_status;
+    message msg;
+    bool running = true;
+    uint8_t bit_mouse, bit_timer;
+    uint32_t irq_set_timer, irq_set_mouse;
+    
+
+    extern uint32_t counter;
+    uint32_t mouse_time = 0;
+    counter = 0;
+
+    if (timer_subscribe_int(&bit_timer) != 0) return 1;
+    if (mouse_subscribe_int(&bit_mouse) != 0) {
+        timer_unsubscribe_int();
+        return 1;
+    }
+
+    if (mouse_enable_data_reporting() != 0) {
+        mouse_unsubscribe_int();
+        return 1;
+    }
+
+
+
+    irq_set_timer = BIT(bit_timer);
+    irq_set_mouse = BIT(bit_mouse);
+
+    while (running) {
+        if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+            printf("driver_receive failed with: %d\n", r);
+            continue;
+        }
+
+        if (is_ipc_notify(ipc_status)) {
+            switch (_ENDPOINT_P(msg.m_source)) {
+                case HARDWARE:
+                    if (msg.m_notify.interrupts & irq_set_mouse) {
+                        mouse_ih();
+
+                        if (packet_complete()) {
+                            mouse_print_packet(get_packet());
+                            reset_packet();
+                            mouse_time = counter;
+                        }
+                    }
+
+                    if (msg.m_notify.interrupts & irq_set_timer){
+                        timer_int_handler();
+
+                        if ((counter - mouse_time) >= idle_time * sys_hz())
+                            running = false;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    if (mouse_unsubscribe_int() != 0) return 1;
+    if (timer_unsubscribe_int() != 0) return 1;
+
+    if (mouse_send_command(DISABLE_DATA_REPORTING) != 0) return 1;
+
+    return 0;
 }
