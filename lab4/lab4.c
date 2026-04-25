@@ -32,6 +32,10 @@ int main(int argc, char *argv[]) {
 }
 
 
+/**  After talking to the teahcer he told to leave the warnings of the 0x60 
+ because if i change the order of the functions calls my mouse_enable_interrupts will not work, since minix steals the ACK byte.
+ He also told me that the warning is not a problem just a reminder for the group project the lcf mouse_enable will be used
+**/
 int (mouse_test_packet)(uint32_t cnt) {
     int r, ipc_status;
     message msg;
