@@ -166,3 +166,41 @@ int wait_for_esc(){
     if (kbd_unsubscribe_int() != 0) return 1;
     return 0;
 }
+
+
+int(vg_draw_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
+  xpm_image_t img;
+
+  /*
+   * For VBE mode 0x105, use XPM_INDEXED.
+   * Each pixel in the pixmap will be 1 byte.
+   */
+  uint8_t *pixmap = xpm_load(xpm, XPM_INDEXED, &img);
+
+  if (pixmap == NULL) {
+    return 1;
+  }
+
+  /*
+   * Check if the full image fits on the screen.
+   */
+  if ((uint32_t)x + img.width > vmi.XResolution ||
+      (uint32_t)y + img.height > vmi.YResolution) {
+    free(pixmap);
+    return 1;
+  }
+
+  for (uint16_t row = 0; row < img.height; row++) {
+    for (uint16_t col = 0; col < img.width; col++) {
+      uint32_t color = pixmap[row * img.width + col];
+
+      if (vg_draw_pixel(x + col, y + row, color) != 0) {
+        free(pixmap);
+        return 1;
+      }
+    }
+  }
+
+  free(pixmap);
+  return 0;
+}

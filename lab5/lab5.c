@@ -79,8 +79,29 @@ int(video_test_rectangle)(uint16_t mode, uint16_t x, uint16_t y,
 }
 
 int(video_test_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
-    /* To be completed */
-    printf("%s(%8p, %u, %u): under construction\n", __func__, xpm, x, y);
+  uint16_t mode = 0x105;
 
+  if (set_vram_mapping(mode) != 0) {
     return 1;
+  }
+
+  if (vbe_set_mode(mode) != 0) {
+    return 1;
+  }
+
+  if (vg_draw_xpm(xpm, x, y) != 0) {
+    vg_exit();
+    return 1;
+  }
+
+  if (wait_for_esc() != 0) {
+    vg_exit();
+    return 1;
+  }
+
+  if (vg_exit() != 0) {
+    return 1;
+  }
+
+  return 0;
 }
