@@ -1,6 +1,6 @@
 @lcflib.a:2019, lcf_start
   video_test_xpm(xpm, x, y)
-> video_test_xpm(0x81b7fd8, 20, 20)
+> video_test_xpm(0x81b7fd8, 50, 50)
   @video.c:22, set_vram_mapping
     vbe_get_mode_info(mode, &vmi)
   > vbe_get_mode_info(0x105, addr: 0x81ffe18)
@@ -47,30 +47,6 @@
   @utils.c:22, util_sys_inb
     sys_inb(port, &val)
   > sys_inb(0x60, addr: 0xeffff650)
-  < sys_inb(0x60, addr: 0xeffff650 [0x10 = 0b00010000])
-  @video.c:138, wait_for_esc
-    driver_receive(ANY, &msg, &ipc_status)
-  > driver_receive(ANY, addr: 0xeffff6a0, addr: 0xeffff6e8)
-  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
-  @utils.c:22, util_sys_inb
-    sys_inb(port, &val)
-  > sys_inb(0x64, addr: 0xeffff650)
-  < sys_inb(0x64, addr: 0xeffff650 [0x1d = 0b00011101])
-  @utils.c:22, util_sys_inb
-    sys_inb(port, &val)
-  > sys_inb(0x60, addr: 0xeffff650)
-  < sys_inb(0x60, addr: 0xeffff650 [0x90 = 0b10010000])
-  @video.c:138, wait_for_esc
-    driver_receive(ANY, &msg, &ipc_status)
-  > driver_receive(ANY, addr: 0xeffff6a0, addr: 0xeffff6e8)
-  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
-  @utils.c:22, util_sys_inb
-    sys_inb(port, &val)
-  > sys_inb(0x64, addr: 0xeffff650)
-  < sys_inb(0x64, addr: 0xeffff650 [0x1d = 0b00011101])
-  @utils.c:22, util_sys_inb
-    sys_inb(port, &val)
-  > sys_inb(0x60, addr: 0xeffff650)
   < sys_inb(0x60, addr: 0xeffff650 [0x01 = 0b00000001])
   @video.c:138, wait_for_esc
     driver_receive(ANY, &msg, &ipc_status)
@@ -91,4 +67,4 @@
   @lab5.c:102, video_test_xpm
     vg_exit()
   < vg_exit() -> (ret: 0)
-< video_test_xpm(0x81b7fd8, 20, 20) -> (ret: 0)
+< video_test_xpm(0x81b7fd8, 50, 50) -> (ret: 0)
