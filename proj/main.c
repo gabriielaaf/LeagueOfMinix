@@ -20,19 +20,21 @@ int main(int argc, char *argv[]) {
 }
 
 int(proj_main_loop)(int argc, char *argv[]) {
-    if (set_vram_mapping(MODE_105) != 0) {
-        return 1;
-    }
+    
+  if (video_init_page_flipping(MODE_105) != 0) {
+    return 1;
+  }
 
-    if (vbe_set_mode(MODE_105) != 0) {
-        return 1;
-    }
+  video_clear_back_buffer(0);
 
-    vg_draw_rectangle(100, 100, 300, 200, 14);
+  vg_draw_rectangle(100, 100, 300, 200, 14);
 
-    wait_for_esc();
+  video_swap_buffers();
 
-    vg_exit();
+  wait_for_esc();
 
-    return 0;
+  vg_exit();
+
+  return 0;
 }
+
