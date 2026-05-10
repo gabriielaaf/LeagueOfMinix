@@ -64,6 +64,8 @@ int(video_test_rectangle)(uint16_t mode, uint16_t x, uint16_t y,
     return 1;
   }
 
+  if (video_swap_buffers() != 0) return 1;
+
   if (wait_for_esc() != 0) {
     vg_exit();
     return 1;
@@ -78,18 +80,23 @@ int(video_test_rectangle)(uint16_t mode, uint16_t x, uint16_t y,
 
 }
 
+// AFTER MAKING DOUBLE BUFFERING THE TEST RETURNS FAILED BUT THE IMAGE IS SHOWN
+
 int(video_test_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
   uint16_t mode = 0x105;
 
-  if (set_vram_mapping(mode) != 0) {
+  if (video_init_page_flipping(mode) != 0) {
     return 1;
   }
 
-  if (vbe_set_mode(mode) != 0) {
-    return 1;
-  }
+  video_clear_back_buffer(0);
 
   if (vg_draw_xpm(xpm, x, y) != 0) {
+    vg_exit();
+    return 1;
+  }
+
+  if (video_swap_buffers() != 0) {
     vg_exit();
     return 1;
   }

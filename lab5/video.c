@@ -211,42 +211,55 @@ int wait_for_esc(){
     return 0;
 }
 
+int(vg_draw_pixmap)(uint8_t *pixmap,uint16_t width,uint16_t height,int x,int y,uint32_t transparent_color) {
+  if (pixmap == NULL) {
+    return 1;
+  }
+
+  for (uint16_t row = 0; row < height; row++) {
+    int screen_y = y + row;
+
+    if (screen_y < 0 || screen_y >= vmi.YResolution) {
+      continue;
+    }
+
+    for (uint16_t col = 0; col < width; col++) {
+      int screen_x = x + col;
+
+      if (screen_x < 0 || screen_x >= vmi.XResolution) {
+        continue;
+      }
+
+      uint32_t color = pixmap[row * width + col];
+
+      if (color == transparent_color) {
+        continue;
+      }
+
+      if (vg_draw_pixel((uint16_t) screen_x, (uint16_t) screen_y, color) != 0) {
+        return 1;
+      }
+    }
+  }
+
+  return 0;
+}
+
 
 int(vg_draw_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
   xpm_image_t img;
 
-  /*
-   * For VBE mode 0x105, use XPM_INDEXED.
-   * Each pixel in the pixmap will be 1 byte.
-   */
   uint8_t *pixmap = xpm_load(xpm, XPM_INDEXED, &img);
 
   if (pixmap == NULL) {
     return 1;
   }
 
-  /*
-   * Check if the full image fits on the screen.
-   */
-  if ((uint32_t)x + img.width > vmi.XResolution ||
-      (uint32_t)y + img.height > vmi.YResolution) {
-    free(pixmap);
-    return 1;
-  }
-
-  for (uint16_t row = 0; row < img.height; row++) {
-    for (uint16_t col = 0; col < img.width; col++) {
-      uint32_t color = pixmap[row * img.width + col];
-
-      if (vg_draw_pixel(x + col, y + row, color) != 0) {
-        free(pixmap);
-        return 1;
-      }
-    }
-  }
+  int result = vg_draw_pixmap(pixmap,img.width,img.height,x,y,0xFFFFF);
 
   free(pixmap);
-  return 0;
+
+  return result;
 }
 
 int video_swap_buffers() {
@@ -276,4 +289,6 @@ int video_init_page_flipping(uint16_t mode) {
 
   return 0;
 }
+
+
 
