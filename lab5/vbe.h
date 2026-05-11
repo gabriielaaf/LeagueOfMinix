@@ -16,11 +16,17 @@
 #define BIOS_SET_VIDEO_MODE   0x00
 #define BIOS_TEXT_MODE        0x03
 
+#define VBE_SET_DISPLAY_START_AL        0x07
+#define VBE_SET_DISPLAY_START_NOW       0x00
+#define VBE_SET_DISPLAY_START_VERTICAL  0x80
 
 #define LINEAR_FRAMEBUFFER    BIT(14)
 
 /* VBE return values */
 #define VBE_SUPPORTED         0x4F
 #define VBE_SUCCESS           0x00
+
+
+
 
 #endif

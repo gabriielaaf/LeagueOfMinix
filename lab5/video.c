@@ -6,29 +6,42 @@
 #include "keyboard.h"
 #include "i8042.h"
 
-static char *video_mem;          /* frame-buffer VM address */
+static char *video_mem;          /* VRAM base address */
 
-/* Other variables that might be used */
-static vbe_mode_info_t vmi;      /* VBE mode info */
-static unsigned bytes_per_pixel; /* Number of VRAM bytes per pixel */
+static vbe_mode_info_t vmi;
+static unsigned bytes_per_pixel;
+
+static unsigned int frame_size;  /* size of one full screen in bytes */
+static unsigned int vram_size;   /* total mapped VRAM size */
+
+static uint8_t front_page = 0;
+static uint8_t back_page = 1;
+
+
+static char *video_get_back_buffer() {
+  return video_mem + back_page * frame_size; 
+
+}
 
 
 int(set_vram_mapping)(uint16_t mode) {
   struct minix_mem_range mr;
   unsigned int vram_base;
-  unsigned int vram_size;
-
 
   if (vbe_get_mode_info(mode, &vmi) != 0) {
     return 1;
   }
 
+  if (vmi.NumberOfImagePages < 1) {
+    return 1;
+  }
+
   bytes_per_pixel = (vmi.BitsPerPixel + 7) / 8;
 
-  /* Physical address of the framebuffer */
   vram_base = vmi.PhysBasePtr;
 
-  vram_size = vmi.BytesPerScanLine * vmi.YResolution;
+  frame_size = vmi.BytesPerScanLine * vmi.YResolution;
+  vram_size = frame_size * 2;
 
   mr.mr_base = (phys_bytes) vram_base;
   mr.mr_limit = mr.mr_base + vram_size;
@@ -37,10 +50,39 @@ int(set_vram_mapping)(uint16_t mode) {
     return 1;
   }
 
-
   video_mem = vm_map_phys(SELF, (void *) mr.mr_base, vram_size);
 
   if (video_mem == MAP_FAILED) {
+    return 1;
+  }
+
+  front_page = 0;
+  back_page = 1;
+
+  return 0;
+}
+
+static int video_set_display_start(uint16_t x, uint16_t y) {
+  reg86_t r86;
+
+  memset(&r86, 0, sizeof(r86));
+
+  r86.intno = BIOS_VIDEO_INT;
+
+  r86.ah = VBE_FUNCTION_AH;
+  r86.al = VBE_SET_DISPLAY_START_AL;
+
+  r86.bh = 0x00;
+  r86.bl = VBE_SET_DISPLAY_START_VERTICAL;
+
+  r86.cx = x;
+  r86.dx = y;
+
+  if (sys_int86(&r86) != OK) {
+    return 1;
+  }
+
+  if (r86.al != VBE_SUPPORTED || r86.ah != VBE_SUCCESS) {
     return 1;
   }
 
@@ -80,9 +122,11 @@ int(vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color) {
     return 1;
   }
 
+  char *buffer = video_get_back_buffer();
+
   unsigned int offset = y * vmi.BytesPerScanLine + x * bytes_per_pixel;
 
-  memcpy(&video_mem[offset], &color, bytes_per_pixel);
+  memcpy(&buffer[offset], &color, bytes_per_pixel);
 
   return 0;
 }
@@ -167,40 +211,84 @@ int wait_for_esc(){
     return 0;
 }
 
+int(vg_draw_pixmap)(uint8_t *pixmap,uint16_t width,uint16_t height,int x,int y,uint32_t transparent_color) {
+  if (pixmap == NULL) {
+    return 1;
+  }
+
+  for (uint16_t row = 0; row < height; row++) {
+    int screen_y = y + row;
+
+    if (screen_y < 0 || screen_y >= vmi.YResolution) {
+      continue;
+    }
+
+    for (uint16_t col = 0; col < width; col++) {
+      int screen_x = x + col;
+
+      if (screen_x < 0 || screen_x >= vmi.XResolution) {
+        continue;
+      }
+
+      uint32_t color = pixmap[row * width + col];
+
+      if (color == transparent_color) {
+        continue;
+      }
+
+      if (vg_draw_pixel((uint16_t) screen_x, (uint16_t) screen_y, color) != 0) {
+        return 1;
+      }
+    }
+  }
+
+  return 0;
+}
+
 
 int(vg_draw_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
   xpm_image_t img;
 
-  /*
-   * For VBE mode 0x105, use XPM_INDEXED.
-   * Each pixel in the pixmap will be 1 byte.
-   */
   uint8_t *pixmap = xpm_load(xpm, XPM_INDEXED, &img);
 
   if (pixmap == NULL) {
     return 1;
   }
 
-  /*
-   * Check if the full image fits on the screen.
-   */
-  if ((uint32_t)x + img.width > vmi.XResolution ||
-      (uint32_t)y + img.height > vmi.YResolution) {
-    free(pixmap);
+  int result = vg_draw_pixmap(pixmap,img.width,img.height,x,y,0xFFFFF);
+
+  free(pixmap);
+
+  return result;
+}
+
+int video_swap_buffers() {
+  if (video_set_display_start(0, back_page * vmi.YResolution) != 0) {
     return 1;
   }
 
-  for (uint16_t row = 0; row < img.height; row++) {
-    for (uint16_t col = 0; col < img.width; col++) {
-      uint32_t color = pixmap[row * img.width + col];
+  uint8_t temp = front_page;
+  front_page = back_page;
+  back_page = temp;
 
-      if (vg_draw_pixel(x + col, y + row, color) != 0) {
-        free(pixmap);
-        return 1;
-      }
-    }
-  }
-
-  free(pixmap);
   return 0;
 }
+
+int video_clear_back_buffer(uint32_t color) {
+  return vg_draw_rectangle(0, 0, vmi.XResolution, vmi.YResolution, color);
+}
+
+int video_init_page_flipping(uint16_t mode) {
+  if (set_vram_mapping(mode) != 0) {
+    return 1;
+  }
+
+  if (vbe_set_mode(mode) != 0) {
+    return 1;
+  }
+
+  return 0;
+}
+
+
+
