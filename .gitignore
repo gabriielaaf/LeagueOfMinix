@@ -3,6 +3,7 @@
 .vscode/
 *.o
 .gbdinit
-lab[1-4]
+lab[1-5]
+proj
 output.txt
 trace.txt
