@@ -5,8 +5,6 @@
 
 
 struct Sprite {
-  int x;
-  int y;
 
   int width;
   int height;
@@ -14,7 +12,7 @@ struct Sprite {
   uint8_t *map;
 };
 
-Sprite *sprite_create(xpm_map_t xpm, int x, int y) {
+Sprite *sprite_create(xpm_map_t xpm) {
   Sprite *sprite = malloc(sizeof(Sprite));
 
   if (sprite == NULL) {
@@ -30,8 +28,6 @@ Sprite *sprite_create(xpm_map_t xpm, int x, int y) {
     return NULL;
   }
 
-  sprite->x = x;
-  sprite->y = y;
   sprite->width = img.width;
   sprite->height = img.height;
 
@@ -50,29 +46,11 @@ void sprite_destroy(Sprite *sprite) {
   free(sprite);
 }
 
-int sprite_draw(Sprite *sprite) {
+int sprite_draw(Sprite *sprite,int x, int y) {
   if (sprite == NULL || sprite->map == NULL) {
     return 1;
   }
 
-  return vg_draw_pixmap(sprite->map,sprite->width,sprite->height,sprite->x,sprite->y,TRANSPARENT_COLOR);
-}
-
-void sprite_set_position(Sprite *sprite, int x, int y) {
-  if (sprite == NULL) {
-    return;
-  }
-
-  sprite->x = x;
-  sprite->y = y;
-}
-
-void sprite_move(Sprite *sprite, int dx, int dy) {
-  if (sprite == NULL) {
-    return;
-  }
-
-  sprite->x += dx;
-  sprite->y += dy;
+  return vg_draw_pixmap(sprite->map,sprite->width,sprite->height,x,y,TRANSPARENT_COLOR);
 }
 

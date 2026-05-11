@@ -1,6 +1,6 @@
 PROG=proj
 
-SRCS = main.c sprite.c champion.c
+SRCS = main.c sprite.c champion.c animSprite.c
 
 
 CFLAGS += -pedantic
