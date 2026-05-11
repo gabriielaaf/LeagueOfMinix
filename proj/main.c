@@ -4,6 +4,7 @@
 #include "testsprite.h"
 #include "sprite.h"
 #include "animSprite.h"
+#include "champion.h"
 
 #define MODE_105 0x105
 
@@ -27,43 +28,138 @@ int(proj_main_loop)(int argc, char *argv[]) {
         return 1;
     }
 
-    Sprite *red = sprite_create(test_sprite_red_xpm);
-    Sprite *blue = sprite_create(test_sprite_blue_xpm);
-    Sprite *green = sprite_create(test_sprite_green_xpm);
+    /*
+     * Animation 0:
+     * red -> green -> blue
+     */
+    Sprite *red1 = sprite_create(test_sprite_red_xpm);
+    Sprite *green1 = sprite_create(test_sprite_green_xpm);
+    Sprite *blue1 = sprite_create(test_sprite_blue_xpm);
 
-    if (red == NULL || blue == NULL || green == NULL) {
-        if (red != NULL) sprite_destroy(red);
-        if (blue != NULL) sprite_destroy(blue);
-        if (green != NULL) sprite_destroy(green);
+    if (red1 == NULL || green1 == NULL || blue1 == NULL) {
+        if (red1 != NULL) sprite_destroy(red1);
+        if (green1 != NULL) sprite_destroy(green1);
+        if (blue1 != NULL) sprite_destroy(blue1);
 
         vg_exit();
         return 1;
     }
 
-    Sprite *frames[] = {
-        red,
-        blue,
-        green
+    Sprite *rgb_frames[] = {
+        red1,
+        green1,
+        blue1
     };
 
-    AnimSprite *anim = createAnimSprite(10, 3, 900, 300, frames);
+    AnimSprite *rgb_anim = createAnimSprite(
+        10,     // animationTime
+        3,      // numSprites
+        900,    // x
+        300,    // y
+        rgb_frames
+    );
 
-    if (anim == NULL) {
-        sprite_destroy(red);
-        sprite_destroy(blue);
-        sprite_destroy(green);
+    if (rgb_anim == NULL) {
+        sprite_destroy(red1);
+        sprite_destroy(green1);
+        sprite_destroy(blue1);
 
         vg_exit();
         return 1;
     }
 
-    for (int x = 900; x + 16 > 0; x -= 5) {
-        update_AnimSprite(anim);
-        setAnimSpritePosition(anim, x, 300);
+    /*
+     * Animation 1:
+     * green -> blue
+     *
+     * Important:
+     * Create new Sprite objects here.
+     * Do NOT reuse green1/blue1, because destroyAnimSprite()
+     * destroys its own sprites.
+     */
+    Sprite *green2 = sprite_create(test_sprite_green_xpm);
+    Sprite *blue2 = sprite_create(test_sprite_blue_xpm);
+
+    if (green2 == NULL || blue2 == NULL) {
+        if (green2 != NULL) sprite_destroy(green2);
+        if (blue2 != NULL) sprite_destroy(blue2);
+
+        destroyAnimSprite(rgb_anim);
+
+        vg_exit();
+        return 1;
+    }
+
+    Sprite *gb_frames[] = {
+        green2,
+        blue2
+    };
+
+    AnimSprite *gb_anim = createAnimSprite(
+        3,     // animationTime
+        2,      // numSprites
+        900,    // x
+        300,    // y
+        gb_frames
+    );
+
+    if (gb_anim == NULL) {
+        destroyAnimSprite(rgb_anim);
+
+        sprite_destroy(green2);
+        sprite_destroy(blue2);
+
+        vg_exit();
+        return 1;
+    }
+
+    /*
+     * Champion animations:
+     * animations[0] = red -> green -> blue
+     * animations[1] = green -> blue
+     */
+    AnimSprite *animations[] = {
+        rgb_anim,
+        gb_anim
+    };
+
+    Champion *champion = create_champion(
+        900,    // x
+        300,    // y
+        100,    // hp
+        5,      // speed
+        10,     // attack damage
+        20,     // ability damage
+        animations,
+        2       // number of animations
+    );
+
+    if (champion == NULL) {
+        destroyAnimSprite(rgb_anim);
+        destroyAnimSprite(gb_anim);
+
+        vg_exit();
+        return 1;
+    }
+
+    /*
+     * Test:
+     * - starts with red -> green -> blue
+     * - after some frames switches to green -> blue
+     * - moves left
+     */
+    for (int i = 0; i < 350; i++) {
+        if (i == 150) {
+            champion_set_animation(champion, 1);
+        }
+
+        moveChampion(champion, -2, 0);
+
+        champion_update(champion);
 
         video_clear_back_buffer(0);
 
-        drawAnimSprite(anim);
+        champion_draw(champion);
 
         video_swap_buffers();
 
@@ -72,7 +168,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     wait_for_esc();
 
-    destroyAnimSprite(anim);
+    destroy_champion(champion);
 
     vg_exit();
 
