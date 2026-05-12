@@ -1,12 +1,13 @@
 #include <lcom/lcf.h>
+#include <string.h>
 
 #include "video.h"
-#include "assets/yasuo_xpms.h"
 #include "sprite.h"
 #include "animSprite.h"
 #include "champion.h"
 
-#define MODE_105 0x105
+#include "assets/yasuo_xpms.h"
+#include "assets/gabiteste.h"
 
 int main(int argc, char *argv[]) {
     lcf_set_language("EN-US");
@@ -24,75 +25,95 @@ int main(int argc, char *argv[]) {
 }
 
 int(proj_main_loop)(int argc, char *argv[]) {
-    if (video_init_page_flipping(MODE_105) != 0) {
+    /*
+     * Run with:
+     * lcom_run proj test
+     *
+     * This only tests gabi_test_xpm moving to the right.
+     */
+    if ((argc > 0 && strcmp(argv[0], "test") == 0) ||
+        (argc > 1 && strcmp(argv[1], "test") == 0)) {
+
+        if (video_init_page_flipping(0x105) != 0) {
+            return 1;
+        }
+
+        Sprite *sprite = sprite_create(gabi_test_xpm);
+
+        if (sprite == NULL) {
+            vg_exit();
+            return 1;
+        }
+
+
+        video_clear_back_buffer(0);
+
+        sprite_draw(sprite, 300, 300);
+
+        video_swap_buffers();
+
+
+        
+
+        wait_for_esc();
+
+        sprite_destroy(sprite);
+
+        vg_exit();
+
+        return 0;
+    }
+
+    /*
+     * Normal main: Yasuo attack animation.
+     */
+    if (video_init_page_flipping(0x105) != 0) {
         return 1;
     }
 
-    Sprite *front = sprite_create(yasuo_front_xpm);
-    Sprite *southwest = sprite_create(yasuo_southwest_xpm);
-    Sprite *left = sprite_create(yasuo_left_xpm);
-    Sprite *northwest = sprite_create(yasuo_northwest_xpm);
-    Sprite *up = sprite_create(yasuo_up_xpm);
-    Sprite *northeast = sprite_create(yasuo_northeast_xpm);
-    Sprite *right = sprite_create(yasuo_right_xpm);
-    Sprite *southeast = sprite_create(yasuo_southeast_xpm);
+    Sprite *attack_up = sprite_create(yasuo_attack_up_xpm);
+    Sprite *attack_mid = sprite_create(yasuo_attack_mid_xpm);
+    Sprite *attack_down = sprite_create(yasuo_attack_down_xpm);
 
-    if (front == NULL || southwest == NULL || left == NULL || northwest == NULL ||
-        up == NULL || northeast == NULL || right == NULL || southeast == NULL) {
-
-        if (front != NULL) sprite_destroy(front);
-        if (southwest != NULL) sprite_destroy(southwest);
-        if (left != NULL) sprite_destroy(left);
-        if (northwest != NULL) sprite_destroy(northwest);
-        if (up != NULL) sprite_destroy(up);
-        if (northeast != NULL) sprite_destroy(northeast);
-        if (right != NULL) sprite_destroy(right);
-        if (southeast != NULL) sprite_destroy(southeast);
+    if (attack_up == NULL || attack_mid == NULL || attack_down == NULL) {
+        if (attack_up != NULL) sprite_destroy(attack_up);
+        if (attack_mid != NULL) sprite_destroy(attack_mid);
+        if (attack_down != NULL) sprite_destroy(attack_down);
 
         vg_exit();
         return 1;
     }
 
-    Sprite *rotation_frames[] = {
-        front,
-        southwest,
-        left,
-        northwest,
-        up,
-        northeast,
-        right,
-        southeast
+    Sprite *attack_frames[] = {
+        attack_up,
+        attack_mid,
+        attack_down
     };
 
-    AnimSprite *rotation_anim = createAnimSprite(
-        1,
+    AnimSprite *attack_anim = createAnimSprite(
         8,
-        10,
-        10,
-        rotation_frames
+        3,
+        350,
+        220,
+        attack_frames
     );
 
-    if (rotation_anim == NULL) {
-        sprite_destroy(front);
-        sprite_destroy(southwest);
-        sprite_destroy(left);
-        sprite_destroy(northwest);
-        sprite_destroy(up);
-        sprite_destroy(northeast);
-        sprite_destroy(right);
-        sprite_destroy(southeast);
+    if (attack_anim == NULL) {
+        sprite_destroy(attack_up);
+        sprite_destroy(attack_mid);
+        sprite_destroy(attack_down);
 
         vg_exit();
         return 1;
     }
 
     AnimSprite *animations[] = {
-        rotation_anim
+        attack_anim
     };
 
     Champion *champion = create_champion(
-        10,
-        10,
+        350,
+        220,
         100,
         5,
         10,
@@ -102,12 +123,13 @@ int(proj_main_loop)(int argc, char *argv[]) {
     );
 
     if (champion == NULL) {
-        destroyAnimSprite(rotation_anim);
+        destroyAnimSprite(attack_anim);
+
         vg_exit();
         return 1;
     }
 
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 600; i++) {
         champion_update(champion);
 
         video_clear_back_buffer(0);
@@ -127,4 +149,5 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     return 0;
 }
+
 
