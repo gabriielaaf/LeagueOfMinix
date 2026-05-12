@@ -1,0 +1,155 @@
+#include "keyboardInterpreter.h"
+
+/* Player 1: WASD */
+#define W_MAKE      0x11
+#define W_BREAK     0x91
+
+#define A_MAKE      0x1E
+#define A_BREAK     0x9E
+
+#define S_MAKE      0x1F
+#define S_BREAK     0x9F
+
+#define D_MAKE      0x20
+#define D_BREAK     0xA0
+
+/* Player 2: arrow keys, extended scancodes */
+#define EXTENDED    0xE0
+
+#define UP_MAKE     0x48
+#define UP_BREAK    0xC8
+
+#define LEFT_MAKE   0x4B
+#define LEFT_BREAK  0xCB
+
+#define RIGHT_MAKE  0x4D
+#define RIGHT_BREAK 0xCD
+
+#define DOWN_MAKE   0x50
+#define DOWN_BREAK  0xD0
+
+#define ESC_BREAK   0x81
+
+
+static void player_input_init(PlayerInput *playerInput){
+
+    playerInput->down = false;
+    playerInput->up = false;
+    playerInput->left = false;
+    playerInput->right = false;
+
+}
+
+
+void keyboard_state_init(KeyboardState *keyboardState){
+
+    if (keyboardState == NULL) return;
+
+    player_input_init(&keyboardState->p1);
+    player_input_init(&keyboardState->p2);
+
+    keyboardState->exit = false;
+
+
+}
+
+
+
+void keyboard_interpret_scancode(KeyboardState *state, uint8_t *bytes, uint8_t size) {
+    if (state == NULL || bytes == NULL || size == 0) {
+        return;
+    }
+
+    /*
+     * 1-byte scancodes:
+     * Player 1 movement + ESC
+     */
+    if (size == 1) {
+        switch (bytes[0]) {
+            case W_MAKE:
+                state->p1.up = true;
+                break;
+
+            case W_BREAK:
+                state->p1.up = false;
+                break;
+
+            case A_MAKE:
+                state->p1.left = true;
+                break;
+
+            case A_BREAK:
+                state->p1.left = false;
+                break;
+
+            case S_MAKE:
+                state->p1.down = true;
+                break;
+
+            case S_BREAK:
+                state->p1.down = false;
+                break;
+
+            case D_MAKE:
+                state->p1.right = true;
+                break;
+
+            case D_BREAK:
+                state->p1.right = false;
+                break;
+
+            case ESC_BREAK:
+                state->exit = true;
+                break;
+
+            default:
+                break;
+        }
+
+        return;
+    }
+
+    /*
+     * 2-byte scancodes:
+     * Player 2 arrow keys
+     */
+    if (size == 2 && bytes[0] == EXTENDED) {
+        switch (bytes[1]) {
+            case UP_MAKE:
+                state->p2.up = true;
+                break;
+
+            case UP_BREAK:
+                state->p2.up = false;
+                break;
+
+            case LEFT_MAKE:
+                state->p2.left = true;
+                break;
+
+            case LEFT_BREAK:
+                state->p2.left = false;
+                break;
+
+            case RIGHT_MAKE:
+                state->p2.right = true;
+                break;
+
+            case RIGHT_BREAK:
+                state->p2.right = false;
+                break;
+
+            case DOWN_MAKE:
+                state->p2.down = true;
+                break;
+
+            case DOWN_BREAK:
+                state->p2.down = false;
+                break;
+
+            default:
+                break;
+        }
+    }
+}
+
