@@ -275,9 +275,20 @@ int video_swap_buffers() {
 }
 
 int video_clear_back_buffer(uint32_t color) {
-  return vg_draw_rectangle(0, 0, vmi.XResolution, vmi.YResolution, color);
-}
+    if (video_mem == NULL) {
+        return 1;
+    }
 
+    char *buffer = video_get_back_buffer();
+
+
+    if (bytes_per_pixel == 1) {
+        memset(buffer, color, frame_size);
+        return 0;
+    }
+
+    return vg_draw_rectangle(0, 0, vmi.XResolution, vmi.YResolution, color);
+}
 int video_init_page_flipping(uint16_t mode) {
   if (set_vram_mapping(mode) != 0) {
     return 1;

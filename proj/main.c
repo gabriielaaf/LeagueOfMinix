@@ -91,7 +91,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     };
 
     AnimSprite *attack_anim = createAnimSprite(
-        8,
+        20,
         3,
         350,
         220,
