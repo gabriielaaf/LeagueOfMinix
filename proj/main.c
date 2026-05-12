@@ -1,7 +1,7 @@
 #include <lcom/lcf.h>
 
 #include "video.h"
-#include "testsprite.h"
+#include "assets/yasuo_xpms.h"
 #include "sprite.h"
 #include "animSprite.h"
 #include "champion.h"
@@ -28,133 +28,86 @@ int(proj_main_loop)(int argc, char *argv[]) {
         return 1;
     }
 
-    /*
-     * Animation 0:
-     * red -> green -> blue
-     */
-    Sprite *red1 = sprite_create(test_sprite_red_xpm);
-    Sprite *green1 = sprite_create(test_sprite_green_xpm);
-    Sprite *blue1 = sprite_create(test_sprite_blue_xpm);
+    Sprite *front = sprite_create(yasuo_front_xpm);
+    Sprite *southwest = sprite_create(yasuo_southwest_xpm);
+    Sprite *left = sprite_create(yasuo_left_xpm);
+    Sprite *northwest = sprite_create(yasuo_northwest_xpm);
+    Sprite *up = sprite_create(yasuo_up_xpm);
+    Sprite *northeast = sprite_create(yasuo_northeast_xpm);
+    Sprite *right = sprite_create(yasuo_right_xpm);
+    Sprite *southeast = sprite_create(yasuo_southeast_xpm);
 
-    if (red1 == NULL || green1 == NULL || blue1 == NULL) {
-        if (red1 != NULL) sprite_destroy(red1);
-        if (green1 != NULL) sprite_destroy(green1);
-        if (blue1 != NULL) sprite_destroy(blue1);
+    if (front == NULL || southwest == NULL || left == NULL || northwest == NULL ||
+        up == NULL || northeast == NULL || right == NULL || southeast == NULL) {
+
+        if (front != NULL) sprite_destroy(front);
+        if (southwest != NULL) sprite_destroy(southwest);
+        if (left != NULL) sprite_destroy(left);
+        if (northwest != NULL) sprite_destroy(northwest);
+        if (up != NULL) sprite_destroy(up);
+        if (northeast != NULL) sprite_destroy(northeast);
+        if (right != NULL) sprite_destroy(right);
+        if (southeast != NULL) sprite_destroy(southeast);
 
         vg_exit();
         return 1;
     }
 
-    Sprite *rgb_frames[] = {
-        red1,
-        green1,
-        blue1
+    Sprite *rotation_frames[] = {
+        front,
+        southwest,
+        left,
+        northwest,
+        up,
+        northeast,
+        right,
+        southeast
     };
 
-    AnimSprite *rgb_anim = createAnimSprite(
-        10,     // animationTime
-        3,      // numSprites
-        900,    // x
-        300,    // y
-        rgb_frames
+    AnimSprite *rotation_anim = createAnimSprite(
+        1,
+        8,
+        10,
+        10,
+        rotation_frames
     );
 
-    if (rgb_anim == NULL) {
-        sprite_destroy(red1);
-        sprite_destroy(green1);
-        sprite_destroy(blue1);
+    if (rotation_anim == NULL) {
+        sprite_destroy(front);
+        sprite_destroy(southwest);
+        sprite_destroy(left);
+        sprite_destroy(northwest);
+        sprite_destroy(up);
+        sprite_destroy(northeast);
+        sprite_destroy(right);
+        sprite_destroy(southeast);
 
         vg_exit();
         return 1;
     }
 
-    /*
-     * Animation 1:
-     * green -> blue
-     *
-     * Important:
-     * Create new Sprite objects here.
-     * Do NOT reuse green1/blue1, because destroyAnimSprite()
-     * destroys its own sprites.
-     */
-    Sprite *green2 = sprite_create(test_sprite_green_xpm);
-    Sprite *blue2 = sprite_create(test_sprite_blue_xpm);
-
-    if (green2 == NULL || blue2 == NULL) {
-        if (green2 != NULL) sprite_destroy(green2);
-        if (blue2 != NULL) sprite_destroy(blue2);
-
-        destroyAnimSprite(rgb_anim);
-
-        vg_exit();
-        return 1;
-    }
-
-    Sprite *gb_frames[] = {
-        green2,
-        blue2
-    };
-
-    AnimSprite *gb_anim = createAnimSprite(
-        3,     // animationTime
-        2,      // numSprites
-        900,    // x
-        300,    // y
-        gb_frames
-    );
-
-    if (gb_anim == NULL) {
-        destroyAnimSprite(rgb_anim);
-
-        sprite_destroy(green2);
-        sprite_destroy(blue2);
-
-        vg_exit();
-        return 1;
-    }
-
-    /*
-     * Champion animations:
-     * animations[0] = red -> green -> blue
-     * animations[1] = green -> blue
-     */
     AnimSprite *animations[] = {
-        rgb_anim,
-        gb_anim
+        rotation_anim
     };
 
     Champion *champion = create_champion(
-        900,    // x
-        300,    // y
-        100,    // hp
-        5,      // speed
-        10,     // attack damage
-        20,     // ability damage
+        10,
+        10,
+        100,
+        5,
+        10,
+        20,
         animations,
-        2       // number of animations
+        1
     );
 
     if (champion == NULL) {
-        destroyAnimSprite(rgb_anim);
-        destroyAnimSprite(gb_anim);
-
+        destroyAnimSprite(rotation_anim);
         vg_exit();
         return 1;
     }
 
-    /*
-     * Test:
-     * - starts with red -> green -> blue
-     * - after some frames switches to green -> blue
-     * - moves left
-     */
-    for (int i = 0; i < 350; i++) {
-        if (i == 150) {
-            champion_set_animation(champion, 1);
-        }
-
-        moveChampion(champion, -2, 0);
-
+    for (int i = 0; i < 20; i++) {
         champion_update(champion);
 
         video_clear_back_buffer(0);
