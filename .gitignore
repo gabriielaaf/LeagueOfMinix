@@ -4,5 +4,6 @@
 *.o
 .gbdinit
 lab[1-5]
+proj
 output.txt
 trace.txt
