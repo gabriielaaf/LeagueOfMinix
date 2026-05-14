@@ -25,4 +25,6 @@ uint8_t get_scancode_size(void);
 uint8_t* get_scancode_bytes(void);
 void reset_scancode(void);
 
+int wait_for_esc(void);
+
 #endif

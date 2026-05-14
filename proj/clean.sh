@@ -1,4 +1,4 @@
-cd lab2
+cd ../lab2
 make clean
 cd ../lab3
 make clean

@@ -19,8 +19,6 @@ int(vg_draw_rectangle)(uint16_t x, uint16_t y,
                        uint16_t width, uint16_t height,
                        uint32_t color);
 
-int wait_for_esc(void);
-
 int(vg_draw_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y);
 
 int(vg_draw_pixmap)(uint8_t *pixmap,uint16_t width,uint16_t height,int x,int y,uint32_t transparent_color);

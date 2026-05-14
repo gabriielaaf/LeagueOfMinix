@@ -1,4 +1,4 @@
-cd lab2
+cd ../lab2
 make
 make depend
 cd ../lab3

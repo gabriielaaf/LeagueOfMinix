@@ -1,13 +1,21 @@
 #include <lcom/lcf.h>
+#include <lcom/timer.h>
 #include <string.h>
 
 #include "video.h"
+
+#include "keyboard.h"
+#include "keyboardInterpreter.h"
+
 #include "sprite.h"
 #include "animSprite.h"
 #include "champion.h"
 
+
 #include "assets/yasuo_xpms.h"
 #include "assets/gabiteste.h"
+
+#define CHAMPION_SPEED 5
 
 int main(int argc, char *argv[]) {
     lcf_set_language("EN-US");
@@ -45,27 +53,20 @@ int(proj_main_loop)(int argc, char *argv[]) {
             return 1;
         }
 
-
         video_clear_back_buffer(0);
-
         sprite_draw(sprite, 300, 300);
-
         video_swap_buffers();
-
-
-        
 
         wait_for_esc();
 
         sprite_destroy(sprite);
-
         vg_exit();
 
         return 0;
     }
 
     /*
-     * Normal main: Yasuo attack animation.
+     * Normal main: Yasuo attack animation with WASD movement.
      */
     if (video_init_page_flipping(0x105) != 0) {
         return 1;
@@ -84,19 +85,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
         return 1;
     }
 
-    Sprite *attack_frames[] = {
-        attack_up,
-        attack_mid,
-        attack_down
-    };
+    Sprite *attack_frames[] = {attack_up, attack_mid, attack_down};
 
-    AnimSprite *attack_anim = createAnimSprite(
-        20,
-        3,
-        350,
-        220,
-        attack_frames
-    );
+    AnimSprite *attack_anim = createAnimSprite(20, 3, 350, 220, attack_frames);
 
     if (attack_anim == NULL) {
         sprite_destroy(attack_up);
@@ -107,20 +98,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
         return 1;
     }
 
-    AnimSprite *animations[] = {
-        attack_anim
-    };
+    AnimSprite *animations[] = {attack_anim};
 
-    Champion *champion = create_champion(
-        350,
-        220,
-        100,
-        5,
-        10,
-        20,
-        animations,
-        1
-    );
+    Champion *champion = create_champion(350, 220, 100, CHAMPION_SPEED, 10, 20, animations, 1);
 
     if (champion == NULL) {
         destroyAnimSprite(attack_anim);
@@ -129,25 +109,81 @@ int(proj_main_loop)(int argc, char *argv[]) {
         return 1;
     }
 
-    for (int i = 0; i < 600; i++) {
-        champion_update(champion);
+    uint8_t timer_bit_no;
+    if (timer_subscribe_int(&timer_bit_no) != 0) {
+        destroy_champion(champion);
+        vg_exit();
+        return 1;
+    }
+    timer_set_frequency(0, 60);
 
-        video_clear_back_buffer(0);
-
-        champion_draw(champion);
-
-        video_swap_buffers();
-
-        tickdelay(micros_to_ticks(16667));
+    uint8_t kbd_bit_no;
+    if (kbd_subscribe_int(&kbd_bit_no) != 0) {
+        timer_unsubscribe_int();
+        destroy_champion(champion);
+        vg_exit();
+        return 1;
     }
 
-    wait_for_esc();
+    uint32_t timer_irq_set = BIT(timer_bit_no);
+    uint32_t kbd_irq_set = BIT(kbd_bit_no);
 
+    KeyboardState kstate;
+    keyboard_state_init(&kstate);
+
+    int r, ipc_status;
+    message msg;
+
+    while (!kstate.exit) {
+        if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+            printf("driver_receive failed: %d\n", r);
+            continue;
+        }
+
+        if (!is_ipc_notify(ipc_status))
+            continue;
+
+        switch (_ENDPOINT_P(msg.m_source)) {
+            case HARDWARE:
+                if (msg.m_notify.interrupts & kbd_irq_set) {
+                    kbd_ih();
+                    if (kbd_error) {
+                        kbd_error = false;
+                        reset_scancode();
+                        break;
+                    }
+                    if (scancode_complete()) {
+                        keyboard_interpret_scancode(&kstate, get_scancode_bytes(), get_scancode_size());
+                        reset_scancode();
+                    }
+                }
+
+                if (msg.m_notify.interrupts & timer_irq_set) {
+                    timer_int_handler();
+
+                    int dx = 0, dy = 0;
+                    if (kstate.p1.left)  dx -= CHAMPION_SPEED;
+                    if (kstate.p1.right) dx += CHAMPION_SPEED;
+                    if (kstate.p1.up)    dy -= CHAMPION_SPEED;
+                    if (kstate.p1.down)  dy += CHAMPION_SPEED;
+                    moveChampion(champion, dx, dy);
+
+                    champion_update(champion);
+                    video_clear_back_buffer(0);
+                    champion_draw(champion);
+                    video_swap_buffers();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    timer_unsubscribe_int();
+    kbd_unsubscribe_int();
     destroy_champion(champion);
 
     vg_exit();
 
     return 0;
 }
-
-

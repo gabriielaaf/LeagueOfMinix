@@ -118,6 +118,48 @@ int kbc_write_data(uint8_t data) {
     return 1;
 }
 
+int wait_for_esc(void) {
+    int r, ipc_status;
+    message msg;
+    bool running = true;
+    uint8_t bit_no;
+
+    if (kbd_subscribe_int(&bit_no) != 0) return 1;
+    uint32_t irq_set = BIT(bit_no);
+
+    while (running) {
+        if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+            printf("driver_receive failed with: %d", r);
+            continue;
+        }
+        if (is_ipc_notify(ipc_status)) {
+            switch (_ENDPOINT_P(msg.m_source)) {
+                case HARDWARE:
+                    if (msg.m_notify.interrupts & irq_set) {
+                        kbd_ih();
+                        if (kbd_error) {
+                            kbd_error = false;
+                            reset_scancode();
+                            continue;
+                        }
+                        if (scancode_complete()) {
+                            uint8_t size = get_scancode_size();
+                            uint8_t *bytes = get_scancode_bytes();
+                            if (size == 1 && bytes[0] == (ESC | BREAKCODE)) running = false;
+                            reset_scancode();
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    if (kbd_unsubscribe_int() != 0) return 1;
+    return 0;
+}
+
 int enable_keyboard_interrupts(){
     uint8_t cmd_byte;
     if (kbc_send_command(READ_CMD_BYTE) != 0) return 1;

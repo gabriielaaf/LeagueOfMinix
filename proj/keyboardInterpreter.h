@@ -5,7 +5,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-
 typedef struct {
     bool up;
     bool down;
@@ -24,4 +23,3 @@ void keyboard_state_init(KeyboardState *state);
 void keyboard_interpret_scancode(KeyboardState *state, uint8_t *bytes, uint8_t size);
 
 #endif
-

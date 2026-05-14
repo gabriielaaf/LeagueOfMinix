@@ -169,48 +169,6 @@ int(vg_draw_rectangle)(uint16_t x, uint16_t y,
   return 0;
 }
 
-int wait_for_esc(){
-    int r, ipc_status;
-    message msg;
-    bool running = true;
-    uint8_t bit_no;
-
-    if (kbd_subscribe_int(&bit_no) != 0) return 1;
-    uint32_t irq_set = BIT(bit_no);
-
-    while (running) {
-        if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
-            printf("driver_receive failed with: %d", r);
-            continue;
-        }
-        if (is_ipc_notify(ipc_status)) {
-            switch (_ENDPOINT_P(msg.m_source)) {
-                case HARDWARE:
-                    if (msg.m_notify.interrupts & irq_set) {
-                        kbd_ih();
-                        if (kbd_error) {
-                            kbd_error = false;
-                            reset_scancode();
-                            continue;
-                        }
-                        if (scancode_complete()) {
-                            uint8_t size = get_scancode_size();
-                            uint8_t *bytes = get_scancode_bytes();
-                            if (size == 1 && bytes[0] == (ESC | BREAKCODE)) running = false;
-                            reset_scancode();
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    if (kbd_unsubscribe_int() != 0) return 1;
-    return 0;
-}
-
 int(vg_draw_pixmap)(uint8_t *pixmap,uint16_t width,uint16_t height,int x,int y,uint32_t transparent_color) {
   if (pixmap == NULL) {
     return 1;
@@ -244,7 +202,6 @@ int(vg_draw_pixmap)(uint8_t *pixmap,uint16_t width,uint16_t height,int x,int y,u
 
   return 0;
 }
-
 
 int(vg_draw_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
   xpm_image_t img;
@@ -289,6 +246,7 @@ int video_clear_back_buffer(uint32_t color) {
 
     return vg_draw_rectangle(0, 0, vmi.XResolution, vmi.YResolution, color);
 }
+
 int video_init_page_flipping(uint16_t mode) {
   if (set_vram_mapping(mode) != 0) {
     return 1;
