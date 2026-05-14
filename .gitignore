@@ -2,8 +2,11 @@
 .minix-src/
 .vscode/
 *.o
+*.a
 .gbdinit
 lab[1-5]
+!lab[1-5]/
 proj
+!proj
 output.txt
 trace.txt
