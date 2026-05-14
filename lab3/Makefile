@@ -1,6 +1,6 @@
 PROG=lab3
 
-SRCS = lab3.c keyboard.c
+SRCS = lab3.c
 
 CFLAGS += -pedantic
 CFLAGS += -I../lab2
