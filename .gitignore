@@ -3,10 +3,12 @@
 .vscode/
 *.o
 *.a
-.gbdinit
+*.d
+.gdbinit
+.depend
 lab[1-5]
 !lab[1-5]/
 proj
-!proj
+!proj/
 output.txt
 trace.txt
