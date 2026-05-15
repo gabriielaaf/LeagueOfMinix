@@ -1,5 +1,7 @@
 // IMPORTANT: you must include the following line in all your C files
 #include <lcom/lcf.h>
+#include <lcom/lab4.h>
+
 #include "i8042.h"
 #include "mouse.h"
 #include <stdint.h>

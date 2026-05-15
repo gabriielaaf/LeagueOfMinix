@@ -1,5 +1,6 @@
 #include <lcom/lcf.h>
 #include <lcom/lab2.h>
+
 #include "i8254.h"
 #include <stdbool.h>
 #include <stdint.h>

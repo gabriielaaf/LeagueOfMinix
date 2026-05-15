@@ -1,9 +1,10 @@
 #include <lcom/lcf.h>
+#include <lcom/proj.h>
 #include <lcom/timer.h>
+
 #include <string.h>
 
 #include "video.h"
-
 #include "keyboard.h"
 #include "keyboardInterpreter.h"
 

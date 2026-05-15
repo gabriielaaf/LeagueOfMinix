@@ -1,10 +1,12 @@
 #include <lcom/lcf.h>
 #include <lcom/lab3.h>
+
 #include "keyboard.h"
 #include "i8042.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <lcom/timer.h>
+
 #define DELAY_US 20000
 
 int main(int argc, char *argv[]) {

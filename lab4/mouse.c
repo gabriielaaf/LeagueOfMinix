@@ -15,7 +15,6 @@ static int mouse_send_cmd(uint8_t cmd, uint8_t* ack){
     return 0;
 }
 
-
 int mouse_send_command(uint8_t cmd){
     uint8_t ack;
     int attempts = 0;
