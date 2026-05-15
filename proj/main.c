@@ -69,45 +69,58 @@ int(proj_main_loop)(int argc, char *argv[]) {
     }
 
     /*
-     * Normal main: Yasuo attack animation with WASD movement.
+     * Normal main: Yasuo standing in 8 directions with WASD movement.
+     * Animation indices match Direction enum: NORTH=0, SOUTH=1, EAST=2, WEST=3,
+     * NORTHEAST=4, NORTHWEST=5, SOUTHEAST=6, SOUTHWEST=7
      */
     if (video_init_page_flipping(0x105) != 0) {
         return 1;
     }
 
-    Sprite *attack_up = sprite_create(yasuo_attack_up_xpm);
-    Sprite *attack_mid = sprite_create(yasuo_attack_mid_xpm);
-    Sprite *attack_down = sprite_create(yasuo_attack_down_xpm);
+    xpm_row_t *stop_xpms[8] = {
+        yasuo_up_xpm,        /* NORTH      */
+        yasuo_front_xpm,     /* SOUTH      */
+        yasuo_right_xpm,     /* EAST       */
+        yasuo_left_xpm,      /* WEST       */
+        yasuo_northeast_xpm, /* NORTHEAST  */
+        yasuo_northwest_xpm, /* NORTHWEST  */
+        yasuo_southeast_xpm, /* SOUTHEAST  */
+        yasuo_southwest_xpm, /* SOUTHWEST  */
+    };
 
-    if (attack_up == NULL || attack_mid == NULL || attack_down == NULL) {
-        if (attack_up != NULL) sprite_destroy(attack_up);
-        if (attack_mid != NULL) sprite_destroy(attack_mid);
-        if (attack_down != NULL) sprite_destroy(attack_down);
+    AnimSprite *animations[8];
+    int anims_created = 0;
 
-        vg_exit();
-        return 1;
+    for (int i = 0; i < 8; i++) {
+        Sprite *s = sprite_create(stop_xpms[i]);
+        if (s == NULL) {
+            for (int j = 0; j < anims_created; j++) destroyAnimSprite(animations[j]);
+            vg_exit();
+            return 1;
+        }
+        Sprite **frames = malloc(sizeof(Sprite *));
+        if (frames == NULL) {
+            sprite_destroy(s);
+            for (int j = 0; j < anims_created; j++) destroyAnimSprite(animations[j]);
+            vg_exit();
+            return 1;
+        }
+        frames[0] = s;
+        animations[i] = createAnimSprite(1, 1, 350, 220, frames);
+        if (animations[i] == NULL) {
+            free(frames);
+            sprite_destroy(s);
+            for (int j = 0; j < anims_created; j++) destroyAnimSprite(animations[j]);
+            vg_exit();
+            return 1;
+        }
+        anims_created++;
     }
 
-    Sprite *attack_frames[] = {attack_up, attack_mid, attack_down};
-
-    AnimSprite *attack_anim = createAnimSprite(5, 3, 350, 220, attack_frames);
-
-    if (attack_anim == NULL) {
-        sprite_destroy(attack_up);
-        sprite_destroy(attack_mid);
-        sprite_destroy(attack_down);
-
-        vg_exit();
-        return 1;
-    }
-
-    AnimSprite *animations[] = {attack_anim};
-
-    Champion *champion = create_champion(350, 220, animations, 1);
+    Champion *champion = create_champion(350, 220, animations, 8);
 
     if (champion == NULL) {
-        destroyAnimSprite(attack_anim);
-
+        for (int i = 0; i < 8; i++) destroyAnimSprite(animations[i]);
         vg_exit();
         return 1;
     }
@@ -139,49 +152,58 @@ int(proj_main_loop)(int argc, char *argv[]) {
     int r, ipc_status;
     message msg;
 
+    int counter = 0;
     while (!kstate.exit) {
-        if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
-            printf("driver_receive failed: %d\n", r);
-            continue;
+      if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+        printf("driver_receive failed: %d\n", r);
+        continue;
+      }
+
+      if (!is_ipc_notify(ipc_status))
+        continue;
+
+      switch (_ENDPOINT_P(msg.m_source)) {
+      case HARDWARE:
+        if (msg.m_notify.interrupts & kbd_irq_set) {
+          kbd_ih();
+          if (kbd_error) {
+            kbd_error = false;
+            reset_scancode();
+            break;
+          }
+          if (scancode_complete()) {
+            keyboard_interpret_scancode(&kstate, get_scancode_bytes(),
+                                        get_scancode_size());
+            reset_scancode();
+          }
         }
 
-        if (!is_ipc_notify(ipc_status))
-            continue;
+        if (msg.m_notify.interrupts & timer_irq_set) {
+          timer_int_handler();
+          counter++;
+          if (counter == 3) {
+            counter = 0;
+            int dx = 0, dy = 0;
+            if (kstate.p1.left)
+              dx -= CHAMPION_SPEED;
+            if (kstate.p1.right)
+              dx += CHAMPION_SPEED;
+            if (kstate.p1.up)
+              dy -= CHAMPION_SPEED;
+            if (kstate.p1.down)
+              dy += CHAMPION_SPEED;
+            moveChampion(champion, dx, dy);
 
-        switch (_ENDPOINT_P(msg.m_source)) {
-            case HARDWARE:
-                if (msg.m_notify.interrupts & kbd_irq_set) {
-                    kbd_ih();
-                    if (kbd_error) {
-                        kbd_error = false;
-                        reset_scancode();
-                        break;
-                    }
-                    if (scancode_complete()) {
-                        keyboard_interpret_scancode(&kstate, get_scancode_bytes(), get_scancode_size());
-                        reset_scancode();
-                    }
-                }
-
-                if (msg.m_notify.interrupts & timer_irq_set) {
-                    timer_int_handler();
-
-                    int dx = 0, dy = 0;
-                    if (kstate.p1.left)  dx -= CHAMPION_SPEED;
-                    if (kstate.p1.right) dx += CHAMPION_SPEED;
-                    if (kstate.p1.up)    dy -= CHAMPION_SPEED;
-                    if (kstate.p1.down)  dy += CHAMPION_SPEED;
-                    moveChampion(champion, dx, dy);
-
-                    champion_update(champion);
-                    video_clear_back_buffer(0);
-                    champion_draw(champion);
-                    video_swap_buffers();
-                }
-                break;
-            default:
-                break;
+            champion_update(champion);
+            video_clear_back_buffer(0);
+            champion_draw(champion);
+            video_swap_buffers();
+          }
         }
+        break;
+      default:
+        break;
+      }
     }
 
     timer_unsubscribe_int();

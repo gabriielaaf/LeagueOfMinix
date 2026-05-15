@@ -5,6 +5,16 @@
 #include "animSprite.h"
 #include <stdint.h>
 
+typedef enum {
+    NORTH,
+    SOUTH,
+    EAST,
+    WEST,
+    NORTHEAST,
+    NORTHWEST,
+    SOUTHEAST,
+    SOUTHWEST
+} Direction;
 
 typedef struct Champion Champion;
 

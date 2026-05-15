@@ -17,6 +17,8 @@ struct Champion
     int attack_dmg;
     int ability_dmg;
 
+    Direction dir;
+
     int currentAnimation;
     AnimSprite **animations;
     int numAnimations;
@@ -40,6 +42,8 @@ Champion *create_champion(int x, int y, AnimSprite **animations,int numAnimation
     champion->attack_dmg = ATTACK_DMG;
     champion->ability_dmg = ABILITY_DMG;
     champion->speed = SPEED;
+
+    champion->dir = SOUTH;
 
     champion->currentAnimation = 0;
     champion->animations = animations;
@@ -65,6 +69,19 @@ void destroy_champion(Champion *champion) {
 void moveChampion(struct Champion *champion, int dx, int dy) {
     champion->x += dx * SPEED;
     champion->y += dy * SPEED;
+
+    if (dx == 0 && dy == 0) return;
+
+    if      (dx == 0 && dy < 0) champion->dir = NORTH;
+    else if (dx == 0 && dy > 0) champion->dir = SOUTH;
+    else if (dx > 0 && dy == 0) champion->dir = EAST;
+    else if (dx < 0 && dy == 0) champion->dir = WEST;
+    else if (dx > 0 && dy < 0) champion->dir = NORTHEAST;
+    else if (dx < 0 && dy < 0) champion->dir = NORTHWEST;
+    else if (dx > 0 && dy > 0) champion->dir = SOUTHEAST;
+    else                        champion->dir = SOUTHWEST;
+
+    champion->currentAnimation = (int)champion->dir;
 }
 
 void attack_champion(struct Champion *champion_attacking, struct Champion *champion_attacked) {
