@@ -3,7 +3,7 @@
 
 #include <lcom/lcf.h>
 
-static xpm_row_t yasuo_south_west_stop_xpm[] = {
+static xpm_row_t yasuo_north_west_stop_xpm[] = {
 
     "64 68 7",
     ". 255",
@@ -83,7 +83,7 @@ static xpm_row_t yasuo_south_west_stop_xpm[] = {
     "........................HH.HHHHHHHH..HHH........................",
     "............................HHHHHH.HH..........................."};
 
-static xpm_row_t yasuo_south_west_attack_up_xpm[] = {
+static xpm_row_t yasuo_north_west_attack_up_xpm[] = {
 
     "64 68 7",
     ". 255",
@@ -163,7 +163,7 @@ static xpm_row_t yasuo_south_west_attack_up_xpm[] = {
     "..OWWO..................HH.HHHHHHHH..HHH........................",
     ".OWO........................HHHHHH.HH..........................."};
 
-static xpm_row_t yasuo_south_west_attack_mid_xpm[] = {
+static xpm_row_t yasuo_north_west_attack_mid_xpm[] = {
 
     "64 68 7",
     ". 255",
@@ -243,7 +243,7 @@ static xpm_row_t yasuo_south_west_attack_mid_xpm[] = {
     "........................HH.HHHHHHHH..HHH........................",
     "............................HHHHHH.HH..........................."};
 
-static xpm_row_t yasuo_south_west_attack_down_xpm[] = {
+static xpm_row_t yasuo_north_west_attack_down_xpm[] = {
 
     "64 68 7",
     ". 255",

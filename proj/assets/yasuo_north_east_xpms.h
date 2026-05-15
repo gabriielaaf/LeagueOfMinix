@@ -1,9 +1,9 @@
-#ifndef YASUO_NORTH_WEST_XPMS_H
-#define YASUO_NORTH_WEST_XPMS_H
+#ifndef YASUO_NORTH_EAST_XPMS_H
+#define YASUO_NORTH_EAST_XPMS_H
 
 #include <lcom/lcf.h>
 
-static xpm_row_t yasuo_south_east_stop_xpm[] = {
+static xpm_row_t yasuo_north_east_stop_xpm[] = {
 
     "64 68 7",
     ". 255",
@@ -83,7 +83,7 @@ static xpm_row_t yasuo_south_east_stop_xpm[] = {
     "............................HHH..HHHHHHH........................",
     "............................HHHHH.HHHHHHHH......................"};
 
-static xpm_row_t yasuo_south_east_attack_up_xpm[] = {
+static xpm_row_t yasuo_north_east_attack_up_xpm[] = {
 
     "64 68 7",
     ". 255",
@@ -163,7 +163,7 @@ static xpm_row_t yasuo_south_east_attack_up_xpm[] = {
     "............................HHH..HHHHHHH........................",
     "............................HHHHH.HHHHHHHH......................"};
 
-static xpm_row_t yasuo_south_east_attack_mid_xpm[] = {
+static xpm_row_t yasuo_north_east_attack_mid_xpm[] = {
 
     "64 68 7",
     ". 255",
@@ -243,7 +243,7 @@ static xpm_row_t yasuo_south_east_attack_mid_xpm[] = {
     "............................HHH..HHHHHHH........................",
     "............................HHHHH.HHHHHHHH......................"};
 
-static xpm_row_t yasuo_south_east_attack_down_xpm[] = {
+static xpm_row_t yasuo_north_east_attack_down_xpm[] = {
 
     "64 68 7",
     ". 255",

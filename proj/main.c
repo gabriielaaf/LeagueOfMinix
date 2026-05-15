@@ -2,6 +2,7 @@
 #include <lcom/proj.h>
 #include <lcom/timer.h>
 
+#include <stdlib.h>
 #include <string.h>
 
 #include "video.h"
@@ -11,21 +12,9 @@
 #include "sprite.h"
 #include "animSprite.h"
 #include "champion.h"
+#include "buildSprites.h"
 
-
-#include "assets/yasuo_xpms.h"
-#include "assets/yasuo_north_xpms.h"
-#include "assets/yasuo_south_xpms.h"
-#include "assets/yasuo_east_xpms.h"
-#include "assets/yasuo_west_xpms.h"
-#include "assets/yasuo_south_east_xpms.h"
-#include "assets/yasuo_south_west_xpms.h"
 #include "assets/gabiteste.h"
-
-#define CHAMPION_SPEED 5
-#define NUM_ANIMS      16
-#define ATTACK_FRAMES  3
-#define ATTACK_TIME    5
 
 void foo();
 
@@ -86,93 +75,16 @@ int(proj_main_loop)(int argc, char *argv[]) {
         return 1;
     }
 
-    xpm_row_t *idle_xpms[8] = {
-        yasuo_up_xpm,        /* NORTH      */
-        yasuo_front_xpm,     /* SOUTH      */
-        yasuo_right_xpm,     /* EAST       */
-        yasuo_left_xpm,      /* WEST       */
-        yasuo_northeast_xpm, /* NORTHEAST  */
-        yasuo_northwest_xpm, /* NORTHWEST  */
-        yasuo_southeast_xpm, /* SOUTHEAST  */
-        yasuo_southwest_xpm, /* SOUTHWEST  */
-    };
-
-    xpm_row_t *attack_xpms[8][ATTACK_FRAMES] = {
-        { yasuo_north_attack_up_xpm,      yasuo_north_attack_mid_xpm,      yasuo_north_attack_down_xpm      }, /* NORTH    */
-        { yasuo_south_attack_up_xpm,      yasuo_south_attack_mid_xpm,      yasuo_south_attack_down_xpm      }, /* SOUTH    */
-        { yasuo_east_attack_up_xpm,       yasuo_east_attack_mid_xpm,       yasuo_east_down_xpm              }, /* EAST     */
-        { yasuo_west_attack_up_xpm,       yasuo_west_attack_mid_xpm,       yasuo_west_attack_down_xpm       }, /* WEST     */
-        { yasuo_south_east_attack_up_xpm, yasuo_south_east_attack_mid_xpm, yasuo_south_east_attack_down_xpm }, /* NORTHEAST*/
-        { yasuo_south_west_attack_up_xpm, yasuo_south_west_attack_mid_xpm, yasuo_south_west_attack_down_xpm }, /* NORTHWEST*/
-        { yasuo_south_east_attack_up_xpm, yasuo_south_east_attack_mid_xpm, yasuo_south_east_attack_down_xpm }, /* SOUTHEAST*/
-        { yasuo_south_west_attack_up_xpm, yasuo_south_west_attack_mid_xpm, yasuo_south_west_attack_down_xpm }, /* SOUTHWEST*/
-    };
-
-    AnimSprite *animations[NUM_ANIMS];
-    int anims_created = 0;
-
-    /* Idle animations: indices 0-7, one frame each */
-    for (int i = 0; i < 8; i++) {
-        Sprite *s = sprite_create(idle_xpms[i]);
-        if (s == NULL) {
-            for (int j = 0; j < anims_created; j++) destroyAnimSprite(animations[j]);
-            vg_exit();
-            return 1;
-        }
-        Sprite **frames = malloc(sizeof(Sprite *));
-        if (frames == NULL) {
-            sprite_destroy(s);
-            for (int j = 0; j < anims_created; j++) destroyAnimSprite(animations[j]);
-            vg_exit();
-            return 1;
-        }
-        frames[0] = s;
-        animations[i] = createAnimSprite(1, 1, 350, 220, frames);
-        if (animations[i] == NULL) {
-            free(frames);
-            sprite_destroy(s);
-            for (int j = 0; j < anims_created; j++) destroyAnimSprite(animations[j]);
-            vg_exit();
-            return 1;
-        }
-        anims_created++;
-    }
-
-    /* Attack animations: indices 8-15, three frames each */
-    for (int i = 0; i < 8; i++) {
-        Sprite **frames = malloc(ATTACK_FRAMES * sizeof(Sprite *));
-        if (frames == NULL) {
-            for (int j = 0; j < anims_created; j++) destroyAnimSprite(animations[j]);
-            vg_exit();
-            return 1;
-        }
-        int frames_ok = 0;
-        for (int f = 0; f < ATTACK_FRAMES; f++) {
-            frames[f] = sprite_create(attack_xpms[i][f]);
-            if (frames[f] == NULL) {
-                for (int k = 0; k < frames_ok; k++) sprite_destroy(frames[k]);
-                free(frames);
-                for (int j = 0; j < anims_created; j++) destroyAnimSprite(animations[j]);
-                vg_exit();
-                return 1;
-            }
-            frames_ok++;
-        }
-        animations[8 + i] = createAnimSprite(ATTACK_TIME, ATTACK_FRAMES, 350, 220, frames);
-        if (animations[8 + i] == NULL) {
-            for (int f = 0; f < ATTACK_FRAMES; f++) sprite_destroy(frames[f]);
-            free(frames);
-            for (int j = 0; j < anims_created; j++) destroyAnimSprite(animations[j]);
-            vg_exit();
-            return 1;
-        }
-        anims_created++;
+    AnimSprite **animations = build_animations();
+    if (animations == NULL) {
+        vg_exit();
+        return 1;
     }
 
     Champion *champion = create_champion(350, 220, animations, NUM_ANIMS);
-
     if (champion == NULL) {
-        for (int i = 0; i < 8; i++) destroyAnimSprite(animations[i]);
+        for (int i = 0; i < NUM_ANIMS; i++) destroyAnimSprite(animations[i]);
+        free(animations);
         vg_exit();
         return 1;
     }
@@ -237,13 +149,13 @@ int(proj_main_loop)(int argc, char *argv[]) {
             counter = 0;
             int dx = 0, dy = 0;
             if (kstate.p1.left)
-              dx -= CHAMPION_SPEED;
+              dx -= 1;
             if (kstate.p1.right)
-              dx += CHAMPION_SPEED;
+              dx += 1;
             if (kstate.p1.up)
-              dy -= CHAMPION_SPEED;
+              dy -= 1;
             if (kstate.p1.down)
-              dy += CHAMPION_SPEED;
+              dy += 1;
             moveChampion(champion, dx, dy);
 
             if (kstate.p1.attack)
@@ -264,6 +176,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     timer_unsubscribe_int();
     kbd_unsubscribe_int();
     destroy_champion(champion);
+    free(animations);
 
     vg_exit();
 
