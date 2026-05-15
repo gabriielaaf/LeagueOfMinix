@@ -389,7 +389,7 @@ static xpm_row_t yasuo_west_move1_xpm[] = {
     "................................................................",
     "................................................................"};
 
-static xpm_row_t yasuo_west_move2_xpm[]{
+static xpm_row_t yasuo_west_move2_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",

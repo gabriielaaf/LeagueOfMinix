@@ -7,6 +7,7 @@ static void player_input_init(PlayerInput *playerInput){
     playerInput->up = false;
     playerInput->left = false;
     playerInput->right = false;
+    playerInput->attack = false;
 
 }
 
@@ -63,6 +64,14 @@ void keyboard_interpret_scancode(KeyboardState *state, uint8_t *bytes, uint8_t s
 
             case D_BREAK:
                 state->p1.right = false;
+                break;
+
+            case Q_MAKE:
+                state->p1.attack = true;
+                break;
+
+            case Q_BREAK:
+                state->p1.attack = false;
                 break;
 
             case ESC_BREAK:

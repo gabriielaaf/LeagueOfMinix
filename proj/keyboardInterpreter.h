@@ -10,6 +10,7 @@ typedef struct {
     bool down;
     bool left;
     bool right;
+    bool attack;
 } PlayerInput;
 
 typedef struct {

@@ -19,4 +19,8 @@ void moveAnimSprite(AnimSprite *animSprite, int dx, int dy);
 
 void setAnimSpritePosition(AnimSprite *animSprite, int x, int y);
 
+void animSprite_reset(AnimSprite *animSprite);
+
+int animSprite_has_looped(AnimSprite *animSprite);
+
 #endif

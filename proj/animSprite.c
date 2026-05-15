@@ -9,6 +9,7 @@ struct AnimSprite {
     int currentTime;
     int animationTime;
     int numSprites;
+    int looped;
 
     Sprite **sprites;
 };
@@ -59,6 +60,9 @@ void update_AnimSprite(AnimSprite *animSprite) {
     if (animSprite->currentTime >= animSprite->animationTime) {
         animSprite->currentTime = 0;
         animSprite->currentSprite = (animSprite->currentSprite + 1) % animSprite->numSprites;
+        if (animSprite->currentSprite == 0) {
+            animSprite->looped = 1;
+        }
     }
 }
 
@@ -90,5 +94,18 @@ void setAnimSpritePosition(AnimSprite *animSprite, int x, int y) {
 
     animSprite->x = x;
     animSprite->y = y;
+}
+
+void animSprite_reset(AnimSprite *animSprite) {
+    if (animSprite == NULL) return;
+    animSprite->currentSprite = 0;
+    animSprite->currentTime = 0;
+    animSprite->looped = 0;
+}
+
+int animSprite_has_looped(AnimSprite *animSprite) {
+    if (animSprite == NULL || !animSprite->looped) return 0;
+    animSprite->looped = 0;
+    return 1;
 }
 

@@ -18,6 +18,7 @@ struct Champion
     int ability_dmg;
 
     Direction dir;
+    ChampionState state;
 
     int currentAnimation;
     AnimSprite **animations;
@@ -44,6 +45,7 @@ Champion *create_champion(int x, int y, AnimSprite **animations,int numAnimation
     champion->speed = SPEED;
 
     champion->dir = SOUTH;
+    champion->state = CHAMPION_IDLE;
 
     champion->currentAnimation = 0;
     champion->animations = animations;
@@ -81,15 +83,28 @@ void moveChampion(struct Champion *champion, int dx, int dy) {
     else if (dx > 0 && dy > 0) champion->dir = SOUTHEAST;
     else                        champion->dir = SOUTHWEST;
 
-    champion->currentAnimation = (int)champion->dir;
+    if (champion->state == CHAMPION_IDLE) {
+        champion->currentAnimation = (int)champion->dir;
+    }
 }
 
-void attack_champion(struct Champion *champion_attacking, struct Champion *champion_attacked) {
+void attack_damaged_champion(struct Champion *champion_attacking, struct Champion *champion_attacked) {
     champion_attacked->hp -= champion_attacking->attack_dmg; 
 }
 
 void ability_damaged_champion(struct Champion *champion_attacking, struct Champion *champion_attacked){
     champion_attacked->hp -= champion_attacking->ability_dmg;
+}
+
+void champion_attack(Champion *champion) {
+  if (champion == NULL || champion->state == CHAMPION_ATTACKING)
+    return;
+
+  champion->state = CHAMPION_ATTACKING;
+  int attack_anim = (int)champion->dir + 8;
+  champion->currentAnimation = attack_anim;
+  
+  animSprite_reset(champion->animations[attack_anim]);
 }
 
 void champion_set_animation(Champion *champion, int animation) {
@@ -110,7 +125,13 @@ void champion_update(Champion *champion) {
         return;
     }
 
-    update_AnimSprite(champion->animations[champion->currentAnimation]);
+    AnimSprite *anim = champion->animations[champion->currentAnimation];
+    update_AnimSprite(anim);
+
+    if (champion->state == CHAMPION_ATTACKING && animSprite_has_looped(anim)) {
+        champion->state = CHAMPION_IDLE;
+        champion->currentAnimation = (int)champion->dir;
+    }
 }
 
 int champion_draw(Champion *champion) {
