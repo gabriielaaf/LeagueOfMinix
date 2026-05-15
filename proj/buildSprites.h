@@ -14,7 +14,6 @@
 #include "assets/yasuo_south_west_xpms.h"
 #include "assets/yasuo_south_xpms.h"
 #include "assets/yasuo_west_xpms.h"
-#include "assets/yasuo_xpms.h"
 #include "sprite.h"
 
 AnimSprite **build_animations();
