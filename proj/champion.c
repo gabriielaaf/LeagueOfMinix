@@ -1,6 +1,11 @@
 #include "champion.h"
 #include <stdlib.h>
 
+#define HP 100
+#define SPEED 1
+#define ATTACK_DMG 10
+#define ABILITY_DMG 30
+
 
 struct Champion
 {
@@ -17,7 +22,7 @@ struct Champion
     int numAnimations;
 };
 
-Champion *create_champion(int x, int y, int hp, int speed, int attack_dmg, int ability_dmg,AnimSprite **animations,int numAnimations) {
+Champion *create_champion(int x, int y, AnimSprite **animations,int numAnimations) {
     
    if (animations == NULL || numAnimations <= 0) {
         return NULL;
@@ -31,10 +36,10 @@ Champion *create_champion(int x, int y, int hp, int speed, int attack_dmg, int a
 
     champion->x = x;
     champion->y = y;
-    champion->hp = hp;
-    champion->attack_dmg = attack_dmg;
-    champion->ability_dmg = ability_dmg;
-    champion->speed = speed;
+    champion->hp = HP;
+    champion->attack_dmg = ATTACK_DMG;
+    champion->ability_dmg = ABILITY_DMG;
+    champion->speed = SPEED;
 
     champion->currentAnimation = 0;
     champion->animations = animations;
@@ -58,22 +63,29 @@ void destroy_champion(Champion *champion) {
 }
 
 void moveChampion(struct Champion *champion, int dx, int dy) {
-    champion->x += dx;
-    champion->y += dy;
+    champion->x += dx * SPEED;
+    champion->y += dy * SPEED;
 }
 
-void champion_set_animation(Champion *champion, int animation){
+void attack_champion(struct Champion *champion_attacking, struct Champion *champion_attacked) {
+    champion_attacked->hp -= champion_attacking->attack_dmg; 
+}
 
-    if (champion == NULL) {
-        return;
-    }
+void ability_damaged_champion(struct Champion *champion_attacking, struct Champion *champion_attacked){
+    champion_attacked->hp -= champion_attacking->ability_dmg;
+}
 
-    if (animation < 0 || animation >= champion->numAnimations) {
-        return;
-    }
+void champion_set_animation(Champion *champion, int animation) {
 
-    champion->currentAnimation = animation;
+  if (champion == NULL) {
+    return;
+  }
 
+  if (animation < 0 || animation >= champion->numAnimations) {
+    return;
+  }
+
+  champion->currentAnimation = animation;
 }
 
 void champion_update(Champion *champion) {

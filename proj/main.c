@@ -18,6 +18,8 @@
 
 #define CHAMPION_SPEED 5
 
+void foo();
+
 int main(int argc, char *argv[]) {
     lcf_set_language("EN-US");
 
@@ -88,7 +90,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     Sprite *attack_frames[] = {attack_up, attack_mid, attack_down};
 
-    AnimSprite *attack_anim = createAnimSprite(20, 3, 350, 220, attack_frames);
+    AnimSprite *attack_anim = createAnimSprite(5, 3, 350, 220, attack_frames);
 
     if (attack_anim == NULL) {
         sprite_destroy(attack_up);
@@ -101,7 +103,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     AnimSprite *animations[] = {attack_anim};
 
-    Champion *champion = create_champion(350, 220, 100, CHAMPION_SPEED, 10, 20, animations, 1);
+    Champion *champion = create_champion(350, 220, animations, 1);
 
     if (champion == NULL) {
         destroyAnimSprite(attack_anim);
@@ -109,6 +111,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
         vg_exit();
         return 1;
     }
+
+    foo(); // NÃO REMOVER, O ZÉ EXPLICA O PQ E DEPOIS RESOLVE
 
     uint8_t timer_bit_no;
     if (timer_subscribe_int(&timer_bit_no) != 0) {
@@ -163,10 +167,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     timer_int_handler();
 
                     int dx = 0, dy = 0;
-                    if (kstate.p1.left)  dx -= CHAMPION_SPEED;
-                    if (kstate.p1.right) dx += CHAMPION_SPEED;
-                    if (kstate.p1.up)    dy -= CHAMPION_SPEED;
-                    if (kstate.p1.down)  dy += CHAMPION_SPEED;
+                    if (kstate.p1.left)  dx -= 1;
+                    if (kstate.p1.right) dx += 1;
+                    if (kstate.p1.up)    dy -= 1;
+                    if (kstate.p1.down)  dy += 1;
                     moveChampion(champion, dx, dy);
 
                     champion_update(champion);
