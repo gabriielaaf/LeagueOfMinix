@@ -167,10 +167,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     timer_int_handler();
 
                     int dx = 0, dy = 0;
-                    if (kstate.p1.left)  dx -= 1;
-                    if (kstate.p1.right) dx += 1;
-                    if (kstate.p1.up)    dy -= 1;
-                    if (kstate.p1.down)  dy += 1;
+                    if (kstate.p1.left)  dx -= CHAMPION_SPEED;
+                    if (kstate.p1.right) dx += CHAMPION_SPEED;
+                    if (kstate.p1.up)    dy -= CHAMPION_SPEED;
+                    if (kstate.p1.down)  dy += CHAMPION_SPEED;
                     moveChampion(champion, dx, dy);
 
                     champion_update(champion);
