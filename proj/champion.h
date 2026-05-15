@@ -8,7 +8,7 @@
 
 typedef struct Champion Champion;
 
-Champion *create_champion(int x, int y, int hp, int speed, int attack_dmg, int ability_dmg,AnimSprite **animations,int numAnimations);
+Champion *create_champion(int x, int y, AnimSprite **animations,int numAnimations);
 
 void destroy_champion(Champion *champion);
 

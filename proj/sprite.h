@@ -4,8 +4,7 @@
 #include <lcom/lcf.h>
 #include <stdint.h>
 
-#define TRANSPARENT_COLOR 255
-
+#define TRANSPARENT_COLOR 0x123456
 
 typedef struct Sprite Sprite;
 

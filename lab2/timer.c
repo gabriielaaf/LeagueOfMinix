@@ -8,6 +8,8 @@
 int hook_id_timer = 0;
 uint32_t counter = 0;
 
+void foo(){}
+
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
 
   if (timer > 2 || freq == 0) return 1;
