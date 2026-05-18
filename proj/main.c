@@ -6,7 +6,9 @@
 
 #include "video.h"
 #include "keyboard.h"
+#include "mouse.h"
 #include "keyboardInterpreter.h"
+#include "mouseInterpreter.h"
 
 #include "sprite.h"
 #include "animSprite.h"
@@ -116,11 +118,23 @@ int(proj_main_loop)(int argc, char *argv[]) {
         return 1;
     }
 
+    uint8_t mouse_bit_no;
+    if (mouse_subscribe_int(&mouse_bit_no) != 0) {
+        mouse_unsubscribe_int();
+        destroy_champion(champion_p1);
+        vg_exit();
+        return 1;
+    }
+
     uint32_t timer_irq_set = BIT(timer_bit_no);
     uint32_t kbd_irq_set = BIT(kbd_bit_no);
+    uint32_t mouse_irq_set = BIT(mouse_bit_no);
 
     KeyboardState kstate;
     keyboard_state_init(&kstate);
+
+    MouseState mstate;
+    mouse_state_init(&mstate, 0, 0);
 
     int r, ipc_status;
     message msg;
@@ -151,6 +165,14 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 }
             }
 
+            if (msg.m_notify.interrupts & mouse_irq_set) {
+                mouse_ih();
+                if (packet_complete()) {
+                    mouse_interpret_packet(&mstate, get_packet());
+                    reset_packet();
+                }
+            }
+
             if (msg.m_notify.interrupts & timer_irq_set) {
             timer_int_handler();
             counter++;
@@ -177,10 +199,12 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     moveChampion(champion_p1, dx1, dy1);
                     moveChampion(champion_p2, dx2, dy2);
 
-                    if (kstate.p1.attack)
-                    champion_attack(champion_p1);
-                    if (kstate.p2.attack)
-                    champion_attack(champion_p2);
+                    if (mstate.p1.attack)
+                        champion_attack(champion_p1);
+                    if (mstate.p2.attack)
+                        champion_attack(champion_p2);
+
+                    mouse_clear_events(&mstate);
 
                     champion_update(champion_p1);
                     champion_update(champion_p2);
@@ -199,6 +223,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     timer_unsubscribe_int();
     kbd_unsubscribe_int();
+    mouse_unsubscribe_int();
     destroy_champion(champion_p1);
     destroy_champion(champion_p2);
     free(animations);

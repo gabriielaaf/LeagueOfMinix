@@ -1,4 +1,5 @@
 #include "mouseInterpreter.h"
+#include "breakcodes.h"
 
 #include <stdlib.h>
 
