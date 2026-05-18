@@ -1,49 +1,94 @@
 #include <stdlib.h>
 #include "buildSprites.h"
 
-static xpm_row_t *idle_xpms[8] = {
-    yasuo_north_stop_xpm,
-    yasuo_south_stop_xpm,
-    yasuo_east_stop_xpm,
-    yasuo_west_stop_xpm,
-    yasuo_north_east_stop_xpm,
-    yasuo_north_west_stop_xpm,
-    yasuo_south_east_stop_xpm,
-    yasuo_south_west_stop_xpm,
+static xpm_row_t *p1_idle_xpms[8] = {
+    p1_north_stop_xpm,
+    p1_south_stop_xpm,
+    p1_east_stop_xpm,
+    p1_west_stop_xpm,
+    p1_north_east_stop_xpm,
+    p1_north_west_stop_xpm,
+    p1_south_east_stop_xpm,
+    p1_south_west_stop_xpm,
 };
 
-static xpm_row_t *attack_xpms[8][ATTACK_FRAMES] = {
-    {yasuo_north_attack_up_xpm,      
-      yasuo_north_attack_mid_xpm,      
-      yasuo_north_attack_down_xpm},
+static xpm_row_t *p1_attack_xpms[8][ATTACK_FRAMES] = {
+    {p1_north_attack_up_xpm,      
+      p1_north_attack_mid_xpm,      
+      p1_north_attack_down_xpm},
 
-    {yasuo_south_attack_up_xpm,      
-      yasuo_south_attack_mid_xpm,      
-      yasuo_south_attack_down_xpm},
+    {p1_south_attack_up_xpm,      
+      p1_south_attack_mid_xpm,      
+      p1_south_attack_down_xpm},
 
-    {yasuo_east_attack_up_xpm,       
-      yasuo_east_attack_mid_xpm,       
-      yasuo_east_down_xpm},
+    {p1_east_attack_up_xpm,       
+      p1_east_attack_mid_xpm,       
+      p1_east_down_xpm},
 
-    {yasuo_west_attack_up_xpm,       
-      yasuo_west_attack_mid_xpm,       
-      yasuo_west_attack_down_xpm},
+    {p1_west_attack_up_xpm,       
+      p1_west_attack_mid_xpm,       
+      p1_west_attack_down_xpm},
 
-    {yasuo_north_east_attack_up_xpm, 
-      yasuo_north_east_attack_mid_xpm, 
-      yasuo_north_east_attack_down_xpm},
+    {p1_north_east_attack_up_xpm, 
+      p1_north_east_attack_mid_xpm, 
+      p1_north_east_attack_down_xpm},
 
-    {yasuo_north_west_attack_up_xpm, 
-      yasuo_north_west_attack_mid_xpm, 
-      yasuo_north_west_attack_down_xpm},
+    {p1_north_west_attack_up_xpm, 
+      p1_north_west_attack_mid_xpm, 
+      p1_north_west_attack_down_xpm},
 
-    {yasuo_south_east_attack_up_xpm, 
-      yasuo_south_east_attack_mid_xpm, 
-      yasuo_south_east_attack_down_xpm},
+    {p1_south_east_attack_up_xpm, 
+      p1_south_east_attack_mid_xpm, 
+      p1_south_east_attack_down_xpm},
 
-    {yasuo_south_west_attack_up_xpm, 
-      yasuo_south_west_attack_mid_xpm, 
-      yasuo_south_west_attack_down_xpm},
+    {p1_south_west_attack_up_xpm, 
+      p1_south_west_attack_mid_xpm, 
+      p1_south_west_attack_down_xpm},
+};
+
+static xpm_row_t *p2_idle_xpms[8] = {
+    p2_north_stop_xpm,
+    p2_south_stop_xpm,
+    p2_east_stop_xpm,
+    p2_west_stop_xpm,
+    p2_north_east_stop_xpm,
+    p2_north_west_stop_xpm,
+    p2_south_east_stop_xpm,
+    p2_south_west_stop_xpm,
+};
+
+static xpm_row_t *p2_attack_xpms[8][ATTACK_FRAMES] = {
+    {p2_north_attack_up_xpm,      
+      p2_north_attack_mid_xpm,      
+      p2_north_attack_down_xpm},
+
+    {p2_south_attack_up_xpm,      
+      p2_south_attack_mid_xpm,      
+      p2_south_attack_down_xpm},
+
+    {p2_east_attack_up_xpm,       
+      p2_east_attack_mid_xpm,       
+      p2_east_down_xpm},
+
+    {p2_west_attack_up_xpm,       
+      p2_west_attack_mid_xpm,       
+      p2_west_attack_down_xpm},
+
+    {p2_north_east_attack_up_xpm, 
+      p2_north_east_attack_mid_xpm, 
+      p2_north_east_attack_down_xpm},
+
+    {p2_north_west_attack_up_xpm, 
+      p2_north_west_attack_mid_xpm, 
+      p2_north_west_attack_down_xpm},
+
+    {p2_south_east_attack_up_xpm, 
+      p2_south_east_attack_mid_xpm, 
+      p2_south_east_attack_down_xpm},
+
+    {p2_south_west_attack_up_xpm, 
+      p2_south_west_attack_mid_xpm, 
+      p2_south_west_attack_down_xpm},
 };
 
 static void destroy_animations(AnimSprite **animations, int count) {

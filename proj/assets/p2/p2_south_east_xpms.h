@@ -1,17 +1,16 @@
-#ifndef YASUO_SOUTH_EAST_XPMS_H
-#define YASUO_SOUTH_EAST_XPMS_H
+#ifndef P2_SOUTH_EAST_XPMS_H
+#define P2_SOUTH_EAST_XPMS_H
 
 #include <lcom/lcf.h>
 
-static xpm_row_t yasuo_south_east_stop_xpm[] = {
-
+static xpm_row_t p2_south_east_stop_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
 
     "...........................HH.HHHHHH............................",
@@ -83,15 +82,15 @@ static xpm_row_t yasuo_south_east_stop_xpm[] = {
     "................................................................",
     "................................................................"};
 
-static xpm_row_t yasuo_south_east_attack_up_xpm[] = {
+static xpm_row_t p2_south_east_attack_up_xpm[] = {
 
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
 
     "...........................HH.HHHHHH..........................OW",
@@ -163,15 +162,15 @@ static xpm_row_t yasuo_south_east_attack_up_xpm[] = {
     "................................................................",
     "................................................................"};
 
-static xpm_row_t yasuo_south_east_attack_mid_xpm[] = {
+static xpm_row_t p2_south_east_attack_mid_xpm[] = {
 
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
 
     "...........................HH.HHHHHH............................",
@@ -243,15 +242,15 @@ static xpm_row_t yasuo_south_east_attack_mid_xpm[] = {
     "................................................................",
     "................................................................"};
 
-static xpm_row_t yasuo_south_east_attack_down_xpm[] = {
+static xpm_row_t p2_south_east_attack_down_xpm[] = {
 
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
 
     "...........................HH.HHHHHH............................",

@@ -6,7 +6,6 @@
 
 typedef struct AnimSprite AnimSprite;
 
-
 AnimSprite *createAnimSprite(int animationTime, int numSprites,int x, int y, Sprite **sprites);
 
 void destroyAnimSprite(AnimSprite *animSprite);

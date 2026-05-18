@@ -1,17 +1,18 @@
-#ifndef YASUO_SOUTH_XPMS_H
-#define YASUO_SOUTH_XPMS_H
+#ifndef P2_SOUTH_XPMS_H
+#define P2_SOUTH_XPMS_H
 
 #include <lcom/lcf.h>
 
-static xpm_row_t yasuo_south_stop_xpm[] = {
+static xpm_row_t p2_south_stop_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
+    
 
     "...........OOOOOOOOOOOO.........................................",
     "..........OOOOOOOOOOOOO.........................................",
@@ -82,14 +83,14 @@ static xpm_row_t yasuo_south_stop_xpm[] = {
     "OHHHHH..........................................................",
     ".HHHH..........................................................."};
 
-static xpm_row_t yasuo_south_move1_xpm[] = {
+static xpm_row_t p2_south_move1_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
 
     ".........OOOOOOOOOOOOOOO........................................",
@@ -161,14 +162,14 @@ static xpm_row_t yasuo_south_move1_xpm[] = {
     "......OHHHHH....................................................",
     "........HHHH...................................................."};
 
-static xpm_row_t yasuo_south_move2_xpm[] = {
+static xpm_row_t p2_south_move2_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
 
     "............OOOOOOOOOOOO........................................",
@@ -240,15 +241,16 @@ static xpm_row_t yasuo_south_move2_xpm[] = {
     "......OHHHHH.........OOOOO......................................",
     "........HHHH...................................................."};
 
-static xpm_row_t yasuo_south_attack_up_xpm[] = {
+static xpm_row_t p2_south_attack_up_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
+
     "....OWWWWOOOOOOOOOOOOOO.........................................",
     "....OWWWWWWWOOOOOOOOOOO.........................................",
     "....OWWWWWWWWWOOOOOOOOOOOO......................................",
@@ -318,15 +320,16 @@ static xpm_row_t yasuo_south_attack_up_xpm[] = {
     "OHHHHH..........................................................",
     ".HHHH..........................................................."};
 
-static xpm_row_t yasuo_south_attack_mid_xpm[] = {
+static xpm_row_t p2_south_attack_mid_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
+
     "...........OOOOOOOOOOOO.........................................",
     "..........OOOOOOOOOOOOO..................OOOO...................",
     "...........OOOOOOOOOOOOOOO..............OOWWOO..................",
@@ -396,15 +399,16 @@ static xpm_row_t yasuo_south_attack_mid_xpm[] = {
     "OHHHHH..........................................................",
     ".HHHH..........................................................."};
 
-static xpm_row_t yasuo_south_attack_down_xpm[] = {
+static xpm_row_t p2_south_attack_down_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
+    
     "...........OOOOOOOOOOOO.........................................",
     "..........OOOOOOOOOOOOO.........................................",
     "...........OOOOOOOOOOOOOOO......................................",

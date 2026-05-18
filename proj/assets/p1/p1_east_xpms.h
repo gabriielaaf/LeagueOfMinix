@@ -1,9 +1,9 @@
-#ifndef YASUO_EAST_XPMS_H
-#define YASUO_EAST_XPMS_H
+#ifndef P1_EAST_XPMS_H
+#define P1_EAST_XPMS_H
 
 #include <lcom/lcf.h>
 
-static xpm_row_t yasuo_east_stop_xpm[] = {
+static xpm_row_t p1_east_stop_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
@@ -82,7 +82,7 @@ static xpm_row_t yasuo_east_stop_xpm[] = {
     "................................................................",
     "................................................................"};
 
-static xpm_row_t yasuo_east_attack_up_xpm[] = {
+static xpm_row_t p1_east_attack_up_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
@@ -161,7 +161,7 @@ static xpm_row_t yasuo_east_attack_up_xpm[] = {
     "OBSSBO..........................................................",
     ".OMMMO.........................................................."};
 
-static xpm_row_t yasuo_east_attack_mid_xpm[] = {
+static xpm_row_t p1_east_attack_mid_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
@@ -240,7 +240,7 @@ static xpm_row_t yasuo_east_attack_mid_xpm[] = {
     "............................OOOOOOO.............................",
     ".............................OOOOO.............................."};
 
-static xpm_row_t yasuo_east_down_xpm[] = {
+static xpm_row_t p1_east_down_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
