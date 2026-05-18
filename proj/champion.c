@@ -88,14 +88,6 @@ void moveChampion(struct Champion *champion, int dx, int dy) {
     }
 }
 
-void attack_damaged_champion(struct Champion *champion_attacking, struct Champion *champion_attacked) {
-    champion_attacked->hp -= champion_attacking->attack_dmg; 
-}
-
-void ability_damaged_champion(struct Champion *champion_attacking, struct Champion *champion_attacked){
-    champion_attacked->hp -= champion_attacking->ability_dmg;
-}
-
 void champion_attack(Champion *champion) {
   if (champion == NULL || champion->state == CHAMPION_ATTACKING)
     return;
@@ -105,6 +97,14 @@ void champion_attack(Champion *champion) {
   champion->currentAnimation = attack_anim;
   
   animSprite_reset(champion->animations[attack_anim]);
+}
+
+void attack_damaged_champion(struct Champion *champion_attacking, struct Champion *champion_attacked) {
+    champion_attacked->hp -= champion_attacking->attack_dmg; 
+}
+
+void ability_damaged_champion(struct Champion *champion_attacking, struct Champion *champion_attacked){
+    champion_attacked->hp -= champion_attacking->ability_dmg;
 }
 
 void champion_set_animation(Champion *champion, int animation) {
@@ -131,6 +131,10 @@ void champion_update(Champion *champion) {
     if (champion->state == CHAMPION_ATTACKING && animSprite_has_looped(anim)) {
         champion->state = CHAMPION_IDLE;
         champion->currentAnimation = (int)champion->dir;
+    }
+    if (champion->state == CHAMPION_MOVING && animSprite_has_looped(anim)) {
+      champion->state = CHAMPION_IDLE;
+      champion->currentAnimation = (int)champion->dir;
     }
 }
 
