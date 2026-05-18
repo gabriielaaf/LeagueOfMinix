@@ -7,7 +7,6 @@
 // Any header files included below this line should have been created by you
 #include "video.h"
 #include "keyboard.h"
-#include "assets/yasuo.xpm"
 
 int main(int argc, char *argv[]) {
     // sets the language of LCF messages (can be either EN-US or PT-PT)

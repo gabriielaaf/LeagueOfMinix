@@ -105,7 +105,18 @@ AnimSprite **build_animations(int player) {
     int anims_created = 0;
 
     for (int i = 0; i < 8; i++) {
-        Sprite *s = sprite_create(idle_xpms[i]);
+        Sprite *s = NULL;
+        switch (player) {
+            case 1:
+                s = sprite_create(p1_idle_xpms[i]);
+                break;
+            case 2:
+                s = sprite_create(p2_idle_xpms[i]);
+                break;
+            default:
+                break;
+        }
+
         if (s == NULL) {
             destroy_animations(animations, anims_created);
             return NULL;
@@ -139,7 +150,17 @@ AnimSprite **build_animations(int player) {
 
         int frames_ok = 0;
         for (int f = 0; f < ATTACK_FRAMES; f++) {
-            frames[f] = sprite_create(attack_xpms[i][f]);
+            switch (player) {
+                case 1:
+                    frames[f] = sprite_create(p1_attack_xpms[i][f]);
+                    break;
+                case 2:
+                    frames[f] = sprite_create(p2_attack_xpms[i][f]);
+                    break;
+                default:
+                    break;
+            }
+            
             if (frames[f] == NULL) {
                 for (int k = 0; k < frames_ok; k++)
                     sprite_destroy(frames[k]);
