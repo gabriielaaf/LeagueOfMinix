@@ -127,49 +127,50 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
       switch (_ENDPOINT_P(msg.m_source)) {
       case HARDWARE:
-        if (msg.m_notify.interrupts & kbd_irq_set) {
-          kbd_ih();
-          if (kbd_error) {
-            kbd_error = false;
-            reset_scancode();
+            if (msg.m_notify.interrupts & kbd_irq_set) {
+                kbd_ih();
+                if (kbd_error) {
+                    kbd_error = false;
+                    reset_scancode();
+                    break;
+                }
+                if (scancode_complete()) {
+                    keyboard_interpret_scancode(&kstate, get_scancode_bytes(),
+                                                get_scancode_size());
+                    reset_scancode();
+                }
+            }
+
+            if (msg.m_notify.interrupts & timer_irq_set) {
+            timer_int_handler();
+            counter++;
+                if (counter == 3) {
+                    counter = 0;
+                    int dx = 0, dy = 0;
+                    if (kstate.p1.left)
+                    dx -= 1;
+                    if (kstate.p1.right)
+                    dx += 1;
+                    if (kstate.p1.up)
+                    dy -= 1;
+                    if (kstate.p1.down)
+                    dy += 1;
+                    moveChampion(champion, dx, dy);
+
+                    if (kstate.p1.attack)
+                    champion_attack(champion);
+
+                    champion_update(champion);
+                    video_clear_back_buffer(0);
+                    champion_draw(champion);
+                    video_swap_buffers();
+                }
+            }
+            
             break;
-          }
-          if (scancode_complete()) {
-            keyboard_interpret_scancode(&kstate, get_scancode_bytes(),
-                                        get_scancode_size());
-            reset_scancode();
-          }
+        default:
+            break;
         }
-
-        if (msg.m_notify.interrupts & timer_irq_set) {
-          timer_int_handler();
-          counter++;
-          if (counter == 3) {
-            counter = 0;
-            int dx = 0, dy = 0;
-            if (kstate.p1.left)
-              dx -= 1;
-            if (kstate.p1.right)
-              dx += 1;
-            if (kstate.p1.up)
-              dy -= 1;
-            if (kstate.p1.down)
-              dy += 1;
-            moveChampion(champion, dx, dy);
-
-            if (kstate.p1.attack)
-              champion_attack(champion);
-
-            champion_update(champion);
-            video_clear_back_buffer(0);
-            champion_draw(champion);
-            video_swap_buffers();
-          }
-        }
-        break;
-      default:
-        break;
-      }
     }
 
     timer_unsubscribe_int();

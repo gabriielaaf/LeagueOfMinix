@@ -65,14 +65,17 @@ AnimSprite **build_animations() {
             destroy_animations(animations, anims_created);
             return NULL;
         }
+
         Sprite **frames = malloc(sizeof(Sprite *));
         if (frames == NULL) {
             sprite_destroy(s);
             destroy_animations(animations, anims_created);
             return NULL;
         }
+
         frames[0] = s;
         animations[i] = createAnimSprite(1, 1, 350, 220, frames);
+
         if (animations[i] == NULL) {
             free(frames);
             sprite_destroy(s);
@@ -88,6 +91,7 @@ AnimSprite **build_animations() {
             destroy_animations(animations, anims_created);
             return NULL;
         }
+
         int frames_ok = 0;
         for (int f = 0; f < ATTACK_FRAMES; f++) {
             frames[f] = sprite_create(attack_xpms[i][f]);
@@ -100,6 +104,7 @@ AnimSprite **build_animations() {
             }
             frames_ok++;
         }
+        
         animations[8 + i] = createAnimSprite(ATTACK_TIME, ATTACK_FRAMES, 350, 220, frames);
         if (animations[8 + i] == NULL) {
             for (int f = 0; f < ATTACK_FRAMES; f++)

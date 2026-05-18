@@ -97,27 +97,27 @@ void ability_damaged_champion(struct Champion *champion_attacking, struct Champi
 }
 
 void champion_attack(Champion *champion) {
-  if (champion == NULL || champion->state == CHAMPION_ATTACKING)
-    return;
+    if (champion == NULL || champion->state == CHAMPION_ATTACKING)
+        return;
 
-  champion->state = CHAMPION_ATTACKING;
-  int attack_anim = (int)champion->dir + 8;
-  champion->currentAnimation = attack_anim;
-  
-  animSprite_reset(champion->animations[attack_anim]);
+    champion->state = CHAMPION_ATTACKING;
+    int attack_anim = (int)champion->dir + 8;
+    champion->currentAnimation = attack_anim;
+    
+    animSprite_reset(champion->animations[attack_anim]);
 }
 
 void champion_set_animation(Champion *champion, int animation) {
 
-  if (champion == NULL) {
-    return;
-  }
+    if (champion == NULL) {
+        return;
+    }
 
-  if (animation < 0 || animation >= champion->numAnimations) {
-    return;
-  }
+    if (animation < 0 || animation >= champion->numAnimations) {
+        return;
+    }
 
-  champion->currentAnimation = animation;
+    champion->currentAnimation = animation;
 }
 
 void champion_update(Champion *champion) {
@@ -147,4 +147,3 @@ int champion_draw(Champion *champion) {
 
     return drawAnimSprite(champion->animations[champion->currentAnimation]);
 }
-
