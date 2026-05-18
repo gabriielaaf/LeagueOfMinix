@@ -16,6 +16,6 @@
 #include "assets/yasuo_west_xpms.h"
 #include "sprite.h"
 
-AnimSprite **build_animations();
+AnimSprite **build_animations(int p);
 
 #endif

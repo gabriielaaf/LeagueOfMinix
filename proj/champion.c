@@ -4,7 +4,6 @@
 #define HP 100
 #define SPEED 1
 #define ATTACK_DMG 10
-#define ABILITY_DMG 30
 
 
 struct Champion
@@ -15,7 +14,6 @@ struct Champion
     int hp;
     int speed;
     int attack_dmg;
-    int ability_dmg;
 
     Direction dir;
     ChampionState state;
@@ -41,7 +39,6 @@ Champion *create_champion(int x, int y, AnimSprite **animations,int numAnimation
     champion->y = y;
     champion->hp = HP;
     champion->attack_dmg = ATTACK_DMG;
-    champion->ability_dmg = ABILITY_DMG;
     champion->speed = SPEED;
 
     champion->dir = SOUTH;
@@ -101,10 +98,6 @@ void champion_attack(Champion *champion) {
 
 void attack_damaged_champion(struct Champion *champion_attacking, struct Champion *champion_attacked) {
     champion_attacked->hp -= champion_attacking->attack_dmg; 
-}
-
-void ability_damaged_champion(struct Champion *champion_attacking, struct Champion *champion_attacked){
-    champion_attacked->hp -= champion_attacking->ability_dmg;
 }
 
 void champion_set_animation(Champion *champion, int animation) {

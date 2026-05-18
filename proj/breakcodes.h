@@ -11,7 +11,7 @@
 #define D_MAKE 0x20
 #define D_BREAK 0xA0
 
-/* ABILITY */
+/* ATTACK */
 
 #define Q_MAKE 0x10
 #define Q_BREAK 0x90
@@ -31,7 +31,7 @@
 #define DOWN_MAKE 0x50
 #define DOWN_BREAK 0xD0
 
-/* ABILITY */
+/* ATTACK */
 
 #define SPACE_MAKE 0x39
 #define SPACE_BREAK 0xB9

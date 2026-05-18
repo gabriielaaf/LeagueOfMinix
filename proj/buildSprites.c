@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "buildSprites.h"
 
-static xpm_row_t *idle_xpms[8] = {
+static xpm_row_t *p1_idle_xpms[8] = {
     yasuo_north_stop_xpm,
     yasuo_south_stop_xpm,
     yasuo_east_stop_xpm,
@@ -12,7 +12,7 @@ static xpm_row_t *idle_xpms[8] = {
     yasuo_south_west_stop_xpm,
 };
 
-static xpm_row_t *attack_xpms[8][ATTACK_FRAMES] = {
+static xpm_row_t *p1_attack_xpms[8][ATTACK_FRAMES] = {
     {yasuo_north_attack_up_xpm,      
       yasuo_north_attack_mid_xpm,      
       yasuo_north_attack_down_xpm},
@@ -52,7 +52,7 @@ static void destroy_animations(AnimSprite **animations, int count) {
     free(animations);
 }
 
-AnimSprite **build_animations() {
+AnimSprite **build_animations(int p) {
     AnimSprite **animations = malloc(NUM_ANIMS * sizeof(AnimSprite *));
     if (animations == NULL)
         return NULL;
@@ -60,11 +60,12 @@ AnimSprite **build_animations() {
     int anims_created = 0;
 
     for (int i = 0; i < 8; i++) {
-        Sprite *s = sprite_create(idle_xpms[i]);
-        if (s == NULL) {
-            destroy_animations(animations, anims_created);
-            return NULL;
-        }
+      Sprite *s = NULL;
+      if (p == 1) { s = sprite_create(p1_idle_xpms[i]); }
+      if (s == NULL) {
+        destroy_animations(animations, anims_created);
+        return NULL;
+      }
 
         Sprite **frames = malloc(sizeof(Sprite *));
         if (frames == NULL) {
@@ -94,7 +95,9 @@ AnimSprite **build_animations() {
 
         int frames_ok = 0;
         for (int f = 0; f < ATTACK_FRAMES; f++) {
-            frames[f] = sprite_create(attack_xpms[i][f]);
+            if (p == 1){
+              frames[f] = sprite_create(p1_attack_xpms[i][f]);
+            }
             if (frames[f] == NULL) {
                 for (int k = 0; k < frames_ok; k++)
                     sprite_destroy(frames[k]);

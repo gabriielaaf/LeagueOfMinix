@@ -122,9 +122,14 @@ void keyboard_interpret_scancode(KeyboardState *state, uint8_t *bytes, uint8_t s
             case DOWN_BREAK:
                 state->p2.down = false;
                 break;
-
+            case SPACE_MAKE:
+              state->p2.attack = true;
+              break;
+            case SPACE_BREAK:
+              state->p2.attack = false;
+              break;
             default:
-                break;
-        }
+              break;
+            }
     }
 }

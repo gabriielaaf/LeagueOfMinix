@@ -74,25 +74,35 @@ int(proj_main_loop)(int argc, char *argv[]) {
         return 1;
     }
 
-    AnimSprite **animations = build_animations();
+    AnimSprite **animations = build_animations(1);
     if (animations == NULL) {
         vg_exit();
         return 1;
     }
 
-    Champion *champion = create_champion(350, 220, animations, NUM_ANIMS);
-    if (champion == NULL) {
-        for (int i = 0; i < NUM_ANIMS; i++) destroyAnimSprite(animations[i]);
-        free(animations);
-        vg_exit();
-        return 1;
+    Champion *champion_p1 = create_champion(350, 220, animations, NUM_ANIMS);
+    Champion *champion_p2 = create_champion(500, 500, animations, NUM_ANIMS);
+    if (champion_p1 == NULL) {
+      for (int i = 0; i < NUM_ANIMS; i++)
+        destroyAnimSprite(animations[i]);
+      free(animations);
+      vg_exit();
+      return 1;
     }
 
-    foo(); // NÃO REMOVER, O ZÉ EXPLICA O PQ E DEPOIS RESOLVE
+    if (champion_p2 == NULL) {
+      for (int i = 0; i < NUM_ANIMS; i++)
+        destroyAnimSprite(animations[i]);
+      free(animations);
+      vg_exit();
+      return 1;
+    }
+
+    foo(); // NÃO REMOVER, NECESSÁRIO POR CAUSA DO LAZY LINK E DO CONFLITO COM A LCF
 
     uint8_t timer_bit_no;
     if (timer_subscribe_int(&timer_bit_no) != 0) {
-        destroy_champion(champion);
+        destroy_champion(champion_p1);
         vg_exit();
         return 1;
     }
@@ -101,7 +111,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     uint8_t kbd_bit_no;
     if (kbd_subscribe_int(&kbd_bit_no) != 0) {
         timer_unsubscribe_int();
-        destroy_champion(champion);
+        destroy_champion(champion_p1);
         vg_exit();
         return 1;
     }
@@ -146,23 +156,37 @@ int(proj_main_loop)(int argc, char *argv[]) {
             counter++;
                 if (counter == 3) {
                     counter = 0;
-                    int dx = 0, dy = 0;
+                    int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
                     if (kstate.p1.left)
-                    dx -= 1;
+                    dx1 -= 1;
                     if (kstate.p1.right)
-                    dx += 1;
+                    dx1 += 1;
                     if (kstate.p1.up)
-                    dy -= 1;
+                    dy1 -= 1;
                     if (kstate.p1.down)
-                    dy += 1;
-                    moveChampion(champion, dx, dy);
+                    dy1 += 1;
+                    if (kstate.p2.left)
+                    dx2 -= 1;
+                    if (kstate.p2.right)
+                    dx2 += 1;
+                    if (kstate.p2.up)
+                    dy2 -= 1;
+                    if (kstate.p2.down)
+                    dy2 += 1;
+
+                    moveChampion(champion_p1, dx1, dy1);
+                    moveChampion(champion_p2, dx2, dy2);
 
                     if (kstate.p1.attack)
-                    champion_attack(champion);
+                    champion_attack(champion_p1);
+                    if (kstate.p2.attack)
+                    champion_attack(champion_p2);
 
-                    champion_update(champion);
+                    champion_update(champion_p1);
+                    champion_update(champion_p2);
                     video_clear_back_buffer(0);
-                    champion_draw(champion);
+                    champion_draw(champion_p1);
+                    champion_draw(champion_p2);
                     video_swap_buffers();
                 }
             }
@@ -175,7 +199,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     timer_unsubscribe_int();
     kbd_unsubscribe_int();
-    destroy_champion(champion);
+    destroy_champion(champion_p1);
+    destroy_champion(champion_p2);
     free(animations);
 
     vg_exit();
