@@ -27,6 +27,6 @@
 
 #include "sprite.h"
 
-AnimSprite **build_animations();
+AnimSprite **build_animations(int player);
 
 #endif

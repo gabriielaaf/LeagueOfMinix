@@ -97,7 +97,7 @@ static void destroy_animations(AnimSprite **animations, int count) {
     free(animations);
 }
 
-AnimSprite **build_animations() {
+AnimSprite **build_animations(int player) {
     AnimSprite **animations = malloc(NUM_ANIMS * sizeof(AnimSprite *));
     if (animations == NULL)
         return NULL;
