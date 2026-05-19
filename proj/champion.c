@@ -4,6 +4,7 @@
 #define HP 100
 #define SPEED 1
 #define ATTACK_DMG 10
+#define ATTACK_SPEED 5
 
 
 struct Champion
@@ -14,6 +15,7 @@ struct Champion
     int hp;
     int speed;
     int attack_dmg;
+    int attack_speed;
 
     Direction dir;
     ChampionState state;
@@ -40,6 +42,7 @@ Champion *create_champion(int x, int y, AnimSprite **animations,int numAnimation
     champion->hp = HP;
     champion->attack_dmg = ATTACK_DMG;
     champion->speed = SPEED;
+    champion->attack_speed = ATTACK_SPEED;
 
     champion->dir = SOUTH;
     champion->state = CHAMPION_IDLE;
