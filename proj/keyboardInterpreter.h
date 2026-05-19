@@ -16,6 +16,7 @@ typedef struct {
 typedef struct {
     PlayerInput p1;
     PlayerInput p2;
+    
     bool exit;
 } KeyboardState;
 

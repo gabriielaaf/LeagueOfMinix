@@ -5,9 +5,7 @@
 #define SPEED 1
 #define ATTACK_DMG 10
 
-
-struct Champion
-{
+struct Champion {
     int x;
     int y;
 
@@ -24,8 +22,7 @@ struct Champion
 };
 
 Champion *create_champion(int x, int y, AnimSprite **animations,int numAnimations) {
-    
-   if (animations == NULL || numAnimations <= 0) {
+    if (animations == NULL || numAnimations <= 0) {
         return NULL;
     }
 
@@ -101,7 +98,6 @@ void attack_damaged_champion(struct Champion *champion_attacking, struct Champio
 }
 
 void champion_set_animation(Champion *champion, int animation) {
-
     if (champion == NULL) {
         return;
     }
