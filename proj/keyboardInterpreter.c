@@ -2,25 +2,20 @@
 #include "breakcodes.h"
 
 static void player_input_init(PlayerInput *playerInput){
-
     playerInput->down = false;
     playerInput->up = false;
     playerInput->left = false;
     playerInput->right = false;
     playerInput->attack = false;
-
 }
 
 void keyboard_state_init(KeyboardState *keyboardState){
-
     if (keyboardState == NULL) return;
 
     player_input_init(&keyboardState->p1);
     player_input_init(&keyboardState->p2);
 
     keyboardState->exit = false;
-
-
 }
 
 void keyboard_interpret_scancode(KeyboardState *state, uint8_t *bytes, uint8_t size) {

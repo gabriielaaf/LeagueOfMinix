@@ -1,17 +1,16 @@
-#ifndef YASUO_NORTH_WEST_XPMS_H
-#define YASUO_NORTH_WEST_XPMS_H
+#ifndef P2_NORTH_WEST_XPMS_H
+#define P2_NORTH_WEST_XPMS_H
 
 #include <lcom/lcf.h>
 
-static xpm_row_t yasuo_north_west_stop_xpm[] = {
-
+static xpm_row_t p2_north_west_stop_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
 
     "................................................................",
@@ -83,15 +82,15 @@ static xpm_row_t yasuo_north_west_stop_xpm[] = {
     "........................HH.HHHHHHHH..HHH........................",
     "............................HHHHHH.HH..........................."};
 
-static xpm_row_t yasuo_north_west_attack_up_xpm[] = {
+static xpm_row_t p2_north_west_attack_up_xpm[] = {
 
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
 
     "................................................................",
@@ -163,15 +162,15 @@ static xpm_row_t yasuo_north_west_attack_up_xpm[] = {
     "..OWWO..................HH.HHHHHHHH..HHH........................",
     ".OWO........................HHHHHH.HH..........................."};
 
-static xpm_row_t yasuo_north_west_attack_mid_xpm[] = {
+static xpm_row_t p2_north_west_attack_mid_xpm[] = {
 
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
 
     ".......................OOOOWWWWWWWWWWWWWWWWWWWWO................",
@@ -243,15 +242,15 @@ static xpm_row_t yasuo_north_west_attack_mid_xpm[] = {
     "........................HH.HHHHHHHH..HHH........................",
     "............................HHHHHH.HH..........................."};
 
-static xpm_row_t yasuo_north_west_attack_down_xpm[] = {
+static xpm_row_t p2_north_west_attack_down_xpm[] = {
 
     "64 68 7",
     ". 255",
     "O 0",
-    "H 8",
-    "B 1",
+    "H 4",
+    "B 4",
     "S 6",
-    "M 4",
+    "M 1",
     "W 7",
 
     "................................................................",

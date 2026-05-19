@@ -76,26 +76,27 @@ int(proj_main_loop)(int argc, char *argv[]) {
         return 1;
     }
 
-    AnimSprite **animations = build_animations(1);
-    if (animations == NULL) {
+    AnimSprite **animations1 = build_animations(1);
+    AnimSprite **animations2 = build_animations(2);
+    if (animations1 == NULL || animations2 == NULL) {
         vg_exit();
         return 1;
     }
 
-    Champion *champion_p1 = create_champion(350, 220, animations, NUM_ANIMS);
-    Champion *champion_p2 = create_champion(500, 500, animations, NUM_ANIMS);
+    Champion *champion_p1 = create_champion(350, 220, animations1, NUM_ANIMS);
+    Champion *champion_p2 = create_champion(500, 500, animations2, NUM_ANIMS);
     if (champion_p1 == NULL) {
       for (int i = 0; i < NUM_ANIMS; i++)
-        destroyAnimSprite(animations[i]);
-      free(animations);
+        destroyAnimSprite(animations1[i]);
+      free(animations1);
       vg_exit();
       return 1;
     }
 
     if (champion_p2 == NULL) {
       for (int i = 0; i < NUM_ANIMS; i++)
-        destroyAnimSprite(animations[i]);
-      free(animations);
+        destroyAnimSprite(animations2[i]);
+      free(animations2);
       vg_exit();
       return 1;
     }
@@ -226,7 +227,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
     mouse_unsubscribe_int();
     destroy_champion(champion_p1);
     destroy_champion(champion_p2);
-    free(animations);
+    free(animations1);
+    free(animations2);
 
     vg_exit();
 

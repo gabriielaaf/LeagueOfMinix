@@ -1,9 +1,9 @@
-#ifndef YASUO_SOUTH_WEST_XPMS_H
-#define YASUO_SOUTH_WEST_XPMS_H
+#ifndef P1_SOUTH_WEST_XPMS_H
+#define P1_SOUTH_WEST_XPMS_H
 
 #include <lcom/lcf.h>
 
-static xpm_row_t yasuo_south_west_stop_xpm[] = {
+static xpm_row_t p1_south_west_stop_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
@@ -82,7 +82,7 @@ static xpm_row_t yasuo_south_west_stop_xpm[] = {
     "..........................................................HHHHHO",
     "...........................................................HHHH."};
 
-static xpm_row_t yasuo_south_west_attack_up_xpm[] = {
+static xpm_row_t p1_south_west_attack_up_xpm[] = {
 
     "64 68 7",
     ". 255",
@@ -162,7 +162,7 @@ static xpm_row_t yasuo_south_west_attack_up_xpm[] = {
     "..........................................................HHHHHO",
     "...........................................................HHHH."};
 
-static xpm_row_t yasuo_south_west_attack_mid_xpm[] = {
+static xpm_row_t p1_south_west_attack_mid_xpm[] = {
 
     "64 68 7",
     ". 255",
@@ -242,7 +242,7 @@ static xpm_row_t yasuo_south_west_attack_mid_xpm[] = {
     "..........................................................HHHHHO",
     "...........................................................HHHH."};
 
-static xpm_row_t yasuo_south_west_attack_down_xpm[] = {
+static xpm_row_t p1_south_west_attack_down_xpm[] = {
 
     "64 68 7",
     ". 255",
@@ -322,7 +322,7 @@ static xpm_row_t yasuo_south_west_attack_down_xpm[] = {
     "..........................................................HHHHHO",
     "...........................................................HHHH."};
 
-static xpm_row_t yasuo_south_west_move1_xpm[] = {
+static xpm_row_t p1_south_west_move1_xpm[] = {
 
     "64 68 7",
     ". 255",
@@ -402,7 +402,7 @@ static xpm_row_t yasuo_south_west_move1_xpm[] = {
     "....................................................HHHHHO......",
     "....................................................HHHH........"};
 
-static xpm_row_t yasuo_south_west_move2_xpm[] = {
+static xpm_row_t p1_south_west_move2_xpm[] = {
 
     "64 68 7",
     ". 255",

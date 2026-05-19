@@ -2,48 +2,93 @@
 #include "buildSprites.h"
 
 static xpm_row_t *p1_idle_xpms[8] = {
-    yasuo_north_stop_xpm,
-    yasuo_south_stop_xpm,
-    yasuo_east_stop_xpm,
-    yasuo_west_stop_xpm,
-    yasuo_north_east_stop_xpm,
-    yasuo_north_west_stop_xpm,
-    yasuo_south_east_stop_xpm,
-    yasuo_south_west_stop_xpm,
+    p1_north_stop_xpm,
+    p1_south_stop_xpm,
+    p1_east_stop_xpm,
+    p1_west_stop_xpm,
+    p1_north_east_stop_xpm,
+    p1_north_west_stop_xpm,
+    p1_south_east_stop_xpm,
+    p1_south_west_stop_xpm,
 };
 
 static xpm_row_t *p1_attack_xpms[8][ATTACK_FRAMES] = {
-    {yasuo_north_attack_up_xpm,      
-      yasuo_north_attack_mid_xpm,      
-      yasuo_north_attack_down_xpm},
+    {p1_north_attack_up_xpm,      
+      p1_north_attack_mid_xpm,      
+      p1_north_attack_down_xpm},
 
-    {yasuo_south_attack_up_xpm,      
-      yasuo_south_attack_mid_xpm,      
-      yasuo_south_attack_down_xpm},
+    {p1_south_attack_up_xpm,      
+      p1_south_attack_mid_xpm,      
+      p1_south_attack_down_xpm},
 
-    {yasuo_east_attack_up_xpm,       
-      yasuo_east_attack_mid_xpm,       
-      yasuo_east_down_xpm},
+    {p1_east_attack_up_xpm,       
+      p1_east_attack_mid_xpm,       
+      p1_east_down_xpm},
 
-    {yasuo_west_attack_up_xpm,       
-      yasuo_west_attack_mid_xpm,       
-      yasuo_west_attack_down_xpm},
+    {p1_west_attack_up_xpm,       
+      p1_west_attack_mid_xpm,       
+      p1_west_attack_down_xpm},
 
-    {yasuo_north_east_attack_up_xpm, 
-      yasuo_north_east_attack_mid_xpm, 
-      yasuo_north_east_attack_down_xpm},
+    {p1_north_east_attack_up_xpm, 
+      p1_north_east_attack_mid_xpm, 
+      p1_north_east_attack_down_xpm},
 
-    {yasuo_north_west_attack_up_xpm, 
-      yasuo_north_west_attack_mid_xpm, 
-      yasuo_north_west_attack_down_xpm},
+    {p1_north_west_attack_up_xpm, 
+      p1_north_west_attack_mid_xpm, 
+      p1_north_west_attack_down_xpm},
 
-    {yasuo_south_east_attack_up_xpm, 
-      yasuo_south_east_attack_mid_xpm, 
-      yasuo_south_east_attack_down_xpm},
+    {p1_south_east_attack_up_xpm, 
+      p1_south_east_attack_mid_xpm, 
+      p1_south_east_attack_down_xpm},
 
-    {yasuo_south_west_attack_up_xpm, 
-      yasuo_south_west_attack_mid_xpm, 
-      yasuo_south_west_attack_down_xpm},
+    {p1_south_west_attack_up_xpm, 
+      p1_south_west_attack_mid_xpm, 
+      p1_south_west_attack_down_xpm},
+};
+
+static xpm_row_t *p2_idle_xpms[8] = {
+    p2_north_stop_xpm,
+    p2_south_stop_xpm,
+    p2_east_stop_xpm,
+    p2_west_stop_xpm,
+    p2_north_east_stop_xpm,
+    p2_north_west_stop_xpm,
+    p2_south_east_stop_xpm,
+    p2_south_west_stop_xpm,
+};
+
+static xpm_row_t *p2_attack_xpms[8][ATTACK_FRAMES] = {
+    {p2_north_attack_up_xpm,      
+      p2_north_attack_mid_xpm,      
+      p2_north_attack_down_xpm},
+
+    {p2_south_attack_up_xpm,      
+      p2_south_attack_mid_xpm,      
+      p2_south_attack_down_xpm},
+
+    {p2_east_attack_up_xpm,       
+      p2_east_attack_mid_xpm,       
+      p2_east_down_xpm},
+
+    {p2_west_attack_up_xpm,       
+      p2_west_attack_mid_xpm,       
+      p2_west_attack_down_xpm},
+
+    {p2_north_east_attack_up_xpm, 
+      p2_north_east_attack_mid_xpm, 
+      p2_north_east_attack_down_xpm},
+
+    {p2_north_west_attack_up_xpm, 
+      p2_north_west_attack_mid_xpm, 
+      p2_north_west_attack_down_xpm},
+
+    {p2_south_east_attack_up_xpm, 
+      p2_south_east_attack_mid_xpm, 
+      p2_south_east_attack_down_xpm},
+
+    {p2_south_west_attack_up_xpm, 
+      p2_south_west_attack_mid_xpm, 
+      p2_south_west_attack_down_xpm},
 };
 
 static void destroy_animations(AnimSprite **animations, int count) {
@@ -52,7 +97,7 @@ static void destroy_animations(AnimSprite **animations, int count) {
     free(animations);
 }
 
-AnimSprite **build_animations(int p) {
+AnimSprite **build_animations(int player) {
     AnimSprite **animations = malloc(NUM_ANIMS * sizeof(AnimSprite *));
     if (animations == NULL)
         return NULL;
@@ -60,12 +105,22 @@ AnimSprite **build_animations(int p) {
     int anims_created = 0;
 
     for (int i = 0; i < 8; i++) {
-      Sprite *s = NULL;
-      if (p == 1) { s = sprite_create(p1_idle_xpms[i]); }
-      if (s == NULL) {
-        destroy_animations(animations, anims_created);
-        return NULL;
-      }
+        Sprite *s = NULL;
+        switch (player) {
+            case 1:
+                s = sprite_create(p1_idle_xpms[i]);
+                break;
+            case 2:
+                s = sprite_create(p2_idle_xpms[i]);
+                break;
+            default:
+                break;
+        }
+
+        if (s == NULL) {
+            destroy_animations(animations, anims_created);
+            return NULL;
+        }
 
         Sprite **frames = malloc(sizeof(Sprite *));
         if (frames == NULL) {
@@ -95,9 +150,17 @@ AnimSprite **build_animations(int p) {
 
         int frames_ok = 0;
         for (int f = 0; f < ATTACK_FRAMES; f++) {
-            if (p == 1){
-              frames[f] = sprite_create(p1_attack_xpms[i][f]);
+            switch (player) {
+                case 1:
+                    frames[f] = sprite_create(p1_attack_xpms[i][f]);
+                    break;
+                case 2:
+                    frames[f] = sprite_create(p2_attack_xpms[i][f]);
+                    break;
+                default:
+                    break;
             }
+            
             if (frames[f] == NULL) {
                 for (int k = 0; k < frames_ok; k++)
                     sprite_destroy(frames[k]);
