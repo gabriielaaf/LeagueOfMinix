@@ -4,6 +4,7 @@
 #include <lcom/lcf.h>
 #include "animSprite.h"
 #include <stdint.h>
+#include "vbe.h"
 
 typedef enum {
     NORTH,

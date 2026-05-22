@@ -26,7 +26,9 @@
 #define VBE_SUPPORTED         0x4F
 #define VBE_SUCCESS           0x00
 
-
+/* Screen Size */
+#define MODE105_WIDTH 1024
+#define MODE105_HEIGHT 768
 
 
 #endif

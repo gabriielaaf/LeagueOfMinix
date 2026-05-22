@@ -53,3 +53,6 @@ int sprite_draw(Sprite *sprite, int x, int y) {
     return vg_draw_pixmap(sprite->map, sprite->width, sprite->height, x, y, TRANSPARENT_COLOR);
 }
 
+int getWidth(Sprite *sprite) { return sprite->width; }
+
+int getHeight(Sprite *sprite) { return sprite->height; }

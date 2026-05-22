@@ -109,3 +109,4 @@ int animSprite_has_looped(AnimSprite *animSprite) {
     return 1;
 }
 
+Sprite *getCurrentSprite(AnimSprite *animSprite) { return animSprite->sprites[animSprite->currentSprite]; }

@@ -22,4 +22,6 @@ void animSprite_reset(AnimSprite *animSprite);
 
 int animSprite_has_looped(AnimSprite *animSprite);
 
+Sprite *getCurrentSprite(AnimSprite *animSprite);
+
 #endif

@@ -65,9 +65,25 @@ void destroy_champion(Champion *champion) {
     free(champion);
 }
 
+static bool canMove(struct Champion *champion, int dx, int dy) {
+  int champion_width = getWidth(getCurrentSprite(champion->animations[champion->currentAnimation]));
+  int champion_height = getHeight(
+      getCurrentSprite(champion->animations[champion->currentAnimation]));
+  int new_x = champion->x + dx * SPEED;
+  int new_y = champion->y + dy * SPEED;
+
+  if ((new_x) < 0 || (new_x + champion_width) > MODE105_WIDTH ||
+      (new_y) < 0 || (new_y + champion_height) > MODE105_HEIGHT) {
+    return false;
+  }
+    return true;
+}
+
 void moveChampion(struct Champion *champion, int dx, int dy) {
-    champion->x += dx * SPEED;
-    champion->y += dy * SPEED;
+    if (canMove(champion, dx, dy)) {
+      champion->x += dx * SPEED;
+      champion->y += dy * SPEED;
+    }
 
     if (dx == 0 && dy == 0) return;
 

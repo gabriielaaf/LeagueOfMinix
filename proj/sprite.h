@@ -14,5 +14,8 @@ void sprite_destroy(Sprite *sprite);
 
 int sprite_draw(Sprite *sprite, int x, int y);
 
+int getWidth(Sprite *sprite);
+
+int getHeight(Sprite *sprite);
 
 #endif
