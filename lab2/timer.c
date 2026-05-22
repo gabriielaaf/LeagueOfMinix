@@ -8,7 +8,7 @@
 int hook_id_timer = 0;
 uint32_t counter = 0;
 
-void foo(){}
+void lazy_link(){}
 
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
 

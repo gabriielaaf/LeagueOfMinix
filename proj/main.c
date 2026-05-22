@@ -17,7 +17,7 @@
 
 #include "assets/gabiteste.h"
 
-void foo();
+void lazy_link();
 
 int main(int argc, char *argv[]) {
     lcf_set_language("EN-US");
@@ -101,7 +101,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
       return 1;
     }
 
-    foo(); // NÃO REMOVER, NECESSÁRIO POR CAUSA DO LAZY LINK E DO CONFLITO COM A LCF
+    lazy_link(); // NÃO REMOVER, NECESSÁRIO POR CAUSA DO LAZY LINK E DO CONFLITO COM A LCF
 
     uint8_t timer_bit_no;
     if (timer_subscribe_int(&timer_bit_no) != 0) {
