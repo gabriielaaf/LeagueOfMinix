@@ -5,6 +5,8 @@
 #define SPEED 1
 #define ATTACK_DMG 10
 #define ATTACK_SPEED 5
+#define COLLISION_PROPORTION 0.6
+#define ATTACK_RANGE_OFFSET 0.05
 
 struct Champion {
     int x;
@@ -65,6 +67,97 @@ void destroy_champion(Champion *champion) {
     free(champion);
 }
 
+Box champion_get_hit_box(Champion * champion){
+  return (Box){champion->x, 
+               champion->y,
+               getWidth(getCurrentSprite(
+                   champion->animations[champion->currentAnimation])),
+               getHeight(getCurrentSprite(
+                   champion->animations[champion->currentAnimation]))};
+}
+
+Box champion_get_collision_box(Champion *champion) {
+    Sprite *sprite = getCurrentSprite(champion->animations[champion->currentAnimation]);
+    int sprite_width = getWidth(sprite);
+    int sprite_height = getHeight(sprite);
+    int collision_width = (int)(sprite_width * COLLISION_PROPORTION);
+    int collision_height = (int)(sprite_height * COLLISION_PROPORTION);
+    Box box;
+    box.x = champion->x + (sprite_width - collision_width) / 2;
+    box.y = champion->y + (sprite_height - collision_height) / 2;
+    box.w = collision_width;
+    box.h = collision_height;
+    return box;
+}
+
+Box champion_get_attack_box(Champion *champion) {
+    Sprite *sprite = getCurrentSprite(champion->animations[champion->currentAnimation]);
+    int sprite_width = getWidth(sprite);
+    int sprite_height = getHeight(sprite);
+    int x  = champion->x;
+    int y  = champion->y;
+    int offset_x = ATTACK_RANGE_OFFSET * sprite_width;
+    int offset_y = ATTACK_RANGE_OFFSET * sprite_height;
+
+    switch (champion->dir) {
+        case NORTH: 
+            return (Box){ x, y - offset_y, 
+                sprite_width, 
+                (sprite_height / 2) + offset_y};
+        case SOUTH:
+            return (Box){x, y + (sprite_height / 2), 
+                sprite_width, 
+                (sprite_height / 2) + offset_y};
+        case EAST:
+            return (Box){x + (sprite_width / 2), y, 
+                (sprite_width / 2) + offset_x, 
+                sprite_height};
+        case WEST:
+            return (Box){x - offset_x, y, 
+                (sprite_width / 2) + offset_x, 
+                sprite_height};
+        case NORTHEAST:
+            return (Box){x + (sprite_width / 2), y - offset_y, 
+                (sprite_width / 2) + offset_x,
+                (sprite_height / 2) + offset_y};
+        case NORTHWEST:
+            return (Box){x - offset_x, y - offset_y,
+                (sprite_width / 2) + offset_x,
+                (sprite_height / 2) + offset_y};
+        case SOUTHEAST:
+            return (Box){x + (sprite_width / 2), y + (sprite_height / 2),
+                (sprite_width / 2) + offset_x,
+                (sprite_height / 2) + offset_y};
+        case SOUTHWEST:
+            return (Box){x - offset_x, y + (sprite_height / 2),
+                (sprite_width / 2) + offset_x,
+                (sprite_height / 2) + offset_y};
+        default:        
+            return (Box){ x, y, sprite_width, sprite_height};
+    }
+}
+
+static bool boxes_overlap(Box a, Box b) {
+    return a.x < b.x + b.w &&
+           a.x + a.w > b.x &&
+           a.y < b.y + b.h &&
+           a.y + a.h > b.y;
+}
+
+static bool collide(struct Champion *c1, struct Champion *c2, int dx, int dy) {
+    Box b1 = champion_get_collision_box(c1);
+    b1.x += dx * SPEED;
+    b1.y += dy * SPEED;
+    Box b2 = champion_get_collision_box(c2);
+    return boxes_overlap(b1, b2);
+}
+
+bool champion_attack_hits(Champion *attacker, Champion *target) {
+    Box attacker_box = champion_get_attack_box(attacker);
+    Box target_hit_box = champion_get_hit_box(target);
+    return boxes_overlap(attacker_box, target_hit_box);
+}
+
 static bool canMove(struct Champion *champion, int dx, int dy) {
   int champion_width = getWidth(getCurrentSprite(champion->animations[champion->currentAnimation]));
   int champion_height = getHeight(
@@ -79,25 +172,25 @@ static bool canMove(struct Champion *champion, int dx, int dy) {
     return true;
 }
 
-void moveChampion(struct Champion *champion, int dx, int dy) {
-    if (canMove(champion, dx, dy)) {
-      champion->x += dx * SPEED;
-      champion->y += dy * SPEED;
+void moveChampion(struct Champion *champion1, struct Champion *champion2,int dx, int dy) {
+    if (canMove(champion1, dx, dy) && !collide(champion1, champion2, dx, dy)) {
+      champion1->x += dx * SPEED;
+      champion1->y += dy * SPEED;
     }
 
     if (dx == 0 && dy == 0) return;
 
-    if      (dx == 0 && dy < 0) champion->dir = NORTH;
-    else if (dx == 0 && dy > 0) champion->dir = SOUTH;
-    else if (dx > 0 && dy == 0) champion->dir = EAST;
-    else if (dx < 0 && dy == 0) champion->dir = WEST;
-    else if (dx > 0 && dy < 0) champion->dir = NORTHEAST;
-    else if (dx < 0 && dy < 0) champion->dir = NORTHWEST;
-    else if (dx > 0 && dy > 0) champion->dir = SOUTHEAST;
-    else                        champion->dir = SOUTHWEST;
+    if      (dx == 0 && dy < 0) champion1->dir = NORTH;
+    else if (dx == 0 && dy > 0) champion1->dir = SOUTH;
+    else if (dx > 0 && dy == 0) champion1->dir = EAST;
+    else if (dx < 0 && dy == 0) champion1->dir = WEST;
+    else if (dx > 0 && dy < 0) champion1->dir = NORTHEAST;
+    else if (dx < 0 && dy < 0) champion1->dir = NORTHWEST;
+    else if (dx > 0 && dy > 0) champion1->dir = SOUTHEAST;
+    else                        champion1->dir = SOUTHWEST;
 
-    if (champion->state == CHAMPION_IDLE) {
-        champion->currentAnimation = (int)champion->dir;
+    if (champion1->state == CHAMPION_IDLE) {
+        champion1->currentAnimation = (int)champion1->dir;
     }
 }
 
@@ -112,8 +205,8 @@ void champion_attack(Champion *champion) {
     animSprite_reset(champion->animations[attack_anim]);
 }
 
-void attack_damaged_champion(struct Champion *champion_attacking, struct Champion *champion_attacked) {
-    champion_attacked->hp -= champion_attacking->attack_dmg; 
+void decrease_target_hp(struct Champion *attacker, struct Champion *target) {
+    target->hp -= attacker->attack_dmg;
 }
 
 void champion_set_animation(Champion *champion, int animation) {
@@ -129,7 +222,7 @@ void champion_set_animation(Champion *champion, int animation) {
 }
 
 void champion_update(Champion *champion) {
-    if (champion == NULL || champion->animations == NULL) {
+    if (champion == NULL || champion->animations == NULL || champion->hp == 0) {
         return;
     }
 
@@ -147,7 +240,7 @@ void champion_update(Champion *champion) {
 }
 
 int champion_draw(Champion *champion) {
-    if (champion == NULL || champion->animations == NULL) {
+    if (champion == NULL || champion->animations == NULL || champion->hp == 0) {
         return 1;
     }
 

@@ -197,13 +197,22 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     if (kstate.p2.down)
                     dy2 += 1;
 
-                    moveChampion(champion_p1, dx1, dy1);
-                    moveChampion(champion_p2, dx2, dy2);
+                    moveChampion(champion_p1, champion_p2, dx1, dy1);
+                    moveChampion(champion_p2, champion_p1, dx2, dy2);
 
-                    if (mstate.p1.attack)
+                    if (mstate.p1.attack) {
                         champion_attack(champion_p1);
-                    if (mstate.p2.attack)
+                        if (champion_attack_hits(champion_p1, champion_p2)) {
+                          decrease_target_hp(champion_p1, champion_p2);
+                        }
+                    }
+                        
+                    if (mstate.p2.attack) {
                         champion_attack(champion_p2);
+                        if (champion_attack_hits(champion_p2, champion_p1)) {
+                          decrease_target_hp(champion_p2, champion_p1);
+                        }
+                    }
 
                     mouse_clear_events(&mstate);
 
