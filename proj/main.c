@@ -14,6 +14,7 @@
 #include "animSprite.h"
 #include "champion.h"
 #include "buildSprites.h"
+#include "minions.h"
 
 #include "assets/gabiteste.h"
 
@@ -82,6 +83,9 @@ int(proj_main_loop)(int argc, char *argv[]) {
         vg_exit();
         return 1;
     }
+
+    MinionsManager mgr;
+    minions_manager_init(&mgr);
 
     Champion *champion_p1 = create_champion(350, 220, animations1, NUM_ANIMS);
     Champion *champion_p2 = create_champion(500, 500, animations2, NUM_ANIMS);
@@ -205,20 +209,25 @@ int(proj_main_loop)(int argc, char *argv[]) {
                         if (champion_attack_hits(champion_p1, champion_p2)) {
                           decrease_target_hp(champion_p1, champion_p2);
                         }
+                        minions_manager_take_hit(&mgr, champion_get_attack_box(champion_p1), 10);
                     }
-                        
+
                     if (mstate.p2.attack) {
                         champion_attack(champion_p2);
                         if (champion_attack_hits(champion_p2, champion_p1)) {
                           decrease_target_hp(champion_p2, champion_p1);
                         }
+                        minions_manager_take_hit(&mgr, champion_get_attack_box(champion_p2), 10);
                     }
 
                     mouse_clear_events(&mstate);
 
+                    update_minions_manager(&mgr);
+
                     champion_update(champion_p1);
                     champion_update(champion_p2);
                     video_clear_back_buffer(0);
+                    draw_minions_manager(&mgr);
                     champion_draw(champion_p1);
                     champion_draw(champion_p2);
                     video_swap_buffers();
