@@ -15,11 +15,6 @@
 #define SPAWN_INTERVAL  300  /* 15s at 20 UPS */
 
 typedef enum {
-    MINION_RED,
-    MINION_BLUE
-} MinionTeam;
-
-typedef enum {
     MINION_MOVING,
     MINION_ATTACKING,
     MINION_DEAD
@@ -28,7 +23,7 @@ typedef enum {
 typedef struct {
     int x, y;
     int hp;
-    MinionTeam team;
+    Team team;
     MinionState state;
     int attack_timer;
 } Minion;
@@ -49,6 +44,6 @@ typedef struct {
 void minions_manager_init(MinionsManager *mgr);
 void update_minions_manager(MinionsManager *mgr);
 int draw_minions_manager(MinionsManager *mgr);
-void minions_manager_take_hit(MinionsManager *mgr, Box attack_box, int damage);
+void minions_manager_take_hit(MinionsManager *mgr, Box attack_box, int damage, Team attacker_team);
 
 #endif

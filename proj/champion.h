@@ -18,6 +18,11 @@ typedef enum {
 } Direction;
 
 typedef enum {
+    TEAM_RED,
+    TEAM_BLUE
+} Team;
+
+typedef enum {
     CHAMPION_IDLE,
     CHAMPION_MOVING,
     CHAMPION_ATTACKING

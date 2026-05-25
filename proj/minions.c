@@ -25,7 +25,7 @@ static bool in_attack_range(Minion *a, Minion *b) {
     return (dx * dx + dy * dy) <= (ATTACK_RANGE * ATTACK_RANGE);
 }
 
-static void init_wave(MinionWave *wave, MinionTeam team) {
+static void init_wave(MinionWave *wave, Team team) {
     wave->active = true;
     for (int i = 0; i < MINION_COUNT; i++) {
         wave->minions[i].team = team;
@@ -33,7 +33,7 @@ static void init_wave(MinionWave *wave, MinionTeam team) {
         wave->minions[i].state = MINION_MOVING;
         wave->minions[i].attack_timer = 0;
         wave->minions[i].y = MINION_LANE_Y + i * (MINION_H + MINION_SPACING);
-        wave->minions[i].x = (team == MINION_RED) ? 0 : MODE105_WIDTH - MINION_W;
+        wave->minions[i].x = (team == TEAM_BLUE) ? 0 : MODE105_WIDTH - MINION_W;
     }
 }
 
@@ -45,9 +45,9 @@ static void spawn_wave_pair(MinionsManager *mgr) {
     }
     if (ri < 0 || bi < 0) return;
 
-    init_wave(&mgr->red_waves[ri], MINION_RED);
+    init_wave(&mgr->red_waves[ri], TEAM_RED);
     mgr->red_count++;
-    init_wave(&mgr->blue_waves[bi], MINION_BLUE);
+    init_wave(&mgr->blue_waves[bi], TEAM_BLUE);
     mgr->blue_count++;
 }
 
@@ -70,7 +70,7 @@ static bool wave_all_dead(MinionWave *wave) {
 
 /* Find nearest living enemy minion across all enemy waves */
 static Minion *find_nearest_enemy(Minion *m, MinionsManager *mgr) {
-    MinionWave *enemy_waves = (m->team == MINION_RED) ? mgr->blue_waves : mgr->red_waves;
+    MinionWave *enemy_waves = (m->team == TEAM_RED) ? mgr->blue_waves : mgr->red_waves;
     Minion *nearest = NULL;
     int min_dist = INT32_MAX;
 
@@ -119,7 +119,7 @@ void update_minions_manager(MinionsManager *mgr) {
     for (int w = 0; w < MAX_WAVES; w++) {
         if (!mgr->red_waves[w].active) continue;
         for (int i = 0; i < MINION_COUNT; i++)
-            update_minion(&mgr->red_waves[w].minions[i], mgr, +1);
+            update_minion(&mgr->red_waves[w].minions[i], mgr, -1);
         if (wave_all_dead(&mgr->red_waves[w])) {
             mgr->red_waves[w].active = false;
             mgr->red_count--;
@@ -129,7 +129,7 @@ void update_minions_manager(MinionsManager *mgr) {
     for (int w = 0; w < MAX_WAVES; w++) {
         if (!mgr->blue_waves[w].active) continue;
         for (int i = 0; i < MINION_COUNT; i++)
-            update_minion(&mgr->blue_waves[w].minions[i], mgr, -1);
+            update_minion(&mgr->blue_waves[w].minions[i], mgr, +1);
         if (wave_all_dead(&mgr->blue_waves[w])) {
             mgr->blue_waves[w].active = false;
             mgr->blue_count--;
@@ -161,23 +161,15 @@ int draw_minions_manager(MinionsManager *mgr) {
     return 0;
 }
 
-void minions_manager_take_hit(MinionsManager *mgr, Box attack_box, int damage) {
+void minions_manager_take_hit(MinionsManager *mgr, Box attack_box, int damage, Team attacker_team) {
+    MinionWave *enemy_waves = (attacker_team == TEAM_RED) ? mgr->blue_waves : mgr->red_waves;
     for (int w = 0; w < MAX_WAVES; w++) {
-        if (mgr->red_waves[w].active) {
-            for (int i = 0; i < MINION_COUNT; i++) {
-                Minion *m = &mgr->red_waves[w].minions[i];
-                if (m->state == MINION_DEAD) continue;
-                Box mb = {m->x, m->y, MINION_W, MINION_H};
-                if (boxes_overlap(attack_box, mb)) m->hp -= damage;
-            }
-        }
-        if (mgr->blue_waves[w].active) {
-            for (int i = 0; i < MINION_COUNT; i++) {
-                Minion *m = &mgr->blue_waves[w].minions[i];
-                if (m->state == MINION_DEAD) continue;
-                Box mb = {m->x, m->y, MINION_W, MINION_H};
-                if (boxes_overlap(attack_box, mb)) m->hp -= damage;
-            }
+        if (!enemy_waves[w].active) continue;
+        for (int i = 0; i < MINION_COUNT; i++) {
+            Minion *m = &enemy_waves[w].minions[i];
+            if (m->state == MINION_DEAD) continue;
+            Box mb = {m->x, m->y, MINION_W, MINION_H};
+            if (boxes_overlap(attack_box, mb)) m->hp -= damage;
         }
     }
 }
