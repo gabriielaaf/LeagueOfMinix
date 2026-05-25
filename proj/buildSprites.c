@@ -13,36 +13,36 @@ static xpm_row_t *p1_idle_xpms[8] = {
 };
 
 static xpm_row_t *p1_attack_xpms[8][ATTACK_FRAMES] = {
-    {p1_north_attack_up_xpm,      
-      p1_north_attack_mid_xpm,      
+    {p1_north_attack_up_xpm,
+      p1_north_attack_mid_xpm,
       p1_north_attack_down_xpm},
 
-    {p1_south_attack_up_xpm,      
-      p1_south_attack_mid_xpm,      
+    {p1_south_attack_up_xpm,
+      p1_south_attack_mid_xpm,
       p1_south_attack_down_xpm},
 
-    {p1_east_attack_up_xpm,       
-      p1_east_attack_mid_xpm,       
+    {p1_east_attack_up_xpm,
+      p1_east_attack_mid_xpm,
       p1_east_down_xpm},
 
-    {p1_west_attack_up_xpm,       
-      p1_west_attack_mid_xpm,       
+    {p1_west_attack_up_xpm,
+      p1_west_attack_mid_xpm,
       p1_west_attack_down_xpm},
 
-    {p1_north_east_attack_up_xpm, 
-      p1_north_east_attack_mid_xpm, 
+    {p1_north_east_attack_up_xpm,
+      p1_north_east_attack_mid_xpm,
       p1_north_east_attack_down_xpm},
 
-    {p1_north_west_attack_up_xpm, 
-      p1_north_west_attack_mid_xpm, 
+    {p1_north_west_attack_up_xpm,
+      p1_north_west_attack_mid_xpm,
       p1_north_west_attack_down_xpm},
 
-    {p1_south_east_attack_up_xpm, 
-      p1_south_east_attack_mid_xpm, 
+    {p1_south_east_attack_up_xpm,
+      p1_south_east_attack_mid_xpm,
       p1_south_east_attack_down_xpm},
 
-    {p1_south_west_attack_up_xpm, 
-      p1_south_west_attack_mid_xpm, 
+    {p1_south_west_attack_up_xpm,
+      p1_south_west_attack_mid_xpm,
       p1_south_west_attack_down_xpm},
 };
 
@@ -58,36 +58,36 @@ static xpm_row_t *p2_idle_xpms[8] = {
 };
 
 static xpm_row_t *p2_attack_xpms[8][ATTACK_FRAMES] = {
-    {p2_north_attack_up_xpm,      
-      p2_north_attack_mid_xpm,      
+    {p2_north_attack_up_xpm,
+      p2_north_attack_mid_xpm,
       p2_north_attack_down_xpm},
 
-    {p2_south_attack_up_xpm,      
-      p2_south_attack_mid_xpm,      
+    {p2_south_attack_up_xpm,
+      p2_south_attack_mid_xpm,
       p2_south_attack_down_xpm},
 
-    {p2_east_attack_up_xpm,       
-      p2_east_attack_mid_xpm,       
+    {p2_east_attack_up_xpm,
+      p2_east_attack_mid_xpm,
       p2_east_down_xpm},
 
-    {p2_west_attack_up_xpm,       
-      p2_west_attack_mid_xpm,       
+    {p2_west_attack_up_xpm,
+      p2_west_attack_mid_xpm,
       p2_west_attack_down_xpm},
 
-    {p2_north_east_attack_up_xpm, 
-      p2_north_east_attack_mid_xpm, 
+    {p2_north_east_attack_up_xpm,
+      p2_north_east_attack_mid_xpm,
       p2_north_east_attack_down_xpm},
 
-    {p2_north_west_attack_up_xpm, 
-      p2_north_west_attack_mid_xpm, 
+    {p2_north_west_attack_up_xpm,
+      p2_north_west_attack_mid_xpm,
       p2_north_west_attack_down_xpm},
 
-    {p2_south_east_attack_up_xpm, 
-      p2_south_east_attack_mid_xpm, 
+    {p2_south_east_attack_up_xpm,
+      p2_south_east_attack_mid_xpm,
       p2_south_east_attack_down_xpm},
 
-    {p2_south_west_attack_up_xpm, 
-      p2_south_west_attack_mid_xpm, 
+    {p2_south_west_attack_up_xpm,
+      p2_south_west_attack_mid_xpm,
       p2_south_west_attack_down_xpm},
 };
 

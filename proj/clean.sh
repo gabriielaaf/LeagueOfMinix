@@ -8,3 +8,5 @@ cd ../lab5
 make clean
 cd ../proj
 make clean
+rm -f trace.txt
+rm -f output.txt
