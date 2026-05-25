@@ -211,7 +211,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                         minions_manager_take_hit(&mgr, champion_get_attack_box(champion_p1), 10, TEAM_BLUE);
                     }
 
-                    if (mstate.p2.attack && champion_attack(champion_p2) {
+                    if (mstate.p2.attack && champion_attack(champion_p2)) {
                         if (champion_attack_hits(champion_p2, champion_p1))
                             decrease_target_hp(champion_p2, champion_p1);
                         minions_manager_take_hit(&mgr, champion_get_attack_box(champion_p2), 10, TEAM_RED);

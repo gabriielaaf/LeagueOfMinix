@@ -7,7 +7,7 @@
 #include "vbe.h"
 
 #define HP 100
-#define SPEED 1
+#define SPEED 3
 #define ATTACK_DMG 10
 #define ATTACK_SPEED 5
 #define COLLISION_PROPORTION 0.6
