@@ -83,8 +83,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
         return 1;
     }
 
-    Champion *champion_p1 = create_champion(350, 220, animations1, NUM_ANIMS);
-    Champion *champion_p2 = create_champion(500, 500, animations2, NUM_ANIMS);
+    Champion *champion_p1 = create_champion(BLUE_SPAWN_X, BLUE_SPAWN_Y, animations1, NUM_ANIMS, EAST);
+    Champion *champion_p2 = create_champion(RED_SPAWN_X, RED_SPAWN_Y, animations2, NUM_ANIMS, WEST);
     if (champion_p1 == NULL) {
       for (int i = 0; i < NUM_ANIMS; i++)
         destroyAnimSprite(animations1[i]);
@@ -200,18 +200,14 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     moveChampion(champion_p1, champion_p2, dx1, dy1);
                     moveChampion(champion_p2, champion_p1, dx2, dy2);
 
-                    if (mstate.p1.attack) {
-                        champion_attack(champion_p1);
-                        if (champion_attack_hits(champion_p1, champion_p2)) {
-                          decrease_target_hp(champion_p1, champion_p2);
-                        }
+                    if (mstate.p1.attack && champion_attack(champion_p1)) {
+                        if (champion_attack_hits(champion_p1, champion_p2))
+                            decrease_target_hp(champion_p1, champion_p2);
                     }
-                        
-                    if (mstate.p2.attack) {
-                        champion_attack(champion_p2);
-                        if (champion_attack_hits(champion_p2, champion_p1)) {
-                          decrease_target_hp(champion_p2, champion_p1);
-                        }
+
+                    if (mstate.p2.attack && champion_attack(champion_p2)) {
+                        if (champion_attack_hits(champion_p2, champion_p1))
+                            decrease_target_hp(champion_p2, champion_p1);
                     }
 
                     mouse_clear_events(&mstate);

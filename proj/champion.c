@@ -1,14 +1,10 @@
 #include "champion.h"
 #include <stdlib.h>
 
-#define HP 100
-#define SPEED 1
-#define ATTACK_DMG 10
-#define ATTACK_SPEED 5
-#define COLLISION_PROPORTION 0.6
-#define ATTACK_RANGE_OFFSET 0.05
-
 struct Champion {
+
+    int respawn_x;
+    int respawn_y;
     int x;
     int y;
 
@@ -16,6 +12,8 @@ struct Champion {
     int speed;
     int attack_dmg;
     int attack_speed;
+
+    int respawn_timer;
 
     Direction dir;
     ChampionState state;
@@ -25,7 +23,7 @@ struct Champion {
     int numAnimations;
 };
 
-Champion *create_champion(int x, int y, AnimSprite **animations,int numAnimations) {
+Champion *create_champion(int spawn_x, int spawn_y, AnimSprite **animations, int numAnimations, Direction dir) {
     if (animations == NULL || numAnimations <= 0) {
         return NULL;
     }
@@ -36,14 +34,23 @@ Champion *create_champion(int x, int y, AnimSprite **animations,int numAnimation
         return NULL;
     }
 
-    champion->x = x;
-    champion->y = y;
+    champion->respawn_x = spawn_x;
+    champion->respawn_y = spawn_y;
+    if (spawn_x == RED_SPAWN_X) {
+        champion->x = RED_SPAWN_X - getWidth(getCurrentSprite(animations[0]));
+    }
+    else {
+        champion->x = spawn_x;
+    }
+    champion->y = spawn_y;
     champion->hp = HP;
     champion->attack_dmg = ATTACK_DMG;
     champion->speed = SPEED;
     champion->attack_speed = ATTACK_SPEED;
 
-    champion->dir = SOUTH;
+    champion->respawn_timer = ALIVE;
+
+    champion->dir = dir;
     champion->state = CHAMPION_IDLE;
 
     champion->currentAnimation = 0;
@@ -194,19 +201,23 @@ void moveChampion(struct Champion *champion1, struct Champion *champion2,int dx,
     }
 }
 
-void champion_attack(Champion *champion) {
+bool champion_attack(Champion *champion) {
     if (champion == NULL || champion->state == CHAMPION_ATTACKING)
-        return;
+        return false;
 
     champion->state = CHAMPION_ATTACKING;
     int attack_anim = (int)champion->dir + 8;
     champion->currentAnimation = attack_anim;
-    
+
     animSprite_reset(champion->animations[attack_anim]);
+    return true;
 }
 
 void decrease_target_hp(struct Champion *attacker, struct Champion *target) {
     target->hp -= attacker->attack_dmg;
+    if (target->hp <= 0) {
+      target->respawn_timer = RESPAWN_INTERRUPTS;
+    }
 }
 
 void champion_set_animation(Champion *champion, int animation) {
@@ -222,8 +233,18 @@ void champion_set_animation(Champion *champion, int animation) {
 }
 
 void champion_update(Champion *champion) {
-    if (champion == NULL || champion->animations == NULL || champion->hp == 0) {
+    if (champion == NULL || champion->animations == NULL) {
         return;
+    }
+
+    if (champion->hp <= 0) {
+        champion->respawn_timer--;
+        if (champion->respawn_timer == 0) {
+            champion->respawn_timer = ALIVE;
+            champion->hp = HP;
+            champion->x = champion->respawn_x;
+            champion->y = champion->respawn_y;
+        }
     }
 
     AnimSprite *anim = champion->animations[champion->currentAnimation];
@@ -234,13 +255,13 @@ void champion_update(Champion *champion) {
         champion->currentAnimation = (int)champion->dir;
     }
     if (champion->state == CHAMPION_MOVING && animSprite_has_looped(anim)) {
-      champion->state = CHAMPION_IDLE;
-      champion->currentAnimation = (int)champion->dir;
+        champion->state = CHAMPION_IDLE;
+        champion->currentAnimation = (int)champion->dir;
     }
 }
 
 int champion_draw(Champion *champion) {
-    if (champion == NULL || champion->animations == NULL || champion->hp == 0) {
+    if (champion == NULL || champion->animations == NULL || champion->hp <= 0) {
         return 1;
     }
 
