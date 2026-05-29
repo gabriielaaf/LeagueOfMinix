@@ -34,12 +34,14 @@ Champion *create_champion(int spawn_x, int spawn_y, AnimSprite **animations, int
         return NULL;
     }
 
-    champion->respawn_x = spawn_x;
     champion->respawn_y = spawn_y;
     if (spawn_x == RED_SPAWN_X) {
         champion->x = RED_SPAWN_X - getWidth(getCurrentSprite(animations[0]));
+        champion->respawn_x =
+            spawn_x - getWidth(getCurrentSprite(animations[0]));
     }
     else {
+        champion->respawn_x = spawn_x;
         champion->x = spawn_x;
     }
     champion->y = spawn_y;
