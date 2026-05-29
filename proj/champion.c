@@ -11,7 +11,6 @@ struct Champion {
     int hp;
     int speed;
     int attack_dmg;
-    int attack_speed;
 
     int respawn_timer;
 
@@ -220,6 +219,18 @@ void decrease_target_hp(struct Champion *attacker, struct Champion *target) {
     if (target->hp <= 0) {
       target->respawn_timer = RESPAWN_INTERRUPTS;
     }
+}
+
+void upgrade_hp(struct Champion *champion) { 
+    champion->hp += 10; 
+}
+
+void upgrade_damage(struct Champion *champion) { 
+    champion->attack_dmg += 5; 
+}
+
+void upgrade_speed(struct Champion *champion) { 
+    champion->speed += 1; 
 }
 
 void champion_set_animation(Champion *champion, int animation) {
