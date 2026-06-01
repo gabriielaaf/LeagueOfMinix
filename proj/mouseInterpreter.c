@@ -1,5 +1,6 @@
 #include "mouseInterpreter.h"
 #include "breakcodes.h"
+#include "vbe.h"
 
 #include <stdlib.h>
 
@@ -29,6 +30,11 @@ void mouse_interpret_packet(MouseState *state, struct packet *packet) {
      */
     state->x += packet->delta_x;
     state->y -= packet->delta_y;
+
+    if (state->x < 0) state->x = 0;
+    if (state->x >= MODE105_WIDTH)  state->x = MODE105_WIDTH - 1;
+    if (state->y < 0) state->y = 0;
+    if (state->y >= MODE105_HEIGHT) state->y = MODE105_HEIGHT - 1;
 
     /*
      * Left click -> Player 1 attack

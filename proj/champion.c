@@ -47,7 +47,6 @@ Champion *create_champion(int spawn_x, int spawn_y, AnimSprite **animations, int
     champion->hp = HP;
     champion->attack_dmg = ATTACK_DMG;
     champion->speed = SPEED;
-    champion->attack_speed = ATTACK_SPEED;
 
     champion->respawn_timer = ALIVE;
 
@@ -198,7 +197,10 @@ void moveChampion(struct Champion *champion1, struct Champion *champion2,int dx,
     else                        champion1->dir = SOUTHWEST;
 
     if (champion1->state == CHAMPION_IDLE) {
-        champion1->currentAnimation = (int)champion1->dir;
+        int move_anim = (int)champion1->dir + 16;
+        champion1->currentAnimation = move_anim;
+        champion1->state = CHAMPION_MOVING;
+        animSprite_reset(champion1->animations[move_anim]);
     }
 }
 

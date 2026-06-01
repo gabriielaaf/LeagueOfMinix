@@ -1,9 +1,11 @@
 #ifndef BUILDSPRITES_H
 #define BUILDSPRITES_H
 
-#define NUM_ANIMS 16
+#define NUM_ANIMS 24
 #define ATTACK_FRAMES 3
-#define ATTACK_TIME 5
+#define ATTACK_TIME 4
+#define MOVE_FRAMES 2
+#define MOVE_TIME 3
 
 #include "animSprite.h"
 
