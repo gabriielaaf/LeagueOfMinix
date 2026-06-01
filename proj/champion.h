@@ -9,8 +9,7 @@
 #define HP 100
 #define SPEED 3
 #define ATTACK_DMG 10
-#define ATTACK_SPEED 5
-#define COLLISION_PROPORTION 0.6
+#define COLLISION_PROPORTION 0.8
 #define ATTACK_RANGE_OFFSET 0.05
 #define RESPAWN_INTERRUPTS 180
 #define ALIVE -1
@@ -58,6 +57,12 @@ void moveChampion(Champion *champion1, Champion *champion2, int dx, int dy);
 
 void decrease_target_hp(struct Champion *attacker,
                              struct Champion *target);
+
+void upgrade_hp(struct Champion *champion);
+
+void upgrade_damage(struct Champion *champion);
+
+void upgrade_speed(struct Champion *champion);
 
 void champion_set_animation(Champion *champion, int animation);
 
