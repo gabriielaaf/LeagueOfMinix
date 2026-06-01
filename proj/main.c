@@ -149,7 +149,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
     keyboard_state_init(&kstate);
 
     MouseState mstate;
-    mouse_state_init(&mstate, 0, 0);
+    mouse_state_init(&mstate, MODE105_WIDTH / 2, MODE105_HEIGHT / 2);
+
+    TimerState tstate;
+    timer_state_init(&tstate, 3);
 
     int r, ipc_status;
     message msg;
@@ -249,6 +252,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     timer_unsubscribe_int();
     kbd_unsubscribe_int();
     mouse_unsubscribe_int();
+    sprite_destroy(cursor);
     destroy_champion(champion_p1);
     destroy_champion(champion_p2);
 
