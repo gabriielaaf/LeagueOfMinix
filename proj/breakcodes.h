@@ -11,11 +11,6 @@
 #define D_MAKE 0x20
 #define D_BREAK 0xA0
 
-/* ATTACK */
-
-#define Q_MAKE 0x10
-#define Q_BREAK 0x90
-
 
 /* Player 2: */
 
@@ -31,9 +26,5 @@
 #define DOWN_MAKE 0x50
 #define DOWN_BREAK 0xD0
 
-/* ATTACK */
-
-#define SPACE_MAKE 0x39
-#define SPACE_BREAK 0xB9
 
 #define ESC_BREAK 0x81

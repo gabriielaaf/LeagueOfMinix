@@ -17,6 +17,7 @@
 #include "minions.h"
 
 #include "assets/gabiteste.h"
+#include "assets/cursor/cursor.xpm"
 
 void lazy_link();
 
@@ -106,6 +107,14 @@ int(proj_main_loop)(int argc, char *argv[]) {
       return 1;
     }
 
+    Sprite *cursor = sprite_create(cursor_xpm);
+    if (cursor == NULL) {
+        destroy_champion(champion_p1);
+        destroy_champion(champion_p2);
+        vg_exit();
+        return 1;
+    }
+
     lazy_link(); // NÃO REMOVER, NECESSÁRIO POR CAUSA DO LAZY LINK E DO CONFLITO COM A LCF
 
     uint8_t timer_bit_no;
@@ -140,7 +149,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     keyboard_state_init(&kstate);
 
     MouseState mstate;
-    mouse_state_init(&mstate, 0, 0);
+    mouse_state_init(&mstate, MODE105_WIDTH / 2, MODE105_HEIGHT / 2);
 
     int r, ipc_status;
     message msg;
@@ -227,6 +236,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     draw_minions_manager(&mgr);
                     champion_draw(champion_p1);
                     champion_draw(champion_p2);
+                    sprite_draw(cursor, mstate.x, mstate.y);
                     video_swap_buffers();
                 }
             }
@@ -240,6 +250,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     timer_unsubscribe_int();
     kbd_unsubscribe_int();
     mouse_unsubscribe_int();
+    sprite_destroy(cursor);
     destroy_champion(champion_p1);
     destroy_champion(champion_p2);
     free(animations1);
