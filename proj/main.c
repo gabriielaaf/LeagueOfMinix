@@ -9,6 +9,7 @@
 #include "mouse.h"
 #include "keyboardInterpreter.h"
 #include "mouseInterpreter.h"
+#include "timerInterpreter.h"
 
 #include "sprite.h"
 #include "animSprite.h"
@@ -114,7 +115,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
         vg_exit();
         return 1;
     }
-    timer_set_frequency(0, 60);
 
     uint8_t kbd_bit_no;
     if (kbd_subscribe_int(&kbd_bit_no) != 0) {
@@ -142,10 +142,11 @@ int(proj_main_loop)(int argc, char *argv[]) {
     MouseState mstate;
     mouse_state_init(&mstate, 0, 0);
 
+    TimerState tstate;
+    timer_state_init(&tstate, 3);
+
     int r, ipc_status;
     message msg;
-
-    int counter = 0;
     while (!kstate.exit) {
       if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
         printf("driver_receive failed: %d\n", r);
@@ -180,10 +181,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
             }
 
             if (msg.m_notify.interrupts & timer_irq_set) {
-            timer_int_handler();
-            counter++;
-                if (counter == 3) {
-                    counter = 0;
+                timer_interpret_interrupt(&tstate);
+                if (tstate.should_update) {
                     int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
                     if (kstate.p1.left)
                     dx1 -= 1;
@@ -223,8 +222,11 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
                     champion_update(champion_p1);
                     champion_update(champion_p2);
+
                     video_clear_back_buffer(0);
+                    
                     draw_minions_manager(&mgr);
+
                     champion_draw(champion_p1);
                     champion_draw(champion_p2);
                     video_swap_buffers();
@@ -240,8 +242,10 @@ int(proj_main_loop)(int argc, char *argv[]) {
     timer_unsubscribe_int();
     kbd_unsubscribe_int();
     mouse_unsubscribe_int();
+
     destroy_champion(champion_p1);
     destroy_champion(champion_p2);
+
     free(animations1);
     free(animations2);
 

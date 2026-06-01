@@ -47,7 +47,6 @@ Champion *create_champion(int spawn_x, int spawn_y, AnimSprite **animations, int
     champion->hp = HP;
     champion->attack_dmg = ATTACK_DMG;
     champion->speed = SPEED;
-    champion->attack_speed = ATTACK_SPEED;
 
     champion->respawn_timer = ALIVE;
 
