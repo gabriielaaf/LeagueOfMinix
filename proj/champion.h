@@ -56,7 +56,7 @@ void destroy_champion(Champion *champion);
 void moveChampion(Champion *champion1, Champion *champion2, int dx, int dy);
 
 void decrease_target_hp(struct Champion *attacker,
-                             struct Champion *target);
+                                struct Champion *target);
 
 void upgrade_hp(struct Champion *champion);
 
