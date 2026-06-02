@@ -6,7 +6,7 @@ typedef struct {
      * 
      */
 
-        /**
+    /**
      * Which button is currently selected/hovered.
      * Useful for keyboard navigation or mouse hover.
      * MenuButton selected_button;
