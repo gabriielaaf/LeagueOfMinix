@@ -17,7 +17,6 @@ typedef struct {
      * True when the player chooses Play.
      * The main State wrapper will then change to PLAYING.
      */
-    
     bool play;
 
     bool quit;
