@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include "vbe.h"
 #include "champion.h"
+#include "position.h"
 
 #define MINION_W 30
 #define MINION_H 40
@@ -21,7 +22,7 @@ typedef enum {
 } MinionState;
 
 typedef struct {
-    int x, y;
+    Position pos;
     int hp;
     Team team;
     MinionState state;

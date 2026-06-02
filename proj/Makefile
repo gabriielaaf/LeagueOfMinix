@@ -1,6 +1,6 @@
 PROG=proj
 
-SRCS = main.c sprite.c champion.c animSprite.c keyboardInterpreter.c mouseInterpreter.c timerInterpreter.c buildSprites.c minions.c
+SRCS = main.c sprite.c champion.c animSprite.c keyboardInterpreter.c mouseInterpreter.c timerInterpreter.c buildSprites.c minions.c position.c
 
 CFLAGS += -pedantic
 CFLAGS += -I../lab2

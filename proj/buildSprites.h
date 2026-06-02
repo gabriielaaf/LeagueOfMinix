@@ -3,9 +3,9 @@
 
 #define NUM_ANIMS 24
 #define ATTACK_FRAMES 3
-#define ATTACK_TIME 4
+#define ATTACK_TIME 12
 #define MOVE_FRAMES 2
-#define MOVE_TIME 3
+#define MOVE_TIME 9
 
 #include "animSprite.h"
 

@@ -5,8 +5,7 @@ struct Champion {
 
     int respawn_x;
     int respawn_y;
-    int x;
-    int y;
+    Position pos;
 
     int hp;
     int speed;
@@ -35,15 +34,13 @@ Champion *create_champion(int spawn_x, int spawn_y, AnimSprite **animations, int
 
     champion->respawn_y = spawn_y;
     if (spawn_x == RED_SPAWN_X) {
-        champion->x = RED_SPAWN_X - getWidth(getCurrentSprite(animations[0]));
-        champion->respawn_x =
-            spawn_x - getWidth(getCurrentSprite(animations[0]));
+        champion->respawn_x = spawn_x - getWidth(getCurrentSprite(animations[0]));
     }
     else {
         champion->respawn_x = spawn_x;
-        champion->x = spawn_x;
     }
-    champion->y = spawn_y;
+    champion->pos.x = (float)champion->respawn_x;
+    champion->pos.y = (float)spawn_y;
     champion->hp = HP;
     champion->attack_dmg = ATTACK_DMG;
     champion->speed = SPEED;
@@ -75,8 +72,8 @@ void destroy_champion(Champion *champion) {
 }
 
 Box champion_get_hit_box(Champion * champion){
-  return (Box){champion->x, 
-               champion->y,
+  return (Box){position_px(champion->pos),
+               position_py(champion->pos),
                getWidth(getCurrentSprite(
                    champion->animations[champion->currentAnimation])),
                getHeight(getCurrentSprite(
@@ -90,8 +87,8 @@ Box champion_get_collision_box(Champion *champion) {
     int collision_width = (int)(sprite_width * COLLISION_PROPORTION);
     int collision_height = (int)(sprite_height * COLLISION_PROPORTION);
     Box box;
-    box.x = champion->x + (sprite_width - collision_width) / 2;
-    box.y = champion->y + (sprite_height - collision_height) / 2;
+    box.x = position_px(champion->pos) + (sprite_width - collision_width) / 2;
+    box.y = position_py(champion->pos) + (sprite_height - collision_height) / 2;
     box.w = collision_width;
     box.h = collision_height;
     return box;
@@ -101,8 +98,8 @@ Box champion_get_attack_box(Champion *champion) {
     Sprite *sprite = getCurrentSprite(champion->animations[champion->currentAnimation]);
     int sprite_width = getWidth(sprite);
     int sprite_height = getHeight(sprite);
-    int x  = champion->x;
-    int y  = champion->y;
+    int x = position_px(champion->pos);
+    int y = position_py(champion->pos);
     int offset_x = ATTACK_RANGE_OFFSET * sprite_width;
     int offset_y = ATTACK_RANGE_OFFSET * sprite_height;
 
@@ -153,8 +150,10 @@ static bool boxes_overlap(Box a, Box b) {
 
 static bool collide(struct Champion *c1, struct Champion *c2, int dx, int dy) {
     Box b1 = champion_get_collision_box(c1);
-    b1.x += dx * SPEED;
-    b1.y += dy * SPEED;
+    Position next = c1->pos;
+    position_move(&next, dx, dy, c1->speed);
+    b1.x += position_px(next) - position_px(c1->pos);
+    b1.y += position_py(next) - position_py(c1->pos);
     Box b2 = champion_get_collision_box(c2);
     return boxes_overlap(b1, b2);
 }
@@ -166,23 +165,19 @@ bool champion_attack_hits(Champion *attacker, Champion *target) {
 }
 
 static bool canMove(struct Champion *champion, int dx, int dy) {
-  int champion_width = getWidth(getCurrentSprite(champion->animations[champion->currentAnimation]));
-  int champion_height = getHeight(
-      getCurrentSprite(champion->animations[champion->currentAnimation]));
-  int new_x = champion->x + dx * SPEED;
-  int new_y = champion->y + dy * SPEED;
-
-  if ((new_x) < 0 || (new_x + champion_width) > MODE105_WIDTH ||
-      (new_y) < 0 || (new_y + champion_height) > MODE105_HEIGHT) {
-    return false;
-  }
-    return true;
+    int w = getWidth(getCurrentSprite(champion->animations[champion->currentAnimation]));
+    int h = getHeight(getCurrentSprite(champion->animations[champion->currentAnimation]));
+    Position next = champion->pos;
+    position_move(&next, dx, dy, champion->speed);
+    int new_x = position_px(next);
+    int new_y = position_py(next);
+    return new_x >= 0 && (new_x + w) <= MODE105_WIDTH &&
+           new_y >= 0 && (new_y + h) <= MODE105_HEIGHT;
 }
 
 void moveChampion(struct Champion *champion1, struct Champion *champion2,int dx, int dy) {
     if (canMove(champion1, dx, dy) && !collide(champion1, champion2, dx, dy)) {
-      champion1->x += dx * SPEED;
-      champion1->y += dy * SPEED;
+        position_move(&champion1->pos, dx, dy, champion1->speed);
     }
 
     if (dx == 0 && dy == 0) return;
@@ -257,8 +252,8 @@ void champion_update(Champion *champion) {
         if (champion->respawn_timer == 0) {
             champion->respawn_timer = ALIVE;
             champion->hp = HP;
-            champion->x = champion->respawn_x;
-            champion->y = champion->respawn_y;
+            champion->pos.x = (float)champion->respawn_x;
+            champion->pos.y = (float)champion->respawn_y;
         }
     }
 
@@ -282,8 +277,8 @@ int champion_draw(Champion *champion) {
 
     setAnimSpritePosition(
         champion->animations[champion->currentAnimation],
-        champion->x,
-        champion->y
+        position_px(champion->pos),
+        position_py(champion->pos)
     );
 
     return drawAnimSprite(champion->animations[champion->currentAnimation]);

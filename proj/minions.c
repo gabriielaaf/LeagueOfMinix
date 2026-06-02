@@ -7,7 +7,7 @@
 #include <stdint.h>
 
 #define MINION_HP 100
-#define MINION_SPEED 2
+#define MINION_SPEED 1
 #define MINION_ATTACK_DMG 10
 #define MINION_ATTACK_SPEED 20   /* ticks between attacks (~1s at 20 UPS) */
 #define ATTACK_RANGE 55   /* center-to-center px */
@@ -32,8 +32,8 @@ static bool boxes_overlap(Box a, Box b) {
 }
 
 static bool in_attack_range(Minion *a, Minion *b) {
-    int dx = (a->x + MINION_W / 2) - (b->x + MINION_W / 2);
-    int dy = (a->y + MINION_H / 2) - (b->y + MINION_H / 2);
+    int dx = (position_px(a->pos) + MINION_W / 2) - (position_px(b->pos) + MINION_W / 2);
+    int dy = (position_py(a->pos) + MINION_H / 2) - (position_py(b->pos) + MINION_H / 2);
     return (dx * dx + dy * dy) <= (ATTACK_RANGE * ATTACK_RANGE);
 }
 
@@ -44,8 +44,8 @@ static void init_wave(MinionWave *wave, Team team) {
         wave->minions[i].hp = MINION_HP;
         wave->minions[i].state = MINION_MOVING;
         wave->minions[i].attack_timer = 0;
-        wave->minions[i].y = MINION_LANE_Y + i * (MINION_H + MINION_SPACING);
-        wave->minions[i].x = (team == TEAM_BLUE) ? 0 : MODE105_WIDTH - MINION_W;
+        wave->minions[i].pos.y = (float)(MINION_LANE_Y + i * (MINION_H + MINION_SPACING));
+        wave->minions[i].pos.x = (float)((team == TEAM_BLUE) ? 0 : MODE105_WIDTH - MINION_W);
     }
 }
 
@@ -91,8 +91,8 @@ static Minion *find_nearest_enemy(Minion *m, MinionsManager *mgr) {
         for (int j = 0; j < MINION_COUNT; j++) {
             Minion *e = &enemy_waves[w].minions[j];
             if (e->state == MINION_DEAD) continue;
-            int dx = (m->x + MINION_W / 2) - (e->x + MINION_W / 2);
-            int dy = (m->y + MINION_H / 2) - (e->y + MINION_H / 2);
+            int dx = (position_px(m->pos) + MINION_W / 2) - (position_px(e->pos) + MINION_W / 2);
+            int dy = (position_py(m->pos) + MINION_H / 2) - (position_py(e->pos) + MINION_H / 2);
             int dist = dx * dx + dy * dy;
             if (dist < min_dist) { min_dist = dist; nearest = e; }
         }
@@ -118,7 +118,7 @@ static void update_minion(Minion *m, MinionsManager *mgr, int dir) {
 
     m->state = MINION_MOVING;
     m->attack_timer = 0;
-    m->x += dir * MINION_SPEED;
+    position_move(&m->pos, dir, 0, MINION_SPEED);
 }
 
 void update_minions_manager(MinionsManager *mgr) {
@@ -156,7 +156,7 @@ static int draw_minion(Minion *m) {
     Sprite *spr = is_blue
         ? (show_atk ? p1_atk_spr : p1_stop_spr)
         : (show_atk ? p2_atk_spr : p2_stop_spr);
-    return sprite_draw(spr, m->x, m->y);
+    return sprite_draw(spr, position_px(m->pos), position_py(m->pos));
 }
 
 int draw_minions_manager(MinionsManager *mgr) {
@@ -187,7 +187,7 @@ void minions_manager_take_hit(MinionsManager *mgr, Box attack_box, int damage, T
         for (int i = 0; i < MINION_COUNT; i++) {
             Minion *m = &enemy_waves[w].minions[i];
             if (m->state == MINION_DEAD) continue;
-            Box mb = {m->x, m->y, MINION_W, MINION_H};
+            Box mb = {position_px(m->pos), position_py(m->pos), MINION_W, MINION_H};
             if (boxes_overlap(attack_box, mb)) m->hp -= damage;
         }
     }

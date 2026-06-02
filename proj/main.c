@@ -152,7 +152,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     mouse_state_init(&mstate, MODE105_WIDTH / 2, MODE105_HEIGHT / 2);
 
     TimerState tstate;
-    timer_state_init(&tstate, 3);
+    timer_state_init(&tstate, 1);
 
     int r, ipc_status;
     message msg;

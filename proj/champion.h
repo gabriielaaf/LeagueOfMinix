@@ -5,9 +5,10 @@
 #include "animSprite.h"
 #include <stdint.h>
 #include "vbe.h"
+#include "position.h"
 
 #define HP 100
-#define SPEED 3
+#define SPEED 1
 #define ATTACK_DMG 10
 #define COLLISION_PROPORTION 0.8
 #define ATTACK_RANGE_OFFSET 0.05
