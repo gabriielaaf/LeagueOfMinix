@@ -1,7 +1,7 @@
 #ifndef VIEWER_H
 #define VIEWER_H
 
-#include "../model/game_state.h"
+#include "../model/State.h"
 
 typedef struct {
     /*
@@ -12,8 +12,8 @@ typedef struct {
     int dummy;
 } Viewer;
 
-void viewer_init(Viewer *viewer);
-void viewer_draw(Viewer *viewer, GameState *game_state);
-void viewer_destroy(Viewer *viewer);
+void viewerInit(Viewer *viewer);
+void viewerDraw(Viewer *viewer, State *gameState);
+void viewerDestroy(Viewer *viewer);
 
 #endif

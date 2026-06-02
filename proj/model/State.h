@@ -17,9 +17,9 @@ typedef struct {
 
 void stateInit(State *model);
 
-void gameStart(State *game_state);
-void gamePause(State *game_state);
-void gameResume(State *game_state);
-void gameOver(State *game_state, int winner);
-void gameQuit(State *game_state);
+void gameStart(State *gameState);
+void gamePause(State *gameState);
+void gameResume(State *gameState);
+void gameOver(State *gameState, int winner);
+void gameQuit(State *gameState);
 
