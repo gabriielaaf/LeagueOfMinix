@@ -10,33 +10,33 @@ void stateInit(State *state) {
     state->winner = 0;
 }
 
-void statestart(State *state) {
+void gameStart(State *state) {
     if (state == NULL) return;
 
     state->state = STATE_PLAYING;
     state->winner = 0;
 }
 
-void statepause(State *state) {
+void gamePause(State *state) {
     if (state == NULL) return;
 
     state->state = STATE_PAUSED;
 }
 
-void stateresume(State *state) {
+void gameResume(State *state) {
     if (state == NULL) return;
 
     state->state = STATE_PLAYING;
 }
 
-void stateover(State *state, int winner) {
+void gameOver(State *state, int winner) {
     if (state == NULL) return;
 
-    state->state = STATE_OVER;
+    state->state = STATE_GAME_OVER;
     state->winner = winner;
 }
 
-void statequit(State *state) {
+void gameQuit(State *state) {
     if (state == NULL) return;
 
     state->running = false;
