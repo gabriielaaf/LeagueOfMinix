@@ -1,5 +1,5 @@
-#ifndef P1_EAST_XPMS_H
-#define P1_EAST_XPMS_H
+#ifndef MINIONS_P2_XPMS_H
+#define MINIONS_P2_XPMS_H
 
 #include <lcom/lcf.h>
 
@@ -126,3 +126,5 @@ static xpm_row_t minion_p2_attack[] = {
     ".................RRRMMMMMMMB....................................",
     "....................BRRBBRR.....................................",
     "................................................................"};
+
+#endif

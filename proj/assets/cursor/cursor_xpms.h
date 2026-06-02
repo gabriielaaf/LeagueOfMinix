@@ -1,9 +1,9 @@
-#ifndef P1_EAST_XPMS_H
-#define P1_EAST_XPMS_H
+#ifndef CURSOR_XPM_H
+#define CURSOR_XPM_H
 
 #include <lcom/lcf.h>
 
-static xpm_row_t cursor[] = {
+static xpm_row_t cursor_xpm[] = {
     "48 51 13",
     ". 255",
     "O 0",
@@ -70,3 +70,5 @@ static xpm_row_t cursor[] = {
     ".......................................OOYYYOO..",
     "........................................OOOOO...",
     "................................................"};
+
+#endif

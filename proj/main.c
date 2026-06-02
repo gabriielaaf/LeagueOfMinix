@@ -18,7 +18,7 @@
 #include "minions.h"
 
 #include "assets/gabiteste.h"
-#include "assets/cursor/cursor.xpm"
+#include "assets/cursor/cursor_xpms.h"
 
 void lazy_link();
 

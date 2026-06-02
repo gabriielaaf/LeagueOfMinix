@@ -1,5 +1,8 @@
 #include "minions.h"
 #include "video.h"
+#include "sprite.h"
+#include "assets/minion_p1/minion_p1_xpms.h"
+#include "assets/minion_p2/minion_p2_xpms.h"
 #include <stdlib.h>
 #include <stdint.h>
 
@@ -9,8 +12,17 @@
 #define MINION_ATTACK_SPEED 20   /* ticks between attacks (~1s at 20 UPS) */
 #define ATTACK_RANGE 55   /* center-to-center px */
 
-#define RED_COLOR 4
-#define BLUE_COLOR 9
+static Sprite *p1_stop_spr = NULL;
+static Sprite *p1_atk_spr  = NULL;
+static Sprite *p2_stop_spr = NULL;
+static Sprite *p2_atk_spr  = NULL;
+
+static void ensure_minion_sprites(void) {
+    if (p1_stop_spr == NULL) p1_stop_spr = sprite_create((xpm_map_t)minion_p1_stop);
+    if (p1_atk_spr  == NULL) p1_atk_spr  = sprite_create((xpm_map_t)minion_p1_attack);
+    if (p2_stop_spr == NULL) p2_stop_spr = sprite_create((xpm_map_t)minion_p2_stop);
+    if (p2_atk_spr  == NULL) p2_atk_spr  = sprite_create((xpm_map_t)minion_p2_attack);
+}
 
 static bool boxes_overlap(Box a, Box b) {
     return a.x < b.x + b.w &&
@@ -137,24 +149,31 @@ void update_minions_manager(MinionsManager *mgr) {
     }
 }
 
+static int draw_minion(Minion *m) {
+    bool is_blue = (m->team == TEAM_BLUE);
+    bool show_atk = (m->state == MINION_ATTACKING) &&
+                    (m->attack_timer < MINION_ATTACK_SPEED / 2);
+    Sprite *spr = is_blue
+        ? (show_atk ? p1_atk_spr : p1_stop_spr)
+        : (show_atk ? p2_atk_spr : p2_stop_spr);
+    return sprite_draw(spr, m->x, m->y);
+}
+
 int draw_minions_manager(MinionsManager *mgr) {
+    ensure_minion_sprites();
     for (int w = 0; w < MAX_WAVES; w++) {
         if (mgr->red_waves[w].active) {
             for (int i = 0; i < MINION_COUNT; i++) {
                 Minion *m = &mgr->red_waves[w].minions[i];
                 if (m->state == MINION_DEAD) continue;
-                if (vg_draw_rectangle((uint16_t)m->x, (uint16_t)m->y,
-                                      MINION_W, MINION_H, RED_COLOR) != 0)
-                    return 1;
+                if (draw_minion(m) != 0) return 1;
             }
         }
         if (mgr->blue_waves[w].active) {
             for (int i = 0; i < MINION_COUNT; i++) {
                 Minion *m = &mgr->blue_waves[w].minions[i];
                 if (m->state == MINION_DEAD) continue;
-                if (vg_draw_rectangle((uint16_t)m->x, (uint16_t)m->y,
-                                      MINION_W, MINION_H, BLUE_COLOR) != 0)
-                    return 1;
+                if (draw_minion(m) != 0) return 1;
             }
         }
     }
