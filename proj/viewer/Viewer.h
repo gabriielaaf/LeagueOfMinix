@@ -8,6 +8,7 @@ typedef struct {
      * Sprite *menu_background;
      * Sprite *arena_background;
      * Sprite *cursor;
+     * 
      */
     int dummy;
 } Viewer;
