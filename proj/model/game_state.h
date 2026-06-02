@@ -14,14 +14,14 @@ typedef struct {
     GameStateType state;
     bool running;
     int winner;
-} Game_state;
+} GameState;
 
-void game_init(Game_state *model);
+void game_init(GameState *model);
 
-void game_start(Game_state *game_state);
-void game_pause(Game_state *game_state);
-void game_resume(Game_state *game_state);
-void game_over(Game_state *game_state, int winner);
-void game_quit(Game_state *game_state);
+void game_start(GameState *game_state);
+void game_pause(GameState *game_state);
+void game_resume(GameState *game_state);
+void game_over(GameState *game_state, int winner);
+void game_quit(GameState *game_state);
 
 #endif
