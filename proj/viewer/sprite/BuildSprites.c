@@ -18,7 +18,7 @@ static xpm_row_t *p1_move_xpms[8][MOVE_FRAMES] = {
     {p1_east_move1_xpm, p1_east_move2_xpm},
     {p1_west_move1_xpm, p1_west_move2_xpm},
     {p1_north_east_move1_xpm, p1_north_east_move2_xpm},
-    {p1_north_west_stop_xpm, p1_north_west_stop_xpm},
+    {p1_north_west_move1_xpm, p1_north_west_move2_xpm},
     {p1_south_east_move1_xpm, p1_south_east_move2_xpm},
     {p1_south_west_move1_xpm, p1_south_west_move2_xpm},
 };
@@ -34,7 +34,7 @@ static xpm_row_t *p1_attack_xpms[8][ATTACK_FRAMES] = {
 
     {p1_east_attack_up_xpm,
       p1_east_attack_mid_xpm,
-      p1_east_down_xpm},
+      p1_east_attack_down_xpm},
 
     {p1_west_attack_up_xpm,
       p1_west_attack_mid_xpm,

@@ -249,6 +249,7 @@ static xpm_row_t p1_south_attack_up_xpm[] = {
     "S 6",
     "M 4",
     "W 7",
+
     "....OWWWWOOOOOOOOOOOOOO.........................................",
     "....OWWWWWWWOOOOOOOOOOO.........................................",
     "....OWWWWWWWWWOOOOOOOOOOOO......................................",
@@ -327,6 +328,7 @@ static xpm_row_t p1_south_attack_mid_xpm[] = {
     "S 6",
     "M 4",
     "W 7",
+
     "...........OOOOOOOOOOOO.........................................",
     "..........OOOOOOOOOOOOO..................OOOO...................",
     "...........OOOOOOOOOOOOOOO..............OOWWOO..................",
@@ -405,6 +407,7 @@ static xpm_row_t p1_south_attack_down_xpm[] = {
     "S 6",
     "M 4",
     "W 7",
+    
     "...........OOOOOOOOOOOO.........................................",
     "..........OOOOOOOOOOOOO.........................................",
     "...........OOOOOOOOOOOOOOO......................................",
