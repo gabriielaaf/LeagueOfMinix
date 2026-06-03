@@ -1,7 +1,7 @@
 #ifndef VIEWER_H
 #define VIEWER_H
 
-#include "../model/State.h"
+#include "../model/state/State.h"
 
 typedef struct {
     /*

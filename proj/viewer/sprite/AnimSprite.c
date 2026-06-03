@@ -1,4 +1,4 @@
-#include "animSprite.h"
+#include "AnimSprite.h"
 #include <stdlib.h>
 
 struct AnimSprite {
@@ -43,14 +43,14 @@ void destroyAnimSprite(AnimSprite *animSprite) {
 
     if (animSprite->sprites != NULL) {
         for (int i = 0; i < animSprite->numSprites; i++) {
-            sprite_destroy(animSprite->sprites[i]);
+            spriteDestroy(animSprite->sprites[i]);
         }
     }
 
     free(animSprite);
 }
 
-void update_AnimSprite(AnimSprite *animSprite) {
+void updateAnimSprite(AnimSprite *animSprite) {
     if (animSprite == NULL) {
         return;
     }
@@ -71,7 +71,7 @@ int drawAnimSprite(AnimSprite *animSprite) {
         return 1;
     }
 
-    return sprite_draw(
+    return spriteDraw(
         animSprite->sprites[animSprite->currentSprite],
         animSprite->x,
         animSprite->y
@@ -96,14 +96,14 @@ void setAnimSpritePosition(AnimSprite *animSprite, int x, int y) {
     animSprite->y = y;
 }
 
-void animSprite_reset(AnimSprite *animSprite) {
+void animSpriteReset(AnimSprite *animSprite) {
     if (animSprite == NULL) return;
     animSprite->currentSprite = 0;
     animSprite->currentTime = 0;
     animSprite->looped = 0;
 }
 
-int animSprite_has_looped(AnimSprite *animSprite) {
+int animSpriteHasLooped(AnimSprite *animSprite) {
     if (animSprite == NULL || !animSprite->looped) return 0;
     animSprite->looped = 0;
     return 1;

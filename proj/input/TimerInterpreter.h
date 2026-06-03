@@ -11,8 +11,8 @@ typedef struct {
     bool should_update;
 } TimerState;
 
-void timer_state_init(TimerState *state, int ticks_per_update);
+void timerStateInit(TimerState *state, int ticks_per_update);
 
-void timer_interpret_interrupt(TimerState *state);
+void timerInterpretInterrupt(TimerState *state);
 
 #endif

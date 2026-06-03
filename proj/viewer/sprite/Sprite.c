@@ -1,4 +1,4 @@
-#include "sprite.h"
+#include "Sprite.h"
 #include "video.h"
 
 #include <stdlib.h>
@@ -11,7 +11,7 @@ struct Sprite {
     uint8_t *map;
 };
 
-Sprite *sprite_create(xpm_map_t xpm) {
+Sprite *spriteCreate(xpm_map_t xpm) {
     Sprite *sprite = malloc(sizeof(Sprite));
 
     if (sprite == NULL) {
@@ -33,7 +33,7 @@ Sprite *sprite_create(xpm_map_t xpm) {
     return sprite;
 }
 
-void sprite_destroy(Sprite *sprite) {
+void spriteDestroy(Sprite *sprite) {
     if (sprite == NULL) {
         return;
     }
@@ -45,7 +45,7 @@ void sprite_destroy(Sprite *sprite) {
     free(sprite);
 }
 
-int sprite_draw(Sprite *sprite, int x, int y) {
+int spriteDraw(Sprite *sprite, int x, int y) {
     if (sprite == NULL || sprite->map == NULL) {
         return 1;
     }

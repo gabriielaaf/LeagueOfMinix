@@ -1,10 +1,8 @@
-#include "mouseInterpreter.h"
-#include "breakcodes.h"
-#include "vbe.h"
+#include "MouseInterpreter.h"
 
 #include <stdlib.h>
 
-void mouse_state_init(MouseState *state, int x, int y) {
+void mouseStateInit(MouseState *state, int x, int y) {
     if (state == NULL) {
         return;
     }
@@ -19,7 +17,7 @@ void mouse_state_init(MouseState *state, int x, int y) {
     state->p2.attack_pressed = false;
 }
 
-void mouse_interpret_packet(MouseState *state, struct packet *packet) {
+void mouseInterpretPacket(MouseState *state, struct packet *packet, int screen_w, int screen_h) {
     if (state == NULL || packet == NULL) {
         return;
     }
@@ -32,9 +30,9 @@ void mouse_interpret_packet(MouseState *state, struct packet *packet) {
     state->y -= packet->delta_y;
 
     if (state->x < 0) state->x = 0;
-    if (state->x >= MODE105_WIDTH)  state->x = MODE105_WIDTH - 1;
+    if (state->x >= screen_w) state->x = screen_w - 1;
     if (state->y < 0) state->y = 0;
-    if (state->y >= MODE105_HEIGHT) state->y = MODE105_HEIGHT - 1;
+    if (state->y >= screen_h) state->y = screen_h - 1;
 
     /*
      * Left click -> Player 1 attack
@@ -55,7 +53,7 @@ void mouse_interpret_packet(MouseState *state, struct packet *packet) {
     state->p2.attack_pressed = packet->rb;
 }
 
-void mouse_clear_events(MouseState *state) {
+void mouseClearEvents(MouseState *state) {
     if (state == NULL) {
         return;
     }

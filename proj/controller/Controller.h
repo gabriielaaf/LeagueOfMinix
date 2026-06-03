@@ -1,9 +1,9 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "../model/State.h"
-#include "keyboardInterpreter.h"
-#include "mouseInterpreter.h"
+#include "../model/state/State.h"
+#include "../input/KeyboardInterpreter.h"
+#include "../input/MouseInterpreter.h"
 
 typedef struct {
     State *game_state;
@@ -18,8 +18,6 @@ void controller_init(
     MouseState *mouse
     // e necessario adicionar todo sos objetios como cahmpions e minions
 );
-
-
 
 void controller_update(Controller *controller);
 

@@ -8,11 +8,11 @@
 
 typedef struct Sprite Sprite;
 
-Sprite *sprite_create(xpm_map_t xpm);
+Sprite *spriteCreate(xpm_map_t xpm);
 
-void sprite_destroy(Sprite *sprite);
+void spriteDestroy(Sprite *sprite);
 
-int sprite_draw(Sprite *sprite, int x, int y);
+int spriteDraw(Sprite *sprite, int x, int y);
 
 int getWidth(Sprite *sprite);
 

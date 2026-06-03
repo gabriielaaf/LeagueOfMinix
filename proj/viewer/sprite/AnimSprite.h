@@ -2,7 +2,7 @@
 #define ANIM_SPRITE_H
 
 
-#include "sprite.h"
+#include "Sprite.h"
 
 typedef struct AnimSprite AnimSprite;
 
@@ -10,7 +10,7 @@ AnimSprite *createAnimSprite(int animationTime, int numSprites,int x, int y, Spr
 
 void destroyAnimSprite(AnimSprite *animSprite);
 
-void update_AnimSprite(AnimSprite *animSprite);
+void updateAnimSprite(AnimSprite *animSprite);
 
 int drawAnimSprite(AnimSprite *animSprite);
 
@@ -18,9 +18,9 @@ void moveAnimSprite(AnimSprite *animSprite, int dx, int dy);
 
 void setAnimSpritePosition(AnimSprite *animSprite, int x, int y);
 
-void animSprite_reset(AnimSprite *animSprite);
+void animSpriteReset(AnimSprite *animSprite);
 
-int animSprite_has_looped(AnimSprite *animSprite);
+int animSpriteHasLooped(AnimSprite *animSprite);
 
 Sprite *getCurrentSprite(AnimSprite *animSprite);
 

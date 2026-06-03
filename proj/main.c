@@ -7,14 +7,14 @@
 #include "video.h"
 #include "keyboard.h"
 #include "mouse.h"
-#include "keyboardInterpreter.h"
-#include "mouseInterpreter.h"
-#include "timerInterpreter.h"
+#include "input/KeyboardInterpreter.h"
+#include "input/MouseInterpreter.h"
+#include "input/TimerInterpreter.h"
 
-#include "sprite.h"
-#include "animSprite.h"
-#include "champion.h"
-#include "buildSprites.h"
+#include "viewer/sprite/Sprite.h"
+#include "viewer/sprite/AnimSprite.h"
+#include "model/champion/Champion.h"
+#include "viewer/sprite/BuildSprites.h"
 #include "minions.h"
 
 #include "assets/gabiteste.h"
@@ -146,13 +146,13 @@ int(proj_main_loop)(int argc, char *argv[]) {
     uint32_t mouse_irq_set = BIT(mouse_bit_no);
 
     KeyboardState kstate;
-    keyboard_state_init(&kstate);
+    keyboardStateInit(&kstate);
 
     MouseState mstate;
-    mouse_state_init(&mstate, MODE105_WIDTH / 2, MODE105_HEIGHT / 2);
+    mouseStateInit(&mstate, MODE105_WIDTH / 2, MODE105_HEIGHT / 2);
 
     TimerState tstate;
-    timer_state_init(&tstate, 1);
+    timerStateInit(&tstate, 1);
 
     int r, ipc_status;
     message msg;
@@ -175,8 +175,8 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     break;
                 }
                 if (scancode_complete()) {
-                    keyboard_interpret_scancode(&kstate, get_scancode_bytes(),
-                                                get_scancode_size());
+                    keyboardInterpretScancode(&kstate, get_scancode_bytes(),
+                                              get_scancode_size());
                     reset_scancode();
                 }
             }
@@ -184,13 +184,13 @@ int(proj_main_loop)(int argc, char *argv[]) {
             if (msg.m_notify.interrupts & mouse_irq_set) {
                 mouse_ih();
                 if (packet_complete()) {
-                    mouse_interpret_packet(&mstate, get_packet());
+                    mouseInterpretPacket(&mstate, get_packet(), MODE105_WIDTH, MODE105_HEIGHT);
                     reset_packet();
                 }
             }
 
             if (msg.m_notify.interrupts & timer_irq_set) {
-                timer_interpret_interrupt(&tstate);
+                timerInterpretInterrupt(&tstate);
                 if (tstate.should_update) {
                     int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
                     if (kstate.p1.left)
@@ -225,7 +225,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                         minions_manager_take_hit(&mgr, champion_get_attack_box(champion_p2), 10, TEAM_RED);
                     }
 
-                    mouse_clear_events(&mstate);
+                    mouseClearEvents(&mstate);
 
                     update_minions_manager(&mgr);
 

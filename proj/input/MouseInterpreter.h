@@ -18,10 +18,10 @@ typedef struct {
     PlayerMouseInput p2;
 } MouseState;
 
-void mouse_state_init(MouseState *state, int x, int y);
+void mouseStateInit(MouseState *state, int x, int y);
 
-void mouse_interpret_packet(MouseState *state, struct packet *packet);
+void mouseInterpretPacket(MouseState *state, struct packet *packet, int screen_w, int screen_h);
 
-void mouse_clear_events(MouseState *state);
+void mouseClearEvents(MouseState *state);
 
 #endif
