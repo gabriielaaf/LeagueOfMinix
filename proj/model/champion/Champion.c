@@ -103,10 +103,6 @@ void championSetRespawnTimer(Champion *champion, int timer) {
     champion->respawn_timer = timer;
 }
 
-void championDecreaseRespawnTimer(Champion *champion) {
-    champion->respawn_timer--;
-}
-
 void championAddHp(Champion *champion, int delta) {
     champion->hp += delta;
 }
