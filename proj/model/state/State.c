@@ -1,5 +1,3 @@
-#pragma once
-
 #include <lcom/lcf.h>
 
 #include "State.h"

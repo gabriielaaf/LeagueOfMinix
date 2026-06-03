@@ -1,5 +1,4 @@
-#ifndef KEYBOARD_INTERPRETER_H
-#define KEYBOARD_INTERPRETER_H
+#pragma once
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -10,7 +9,6 @@ typedef struct {
     bool down;
     bool left;
     bool right;
-    bool attack;
 } PlayerInput;
 
 typedef struct {
@@ -20,8 +18,6 @@ typedef struct {
     bool exit;
 } KeyboardState;
 
-void keyboard_state_init(KeyboardState *state);
+void keyboardStateInit(KeyboardState *state);
 
-void keyboard_interpret_scancode(KeyboardState *state, uint8_t *bytes, uint8_t size);
-
-#endif
+void keyboardInterpretScancode(KeyboardState *state, uint8_t *bytes, uint8_t size);

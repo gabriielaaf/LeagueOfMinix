@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../model/Champion.h"
-#include "../animSprite.h"
+#include "../model/champion/Champion.h"
+#include "sprite/AnimSprite.h"
+#include <stdbool.h>
 
 typedef struct {
     AnimSprite **animations;
@@ -9,4 +10,7 @@ typedef struct {
     int currentAnimation;
 } ChampionViewer;
 
-int champion_draw(Champion *champion);
+ChampionViewer *createChampionViewer(AnimSprite **animations, int numAnimations);
+void destroyChampionViewer(ChampionViewer *viewer);
+bool championViewerUpdate(ChampionViewer *viewer, Champion *champion);
+int championDraw(ChampionViewer *viewer, Champion *champion);

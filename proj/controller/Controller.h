@@ -1,26 +1,21 @@
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
+#pragma once
 
 #include "../model/state/State.h"
-#include "keyboardInterpreter.h"
-#include "mouseInterpreter.h"
+#include "../model/state/GameState.h"
+#include "../viewer/Viewer.h"
+#include "../input/KeyboardInterpreter.h"
+#include "../input/MouseInterpreter.h"
 
 typedef struct {
-    State *game_state;
-    KeyboardState *keyboard;
-    MouseState *mouse;
+    State state;
+    GameState *game;
+    Viewer *viewer;
+    KeyboardState kbd;
+    MouseState mouse;
 } Controller;
 
-void controller_init(
-    Controller *controller,
-    State *gameState,
-    KeyboardState *keyboard,
-    MouseState *mouse
-    // e necessario adicionar todo sos objetios como cahmpions e minions
-);
-
-
-
-void controller_update(Controller *controller);
-
-#endif
+Controller *controllerCreate();
+void controllerDestroy(Controller *ctrl);
+void controllerUpdate(Controller *ctrl);
+void controllerDraw(Controller *ctrl);
+void controllerStep(Controller *ctrl);
