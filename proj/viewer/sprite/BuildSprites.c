@@ -13,10 +13,10 @@ static xpm_row_t *p1_idle_xpms[8] = {
 };
 
 static xpm_row_t *p1_move_xpms[8][MOVE_FRAMES] = {
-    {p1_north_move1_xpm,     p1_north_move2_xpm},
-    {p1_south_move1_xpm,     p1_south_move2_xpm},
-    {p1_east_move1_xpm,      p1_east_move2_xpm},
-    {p1_west_move1_xpm,      p1_west_move2_xpm},
+    {p1_north_move1_xpm, p1_north_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_east_move1_xpm, p1_east_move2_xpm},
+    {p1_west_move1_xpm, p1_west_move2_xpm},
     {p1_north_east_move1_xpm, p1_north_east_move2_xpm},
     {p1_north_west_stop_xpm, p1_north_west_stop_xpm},
     {p1_south_east_move1_xpm, p1_south_east_move2_xpm},
@@ -113,7 +113,7 @@ static xpm_row_t *p2_attack_xpms[8][ATTACK_FRAMES] = {
       p2_south_west_attack_down_xpm},
 };
 
-static void destroy_animations(AnimSprite **animations, int count) {
+static void destroyAnimations(AnimSprite **animations, int count) {
     for (int i = 0; i < count; i++)
         destroyAnimSprite(animations[i]);
     free(animations);
@@ -140,14 +140,14 @@ AnimSprite **buildAnimations(int player) {
         }
 
         if (s == NULL) {
-            destroy_animations(animations, anims_created);
+            destroyAnimations(animations, anims_created);
             return NULL;
         }
 
         Sprite **frames = malloc(sizeof(Sprite *));
         if (frames == NULL) {
             spriteDestroy(s);
-            destroy_animations(animations, anims_created);
+            destroyAnimations(animations, anims_created);
             return NULL;
         }
 
@@ -157,7 +157,7 @@ AnimSprite **buildAnimations(int player) {
         if (animations[i] == NULL) {
             free(frames);
             spriteDestroy(s);
-            destroy_animations(animations, anims_created);
+            destroyAnimations(animations, anims_created);
             return NULL;
         }
         anims_created++;
@@ -166,7 +166,7 @@ AnimSprite **buildAnimations(int player) {
     for (int i = 0; i < 8; i++) {
         Sprite **frames = malloc(ATTACK_FRAMES * sizeof(Sprite *));
         if (frames == NULL) {
-            destroy_animations(animations, anims_created);
+            destroyAnimations(animations, anims_created);
             return NULL;
         }
 
@@ -187,7 +187,7 @@ AnimSprite **buildAnimations(int player) {
                 for (int k = 0; k < frames_ok; k++)
                     spriteDestroy(frames[k]);
                 free(frames);
-                destroy_animations(animations, anims_created);
+                destroyAnimations(animations, anims_created);
                 return NULL;
             }
             frames_ok++;
@@ -198,7 +198,7 @@ AnimSprite **buildAnimations(int player) {
             for (int f = 0; f < ATTACK_FRAMES; f++)
                 spriteDestroy(frames[f]);
             free(frames);
-            destroy_animations(animations, anims_created);
+            destroyAnimations(animations, anims_created);
             return NULL;
         }
         anims_created++;
@@ -207,7 +207,7 @@ AnimSprite **buildAnimations(int player) {
     for (int i = 0; i < 8; i++) {
         Sprite **frames = malloc(MOVE_FRAMES * sizeof(Sprite *));
         if (frames == NULL) {
-            destroy_animations(animations, anims_created);
+            destroyAnimations(animations, anims_created);
             return NULL;
         }
 
@@ -217,7 +217,7 @@ AnimSprite **buildAnimations(int player) {
             if (frames[f] == NULL) {
                 for (int k = 0; k < frames_ok; k++) spriteDestroy(frames[k]);
                 free(frames);
-                destroy_animations(animations, anims_created);
+                destroyAnimations(animations, anims_created);
                 return NULL;
             }
             frames_ok++;
@@ -227,7 +227,7 @@ AnimSprite **buildAnimations(int player) {
         if (animations[16 + i] == NULL) {
             for (int f = 0; f < MOVE_FRAMES; f++) spriteDestroy(frames[f]);
             free(frames);
-            destroy_animations(animations, anims_created);
+            destroyAnimations(animations, anims_created);
             return NULL;
         }
         anims_created++;

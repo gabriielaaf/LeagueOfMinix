@@ -1,7 +1,10 @@
 #pragma once
 
-#include <lcom/lcf.h>
 #include "../Position.h"
+#include "vbe.h"
+
+#define CHAMPION_W 64
+#define CHAMPION_H 68
 
 #define CHAMPION_HP 100
 #define CHAMPION_SPEED 1

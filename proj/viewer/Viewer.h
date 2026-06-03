@@ -1,20 +1,13 @@
-#ifndef VIEWER_H
-#define VIEWER_H
+#pragma once
 
 #include "../model/state/State.h"
+#include "../model/state/GameState.h"
+#include "sprite/Sprite.h"
 
 typedef struct {
-    /*
-     * Sprite *menu_background;
-     * Sprite *arena_background;
-     * Sprite *cursor;
-     * 
-     */
-    int dummy;
+    Sprite *cursor;
 } Viewer;
 
-void viewerInit(Viewer *viewer);
-void viewerDraw(Viewer *viewer, State *gameState);
-void viewerDestroy(Viewer *viewer);
-
-#endif
+Viewer *viewerCreate();
+void viewerDestroy(Viewer *v);
+void viewerDraw(Viewer *v, State *state, GameState *gs, int cursor_x, int cursor_y);

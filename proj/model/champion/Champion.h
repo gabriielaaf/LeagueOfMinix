@@ -1,8 +1,9 @@
 #pragma once
 
+#include <stdlib.h>
+#include "ChampionConfig.h"
 #include "../Position.h"
 #include "../Box.h"
-#include <stdbool.h>
 
 typedef enum {
     NORTH,

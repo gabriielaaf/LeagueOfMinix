@@ -1,5 +1,4 @@
-#ifndef MOUSE_INTERPRETER_H
-#define MOUSE_INTERPRETER_H
+#pragma once
 
 #include <lcom/lcf.h>
 #include <stdbool.h>
@@ -23,5 +22,3 @@ void mouseStateInit(MouseState *state, int x, int y);
 void mouseInterpretPacket(MouseState *state, struct packet *packet, int screen_w, int screen_h);
 
 void mouseClearEvents(MouseState *state);
-
-#endif

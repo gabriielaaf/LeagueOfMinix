@@ -1,5 +1,4 @@
-#ifndef TIMER_INTERPRETER_H
-#define TIMER_INTERPRETER_H
+#pragma once
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -14,5 +13,3 @@ typedef struct {
 void timerStateInit(TimerState *state, int ticks_per_update);
 
 void timerInterpretInterrupt(TimerState *state);
-
-#endif

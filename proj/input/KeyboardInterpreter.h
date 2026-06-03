@@ -1,5 +1,4 @@
-#ifndef KEYBOARD_INTERPRETER_H
-#define KEYBOARD_INTERPRETER_H
+#pragma once
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -22,5 +21,3 @@ typedef struct {
 void keyboardStateInit(KeyboardState *state);
 
 void keyboardInterpretScancode(KeyboardState *state, uint8_t *bytes, uint8_t size);
-
-#endif

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdlib.h>
 #include <stdbool.h>
 #include "../model/champion/Champion.h"
 #include "../model/champion/ChampionConfig.h"

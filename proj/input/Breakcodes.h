@@ -1,3 +1,5 @@
+#pragma once
+
 /* Player 1: */
 
 /* WASD */

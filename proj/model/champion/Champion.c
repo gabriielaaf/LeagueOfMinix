@@ -1,6 +1,4 @@
 #include "Champion.h"
-#include "ChampionConfig.h"
-#include <stdlib.h>
 
 struct Champion {
     ChampionState state;
