@@ -8,18 +8,19 @@ Controller *controllerCreate() {
     Controller *ctrl = malloc(sizeof(Controller));
     if (!ctrl) return NULL;
 
-    stateInit(&ctrl->state);
-    gameStart(&ctrl->state);  // jump straight into game (no menu yet)
+    if (!stateInit(&ctrl->state)) {
+        free(ctrl);
+        return NULL;
+    }
+
+    ctrl->state.state = STATE_MENU;
 
     keyboardStateInit(&ctrl->kbd);
     mouseStateInit(&ctrl->mouse, MODE105_WIDTH / 2, MODE105_HEIGHT / 2);
 
-    ctrl->game = gameStateCreate();
-    if (!ctrl->game) { free(ctrl); return NULL; }
-
     ctrl->viewer = viewerCreate();
     if (!ctrl->viewer) {
-        gameStateDestroy(ctrl->game);
+        stateDestroy(&ctrl->state);
         free(ctrl);
         return NULL;
     }
@@ -29,34 +30,24 @@ Controller *controllerCreate() {
 
 void controllerDestroy(Controller *ctrl) {
     if (!ctrl) return;
-    if (ctrl->game)   gameStateDestroy(ctrl->game);
-    if (ctrl->viewer) viewerDestroy(ctrl->viewer);
+
+    stateDestroy(&ctrl->state);
+
+    if (ctrl->viewer) {
+        viewerDestroy(ctrl->viewer);
+    }
+
     free(ctrl);
-}
-
-void controllerUpdate(Controller *ctrl) {
-    if (!ctrl) return;
-
-    if (ctrl->kbd.exit) {
-        gameQuit(&ctrl->state);
-        return;
-    }
-
-    switch (ctrl->state.state) {
-        case STATE_PLAYING:
-            gameStateStep(ctrl->game, &ctrl->kbd, &ctrl->mouse);
-            break;
-        default:
-            break;
-    }
 }
 
 void controllerDraw(Controller *ctrl) {
     if (!ctrl) return;
-    viewerDraw(ctrl->viewer, &ctrl->state, ctrl->game, ctrl->mouse.x, ctrl->mouse.y);
-}
 
-void controllerStep(Controller *ctrl) {
-    controllerUpdate(ctrl);
-    controllerDraw(ctrl);
+    viewerDraw(
+        ctrl->viewer,
+        &ctrl->state,
+        ctrl->state.game,
+        ctrl->mouse.x,
+        ctrl->mouse.y
+    );
 }

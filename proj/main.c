@@ -111,11 +111,12 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
             if (msg.m_notify.interrupts & timer_irq_set) {
                 timerInterpretInterrupt(&tstate);
+
                 if (tstate.should_update) {
-                    if (ctrl->kbd.exit) {
-                        gameQuit(&ctrl->state);
-                    } else if (ctrl->state.state == STATE_PLAYING) {
-                        gameStateStep(ctrl->game, &ctrl->kbd, &ctrl->mouse);
+                    stateStep(&ctrl->state, &ctrl->kbd, &ctrl->mouse);
+
+                    if (ctrl->state.running) {
+                        controllerDraw(ctrl);
                     }
                 }
             }

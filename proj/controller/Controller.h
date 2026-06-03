@@ -8,7 +8,6 @@
 
 typedef struct {
     State state;
-    GameState *game;
     Viewer *viewer;
     KeyboardState kbd;
     MouseState mouse;
