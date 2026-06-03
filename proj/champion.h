@@ -42,28 +42,44 @@ typedef enum {
 } ChampionState;
 
 typedef struct {
+    int respawn_x;
+    int respawn_y;
+    Position pos;
+
+    int hp;
+    int speed;
+    int attack_dmg;
+
+    int respawn_timer;
+
+    Direction dir;
+    ChampionState state;
+
+    int currentAnimation;
+    AnimSprite **animations;
+    int numAnimations;
+} Champion;
+
+typedef struct {
     int x;
     int y;
     int w;
     int h;
 } Box;
 
-typedef struct Champion Champion;
-
-Champion *create_champion(int spawn_x, int spawn_y, AnimSprite **animations,int numAnimations, Direction dir);
+Champion *create_champion(int spawn_x, int spawn_y, AnimSprite **animations, int numAnimations, Direction dir);
 
 void destroy_champion(Champion *champion);
 
 void moveChampion(Champion *champion1, Champion *champion2, int dx, int dy);
 
-void decrease_target_hp(struct Champion *attacker,
-                                struct Champion *target);
+void decrease_target_hp(Champion *attacker, Champion *target);
 
-void upgrade_hp(struct Champion *champion);
+void upgrade_hp(Champion *champion);
 
-void upgrade_damage(struct Champion *champion);
+void upgrade_damage(Champion *champion);
 
-void upgrade_speed(struct Champion *champion);
+void upgrade_speed(Champion *champion);
 
 void champion_set_animation(Champion *champion, int animation);
 
@@ -76,8 +92,6 @@ int champion_draw(Champion *champion);
 Box champion_get_collision_box(Champion *champion);
 
 Box champion_get_attack_box(Champion *champion);
-
-bool champion_is_attacking(Champion *champion);
 
 bool champion_attack_hits(Champion *attacker, Champion *target);
 

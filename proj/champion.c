@@ -1,26 +1,6 @@
 #include "champion.h"
 #include <stdlib.h>
 
-struct Champion {
-
-    int respawn_x;
-    int respawn_y;
-    Position pos;
-
-    int hp;
-    int speed;
-    int attack_dmg;
-
-    int respawn_timer;
-
-    Direction dir;
-    ChampionState state;
-
-    int currentAnimation;
-    AnimSprite **animations;
-    int numAnimations;
-};
-
 Champion *create_champion(int spawn_x, int spawn_y, AnimSprite **animations, int numAnimations, Direction dir) {
     if (animations == NULL || numAnimations <= 0) {
         return NULL;
@@ -148,7 +128,7 @@ static bool boxes_overlap(Box a, Box b) {
            a.y + a.h > b.y;
 }
 
-static bool collide(struct Champion *c1, struct Champion *c2, int dx, int dy) {
+static bool collide(Champion *c1, Champion *c2, int dx, int dy) {
     Box b1 = champion_get_collision_box(c1);
     Position next = c1->pos;
     position_move(&next, dx, dy, c1->speed);
@@ -164,32 +144,31 @@ bool champion_attack_hits(Champion *attacker, Champion *target) {
     return boxes_overlap(attacker_box, target_hit_box);
 }
 
-static bool canMove(struct Champion *champion, int dx, int dy) {
+static bool canMove(Champion *champion, int dx, int dy) {
     int w = getWidth(getCurrentSprite(champion->animations[champion->currentAnimation]));
     int h = getHeight(getCurrentSprite(champion->animations[champion->currentAnimation]));
     Position next = champion->pos;
     position_move(&next, dx, dy, champion->speed);
     int new_x = position_px(next);
     int new_y = position_py(next);
-    return new_x >= 0 && (new_x + w) <= MODE105_WIDTH &&
-           new_y >= 0 && (new_y + h) <= MODE105_HEIGHT;
+    return new_x >= 0 && (new_x + w) <= MODE105_WIDTH && new_y >= 0 && (new_y + h) <= MODE105_HEIGHT;
 }
 
-void moveChampion(struct Champion *champion1, struct Champion *champion2,int dx, int dy) {
+void moveChampion(Champion *champion1, Champion *champion2,int dx, int dy) {
     if (canMove(champion1, dx, dy) && !collide(champion1, champion2, dx, dy)) {
         position_move(&champion1->pos, dx, dy, champion1->speed);
     }
 
     if (dx == 0 && dy == 0) return;
 
-    if      (dx == 0 && dy < 0) champion1->dir = NORTH;
+    if (dx == 0 && dy < 0) champion1->dir = NORTH;
     else if (dx == 0 && dy > 0) champion1->dir = SOUTH;
     else if (dx > 0 && dy == 0) champion1->dir = EAST;
     else if (dx < 0 && dy == 0) champion1->dir = WEST;
     else if (dx > 0 && dy < 0) champion1->dir = NORTHEAST;
     else if (dx < 0 && dy < 0) champion1->dir = NORTHWEST;
     else if (dx > 0 && dy > 0) champion1->dir = SOUTHEAST;
-    else                        champion1->dir = SOUTHWEST;
+    else champion1->dir = SOUTHWEST;
 
     if (champion1->state == CHAMPION_IDLE) {
         int move_anim = (int)champion1->dir + 16;
@@ -211,22 +190,22 @@ bool champion_attack(Champion *champion) {
     return true;
 }
 
-void decrease_target_hp(struct Champion *attacker, struct Champion *target) {
+void decrease_target_hp(Champion *attacker, Champion *target) {
     target->hp -= attacker->attack_dmg;
     if (target->hp <= 0) {
       target->respawn_timer = RESPAWN_INTERRUPTS;
     }
 }
 
-void upgrade_hp(struct Champion *champion) { 
+void upgrade_hp(Champion *champion) { 
     champion->hp += 10; 
 }
 
-void upgrade_damage(struct Champion *champion) { 
+void upgrade_damage(Champion *champion) { 
     champion->attack_dmg += 5; 
 }
 
-void upgrade_speed(struct Champion *champion) { 
+void upgrade_speed(Champion *champion) { 
     champion->speed += 1; 
 }
 
