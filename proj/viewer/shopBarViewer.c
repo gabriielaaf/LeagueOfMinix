@@ -83,3 +83,4 @@ void shopBarViewerDraw(ShopBarViewer *viewer, ShopBarState *bar) {
         buyColor
     );
 }
+

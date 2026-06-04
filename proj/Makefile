@@ -41,7 +41,11 @@ SRCS = main.c \
        TowerViewer.c \
        ButtonViewer.c \
        MenuViewer.c \
-       Viewer.c
+       Viewer.c \
+       shopBarViewer.c \
+       ShopState.c \
+       shopBarState.c 
+
 
 CFLAGS += -pedantic
 CFLAGS += -I${.CURDIR}/../lab2

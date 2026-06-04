@@ -1,4 +1,4 @@
-#include "ShopBarState.h"
+#include "shopBarState.h"
 
 #include <stdlib.h>
 
@@ -62,3 +62,4 @@ void shopBarStateResetClick(ShopBarState *bar) {
 
     bar->buyButton->clicked = false;
 }
+
