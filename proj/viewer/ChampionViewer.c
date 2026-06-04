@@ -52,7 +52,11 @@ bool championViewerUpdate(ChampionViewer *viewer, Champion *champion) {
             targetAnimation = (int)dir + 16;
             break;
         case CHAMPION_ATTACKING:
-            targetAnimation = (int)dir + 8;
+            if (viewer->currentAnimation >= 8 && viewer->currentAnimation < 16) {
+                targetAnimation = viewer->currentAnimation;
+            } else {
+                targetAnimation = (int)dir + 8;
+            }
             break;
         default:
             targetAnimation = (int)dir;

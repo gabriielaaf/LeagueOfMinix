@@ -2,6 +2,7 @@
 
 #include "MenuController.h"
 #include "GameController.h"
+#include "../input/MouseInterpreter.h"
 
 #include "vbe.h"
 
@@ -58,6 +59,7 @@ void controllerUpdate(Controller *ctrl, bool second_elapsed) {
 
             if (menuStateShouldStart(ctrl->state.menu)) {
                 menuStateReset(ctrl->state.menu);
+                mouseClearEvents(&ctrl->mouse);
                 gameStart(&ctrl->state);
             }
 
