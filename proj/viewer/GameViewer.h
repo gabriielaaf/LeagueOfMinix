@@ -13,6 +13,7 @@ typedef struct {
     ChampionViewer *p2;
     MinionViewer *minion_blue;
     MinionViewer *minion_red;
+    TowerViewer *tower;
 } GameViewer;
 
 GameViewer *gameViewerCreate();

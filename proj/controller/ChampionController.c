@@ -23,7 +23,7 @@ void championUpdate(Champion *champion, bool animationLooped, bool second_elapse
     }
 }
 
-void championMove(Champion *champion1, Champion *champion2, int dx, int dy, int map_w, int map_h) {
+void championMove(Champion *champion1, Champion *champion2, Minions *minions, int dx, int dy, int map_w, int map_h) {
     if (champion1 == NULL || championGetHp(champion1) <= 0) {
         return;
     }
@@ -57,13 +57,26 @@ void championMove(Champion *champion1, Champion *champion2, int dx, int dy, int 
         return;
     }
 
+    Box cb = championGetCollisionBox(champion1);
+    cb.x += nx - position_px(pos);
+    cb.y += ny - position_py(pos);
+
     if (champion2 != NULL && championGetHp(champion2) > 0) {
-        Box b1 = championGetCollisionBox(champion1);
-        b1.x += nx - position_px(pos);
-        b1.y += ny - position_py(pos);
-        Box b2 = championGetCollisionBox(champion2);
-        if (boxesOverlap(b1, b2)) {
-            return;
+        if (boxesOverlap(cb, championGetCollisionBox(champion2))) return;
+    }
+
+    if (minions != NULL) {
+        MinionWave *all_waves[2] = {minions->red_waves, minions->blue_waves};
+        for (int t = 0; t < 2; t++) {
+            for (int w = 0; w < MAX_WAVES; w++) {
+                if (!all_waves[t][w].active) continue;
+                for (int i = 0; i < MINION_COUNT; i++) {
+                    Minion *m = &all_waves[t][w].minions[i];
+                    if (m->state == MINION_DEAD) continue;
+                    Box mb = {position_px(m->pos), position_py(m->pos), MINION_W, MINION_H};
+                    if (boxesOverlap(cb, mb)) return;
+                }
+            }
         }
     }
 
@@ -88,7 +101,7 @@ bool championHits(Champion *attacker, Champion *target) {
     return championAttackHits(attacker, target);
 }
 
-void championDecreaseHp(Champion *target, int dmg) {
+void championDecreaseHp(Champion *attacker, Champion *target, int dmg) {
     if (target == NULL) {
         return;
     }
@@ -96,6 +109,7 @@ void championDecreaseHp(Champion *target, int dmg) {
     if (championGetHp(target) <= 0) {
         championSetRespawnTimer(target, RESPAWN_SECONDS);
         championClearPosition(target);
+        championUpdatePoints(attacker, 2);
     }
 }
 

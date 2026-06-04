@@ -8,11 +8,12 @@ struct Champion {
     Team team;
     int hp;
     int max_hp;
-    int speed;
+    float speed;
     int attack_dmg;
     int respawn_timer;
     int width;
     int height;
+    int points;
 };
 
 Champion *createChampion(Position respawnPos, Direction dir, int width, int height) {
@@ -33,6 +34,7 @@ Champion *createChampion(Position respawnPos, Direction dir, int width, int heig
     champion->state = CHAMPION_IDLE;
     champion->width = width;
     champion->height = height;
+    champion->points = 0;
 
     return champion;
 }
@@ -67,7 +69,7 @@ int championGetMaxHp(Champion *champion) {
     return champion->max_hp;
 }
 
-int championGetSpeed(Champion *champion) {
+float championGetSpeed(Champion *champion) {
     return champion->speed;
 }
 
@@ -108,8 +110,8 @@ void championSetRespawnTimer(Champion *champion, int timer) {
 }
 
 void championClearPosition(Champion *champion) {
-    champion->pos.x = -champion->width;
-    champion->pos.y = -champion->height;
+    champion->pos.x = champion->respawnPos.x;
+    champion->pos.y = champion->respawnPos.y;
 }
 
 void championAddHp(Champion *champion, int delta) {
@@ -178,4 +180,13 @@ bool championAttackHits(Champion *attacker, Champion *target) {
         target->height
     };
     return boxesOverlap(attack, hit);
+}
+
+int championCurrentPoints(Champion *champion) { 
+    return champion->points;
+}
+
+void championUpdatePoints(Champion *champion, int delta) {
+    if (!champion) return;
+    champion->points += delta;
 }
