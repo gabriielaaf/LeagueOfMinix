@@ -34,8 +34,8 @@ void gameControllerUpdate(GameController *gc, Champion *p1, Champion *p2, Minion
     if (kbd->p2.up) dy2--;
     if (kbd->p2.down) dy2++;
 
-    championMove(p1, p2, dx1, dy1, gc->map_w, gc->map_h);
-    championMove(p2, p1, dx2, dy2, gc->map_w, gc->map_h);
+    championMove(p1, p2, minions, dx1, dy1, gc->map_w, gc->map_h);
+    championMove(p2, p1, minions, dx2, dy2, gc->map_w, gc->map_h);
 
     if (mouse->p1.attack && championAttack(p1)) {
         if (championHits(p1, p2)) {
@@ -53,6 +53,6 @@ void gameControllerUpdate(GameController *gc, Champion *p1, Champion *p2, Minion
     }
 
     mouseClearEvents(mouse);
-    minionsUpdate(minions, towers, gc->map_w, second_elapsed);
+    minionsUpdate(minions, towers, p1, p2, gc->map_w, second_elapsed);
     towersUpdate(towers, minions, p1, p2);
 }
