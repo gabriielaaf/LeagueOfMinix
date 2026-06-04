@@ -17,7 +17,7 @@ static xpm_row_t *p1_move_xpms[8][MOVE_FRAMES] = {
     {p1_south_move1_xpm, p1_south_move2_xpm},
     {p1_east_move1_xpm, p1_east_move2_xpm},
     {p1_west_move1_xpm, p1_west_move2_xpm},
-    {p1_north_east_stop_xpm, p1_north_east_stop_xpm},
+    {p1_north_east_move1_xpm, p1_north_east_move2_xpm},
     {p1_north_west_move1_xpm, p1_north_west_move2_xpm},
     {p1_south_east_move1_xpm, p1_south_east_move2_xpm},
     {p1_south_west_move1_xpm, p1_south_west_move2_xpm},

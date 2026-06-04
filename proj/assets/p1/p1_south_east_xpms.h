@@ -162,7 +162,7 @@ static xpm_row_t p1_south_east_move1_xpm[] = {
     "................................................................",
 };
 
-static xpm_row_t p1_south_east_move2_xpm []= {
+static xpm_row_t p1_south_east_move2_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
