@@ -108,8 +108,8 @@ void championSetRespawnTimer(Champion *champion, int timer) {
 }
 
 void championClearPosition(Champion *champion) {
-    champion->pos.x = -champion->width;
-    champion->pos.y = -champion->height;
+    champion->pos.x = champion->respawnPos.x;
+    champion->pos.y = champion->respawnPos.y;
 }
 
 void championAddHp(Champion *champion, int delta) {
