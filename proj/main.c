@@ -11,6 +11,8 @@
 
 #include "input/TimerInterpreter.h"
 #include "controller/Controller.h"
+#include "assets/gabiteste.h"
+#include "viewer/sprite/Sprite.h"
 
 void lazy_link();
 
@@ -30,6 +32,32 @@ int main(int argc, char *argv[]) {
 }
 
 int(proj_main_loop)(int argc, char *argv[]) {
+    if ((argc > 0 && strcmp(argv[0], "test") == 0) ||
+        (argc > 1 && strcmp(argv[1], "test") == 0)) {
+
+        if (video_init_page_flipping(0x105) != 0) {
+        return 1;
+        }
+
+        Sprite *sprite = spriteCreate(gabi_test_xpm);
+
+        if (sprite == NULL) {
+        vg_exit();
+        return 1;
+        }
+
+        video_clear_back_buffer(0);
+        spriteDraw(sprite, 300, 300);
+        video_swap_buffers();
+
+        wait_for_esc();
+
+        spriteDestroy(sprite);
+        vg_exit();
+
+        return 0;
+    }
+
     (void) argc;
     (void) argv;
 

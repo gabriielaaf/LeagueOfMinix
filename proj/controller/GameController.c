@@ -1,5 +1,6 @@
 #include "GameController.h"
 #include "ChampionController.h"
+#include "TowerController.h"
 
 #include <lcom/lcf.h>
 #include <stdlib.h>
@@ -41,14 +42,15 @@ void gameControllerUpdate(GameController *gc, Champion *p1, Champion *p2, Minion
         if (championHits(p1, p2)) {
             championDecreaseHp(p2, championGetAttackDmg(p1));
         }
-
         minionsTakeHit(minions, championGetAttackBox(p1), championGetAttackDmg(p1), TEAM_BLUE);
+        towerTakeHit(&towers->red, championGetAttackBox(p1), championGetAttackDmg(p1));
     }
     if (mouse->p2.attack && championAttack(p2)) {
         if (championHits(p2, p1)) {
             championDecreaseHp(p1, championGetAttackDmg(p2));
         }
         minionsTakeHit(minions, championGetAttackBox(p2), championGetAttackDmg(p2), TEAM_RED);
+        towerTakeHit(&towers->blue, championGetAttackBox(p2), championGetAttackDmg(p2));
     }
 
     mouseClearEvents(mouse);

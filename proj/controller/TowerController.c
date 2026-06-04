@@ -2,6 +2,7 @@
 #include "ChampionController.h"
 #include "../model/minion/MinionConfig.h"
 #include "../model/tower/TowerConfig.h"
+#include "../model/Box.h"
 #include <math.h>
 
 static bool minionInRange(Tower *t, Minion *m) {
@@ -111,6 +112,13 @@ static void updateTower(Tower *t, Minions *minions, Champion *enemy_champ) {
     t->projectile.targeting_champion = t->targeting_champion;
     t->projectile.damage = TOWER_DMG;
     t->projectile.active = true;
+}
+
+void towerTakeHit(Tower *t, Box attack_box, int dmg) {
+    if (t->hp <= 0) return;
+    Box tower_box = {position_px(t->pos), position_py(t->pos), TOWER_W, TOWER_H};
+    if (boxesOverlap(attack_box, tower_box))
+        t->hp -= dmg;
 }
 
 void towersUpdate(Towers *towers, Minions *minions, Champion *p1, Champion *p2) {
