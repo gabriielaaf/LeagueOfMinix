@@ -42,25 +42,15 @@ void gameControllerUpdate(GameController *gc, Champion *p1, Champion *p2, Minion
         if (championHits(p1, p2)) {
             championDecreaseHp(p1, p2, championGetAttackDmg(p1));
         }
-<<<<<<< HEAD
         minionsTakeHit(minions, championGetAttackBox(p1), championGetAttackDmg(p1), TEAM_BLUE);
         towerTakeHit(&towers->red, championGetAttackBox(p1), championGetAttackDmg(p1));
-=======
-        championUpdatePoints(p1, minionsTakeHit(minions, championGetAttackBox(p1), championGetAttackDmg(p1), TEAM_BLUE));
-        towersTakeHit(towers, championGetAttackBox(p1), championGetAttackDmg(p1), TEAM_BLUE);
->>>>>>> 803a30b0f246831e01ada9eac1888482fa820b5c
     }
     if (mouse->p2.attack && championAttack(p2)) {
         if (championHits(p2, p1)) {
             championDecreaseHp(p2, p1, championGetAttackDmg(p2));
         }
-<<<<<<< HEAD
         minionsTakeHit(minions, championGetAttackBox(p2), championGetAttackDmg(p2), TEAM_RED);
         towerTakeHit(&towers->blue, championGetAttackBox(p2), championGetAttackDmg(p2));
-=======
-        championUpdatePoints(p2, minionsTakeHit(minions, championGetAttackBox(p2), championGetAttackDmg(p2), TEAM_RED));
-        towersTakeHit(towers, championGetAttackBox(p2), championGetAttackDmg(p2), TEAM_RED);
->>>>>>> 803a30b0f246831e01ada9eac1888482fa820b5c
     }
 
     mouseClearEvents(mouse);
