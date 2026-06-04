@@ -38,6 +38,12 @@ static bool inAttackRange(Minion *a, Minion *b) {
     return (dx * dx + dy * dy) <= (ATTACK_RANGE * ATTACK_RANGE);
 }
 
+static bool inTowerAttackRange(Minion *m, Tower *t) {
+    int dx = (position_px(m->pos) + MINION_W / 2) - (position_px(t->pos) + TOWER_W / 2);
+    int dy = (position_py(m->pos) + MINION_H / 2) - (position_py(t->pos) + TOWER_H / 2);
+    return (dx * dx + dy * dy) <= (ATTACK_RANGE * ATTACK_RANGE);
+}
+
 static Minion *findNearestEnemy(Minion *m, Minions *minions) {
     MinionWave *enemy_waves = (m->team == TEAM_RED) ? minions->blue_waves : minions->red_waves;
     Minion *nearest = NULL;
@@ -60,7 +66,7 @@ static Minion *findNearestEnemy(Minion *m, Minions *minions) {
     return nearest;
 }
 
-static void updateMinion(Minion *m, Minions *minions, int dir) {
+static void updateMinion(Minion *m, Minions *minions, Tower *enemy_tower, int dir) {
     if (m->state == MINION_DEAD) return;
     if (m->hp <= 0) { m->state = MINION_DEAD; return; }
 
@@ -76,6 +82,16 @@ static void updateMinion(Minion *m, Minions *minions, int dir) {
         return;
     }
 
+    if (enemy_tower && enemy_tower->hp > 0 && inTowerAttackRange(m, enemy_tower)) {
+        m->state = MINION_ATTACKING;
+        m->attack_timer++;
+        if (m->attack_timer >= MINION_ATTACK_SPEED) {
+            enemy_tower->hp -= MINION_ATTACK_DMG;
+            m->attack_timer = 0;
+        }
+        return;
+    }
+
     m->state = MINION_MOVING;
     m->attack_timer = 0;
     position_move(&m->pos, dir, 0, MINION_SPEED);
@@ -85,7 +101,7 @@ void minionsControllerInit(Minions *minions, int map_w) {
     spawnWavePair(minions, map_w);
 }
 
-void minionsUpdate(Minions *minions, int map_w, bool second_elapsed) {
+void minionsUpdate(Minions *minions, Towers *towers, int map_w, bool second_elapsed) {
     if (second_elapsed) {
         minions->spawn_timer--;
         if (minions->spawn_timer <= 0) {
@@ -97,7 +113,7 @@ void minionsUpdate(Minions *minions, int map_w, bool second_elapsed) {
     for (int w = 0; w < MAX_WAVES; w++) {
         if (!minions->red_waves[w].active) continue;
         for (int i = 0; i < MINION_COUNT; i++)
-            updateMinion(&minions->red_waves[w].minions[i], minions, -1);
+            updateMinion(&minions->red_waves[w].minions[i], minions, towers ? &towers->blue : NULL, -1);
         if (waveAllDead(&minions->red_waves[w])) {
             minions->red_waves[w].active = false;
             minions->red_count--;
@@ -107,7 +123,7 @@ void minionsUpdate(Minions *minions, int map_w, bool second_elapsed) {
     for (int w = 0; w < MAX_WAVES; w++) {
         if (!minions->blue_waves[w].active) continue;
         for (int i = 0; i < MINION_COUNT; i++)
-            updateMinion(&minions->blue_waves[w].minions[i], minions, +1);
+            updateMinion(&minions->blue_waves[w].minions[i], minions, towers ? &towers->red : NULL, +1);
         if (waveAllDead(&minions->blue_waves[w])) {
             minions->blue_waves[w].active = false;
             minions->blue_count--;
