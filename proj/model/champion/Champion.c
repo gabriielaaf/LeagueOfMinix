@@ -8,7 +8,7 @@ struct Champion {
     Team team;
     int hp;
     int max_hp;
-    int speed;
+    float speed;
     int attack_dmg;
     int respawn_timer;
     int width;
@@ -69,7 +69,7 @@ int championGetMaxHp(Champion *champion) {
     return champion->max_hp;
 }
 
-int championGetSpeed(Champion *champion) {
+float championGetSpeed(Champion *champion) {
     return champion->speed;
 }
 

@@ -1,5 +1,4 @@
-#ifndef BUILDSPRITES_H
-#define BUILDSPRITES_H
+#pragma once
 
 #define NUM_ANIMS 24
 #define ATTACK_FRAMES 3
@@ -30,5 +29,3 @@
 #include "Sprite.h"
 
 AnimSprite **buildAnimations(int player);
-
-#endif
