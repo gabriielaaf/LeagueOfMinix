@@ -7,8 +7,10 @@ void menuControllerUpdate(MenuState *menu, KeyboardState *kbd, MouseState *mouse
 
     menu->play_clicked = false;
 
-    // Temporary: W starts the game
-    if (kbd->p1.up) {
+    
+
+    // Temporary: retangulo de exemplo
+    if (mouse->x > 50 && mouse->x < 100 && mouse->y > 100 && mouse ->y < 300) {
         menu->play_clicked = true;
     }
 }

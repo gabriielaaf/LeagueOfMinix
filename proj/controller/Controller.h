@@ -17,4 +17,3 @@ Controller *controllerCreate();
 void controllerDestroy(Controller *ctrl);
 void controllerUpdate(Controller *ctrl);
 void controllerDraw(Controller *ctrl);
-void controllerStep(Controller *ctrl);
