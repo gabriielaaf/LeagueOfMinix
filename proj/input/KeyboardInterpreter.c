@@ -1,24 +1,23 @@
-#include "keyboardInterpreter.h"
-#include "breakcodes.h"
+#include "KeyboardInterpreter.h"
+#include "Breakcodes.h"
 
-static void player_input_init(PlayerInput *playerInput){
+static void playerInputInit(PlayerInput *playerInput) {
     playerInput->down = false;
     playerInput->up = false;
     playerInput->left = false;
     playerInput->right = false;
-    playerInput->attack = false;
 }
 
-void keyboard_state_init(KeyboardState *keyboardState){
+void keyboardStateInit(KeyboardState *keyboardState) {
     if (keyboardState == NULL) return;
 
-    player_input_init(&keyboardState->p1);
-    player_input_init(&keyboardState->p2);
+    playerInputInit(&keyboardState->p1);
+    playerInputInit(&keyboardState->p2);
 
     keyboardState->exit = false;
 }
 
-void keyboard_interpret_scancode(KeyboardState *state, uint8_t *bytes, uint8_t size) {
+void keyboardInterpretScancode(KeyboardState *state, uint8_t *bytes, uint8_t size) {
     if (state == NULL || bytes == NULL || size == 0) {
         return;
     }
@@ -109,8 +108,9 @@ void keyboard_interpret_scancode(KeyboardState *state, uint8_t *bytes, uint8_t s
             case DOWN_BREAK:
                 state->p2.down = false;
                 break;
+
             default:
-              break;
-            }
+                break;
+        }
     }
 }

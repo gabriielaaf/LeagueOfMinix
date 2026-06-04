@@ -1,27 +1,14 @@
 #pragma once
 
+#include <stdbool.h>
+
 typedef struct {
-    /**
-     * buttonStates[]
-     * 
-     * 
-     * 
-     */
+    bool play_clicked;
+} MenuState;
 
-    /**
-     * Which button is currently selected/hovered.
-     * Useful for keyboard navigation or mouse hover.
-     * MenuButton selected_button;
-    /
+MenuState *menuStateCreate();
+void menuStateDestroy(MenuState *menu);
 
-
-    /**
-     * True when the player chooses Play.
-     * The main State wrapper will then change to PLAYING.
-     */
-    bool play;
-
-    bool quit;
-    
-    
-}  MenuState;
+void menuStateSetPlayClicked(MenuState *menu, bool clicked);
+bool menuStateShouldStart(MenuState *menu);
+void menuStateReset(MenuState *menu);

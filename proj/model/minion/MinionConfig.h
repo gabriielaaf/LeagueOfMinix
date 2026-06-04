@@ -1,0 +1,15 @@
+#pragma once
+
+#define MINION_W 30
+#define MINION_H 40
+#define MINION_COUNT 2
+#define MINION_LANE_Y 330
+#define MINION_SPACING 15
+#define MAX_WAVES 8
+#define SPAWN_INTERVAL 300
+
+#define MINION_HP 100
+#define MINION_SPEED 1
+#define MINION_ATTACK_DMG 10
+#define MINION_ATTACK_SPEED 20
+#define ATTACK_RANGE 55

@@ -2,6 +2,12 @@
 
 #include <stdbool.h>
 
+#include "GameState.h"
+#include "../../input/KeyboardInterpreter.h"
+#include "../../input/MouseInterpreter.h"
+#include "MenuState.h"
+
+
 typedef enum {
     STATE_MENU,
     STATE_PLAYING,
@@ -13,13 +19,18 @@ typedef struct {
     StateType state;
     bool running;
     int winner;
+
+    GameState *game;
+    MenuState *menu;
+
 } State;
 
-void stateInit(State *model);
+bool stateInit(State *state);
+void stateDestroy(State *state);
 
-void gameStart(State *gameState);
-void gamePause(State *gameState);
-void gameResume(State *gameState);
-void gameOver(State *gameState, int winner);
-void gameQuit(State *gameState);
+void gameStart(State *state);
+void gamePause(State *state);
+void gameResume(State *state);
+void gameOver(State *state, int winner);
+void gameQuit(State *state);
 
