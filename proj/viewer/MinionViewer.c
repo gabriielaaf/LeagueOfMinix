@@ -5,7 +5,7 @@
 
 #include <stdlib.h>
 
-#define MINION_ANIM_TIME 10
+#define MINION_ANIM_TIME 25
 
 MinionViewer *createMinionViewer(xpm_row_t *stop_xpm, xpm_row_t *atk_xpm) {
     MinionViewer *viewer = malloc(sizeof(MinionViewer));

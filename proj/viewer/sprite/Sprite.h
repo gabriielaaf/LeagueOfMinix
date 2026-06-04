@@ -1,5 +1,4 @@
-#ifndef SPRITE_H
-#define SPRITE_H
+#pragma once
 
 #include <lcom/lcf.h>
 #include <stdint.h>
@@ -17,5 +16,3 @@ int spriteDraw(Sprite *sprite, int x, int y);
 int getWidth(Sprite *sprite);
 
 int getHeight(Sprite *sprite);
-
-#endif

@@ -37,9 +37,9 @@ Position championGetPos(Champion *champion);
 Direction championGetDir(Champion *champion);
 ChampionState championGetState(Champion *champion);
 
+float championGetSpeed(Champion *champion);
 int championGetHp(Champion *champion);
 int championGetMaxHp(Champion *champion);
-int championGetSpeed(Champion *champion);
 int championGetAttackDmg(Champion *champion);
 int championGetRespawnTimer(Champion *champion);
 int championGetWidth(Champion *champion);
@@ -51,7 +51,6 @@ void championSetPos(Champion *champion, Position pos);
 void championSetHp(Champion *champion, int hp);
 void championSetRespawnTimer(Champion *champion, int timer);
 
-void championDecreaseRespawnTimer(Champion *champion);
 void championClearPosition(Champion *champion);
 void championAddHp(Champion *champion, int delta);
 void championAddMaxHp(Champion *champion, int delta);

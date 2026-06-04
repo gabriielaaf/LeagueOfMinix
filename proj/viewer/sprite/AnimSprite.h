@@ -1,6 +1,4 @@
-#ifndef ANIM_SPRITE_H
-#define ANIM_SPRITE_H
-
+#pragma once
 
 #include "Sprite.h"
 
@@ -23,5 +21,3 @@ void animSpriteReset(AnimSprite *animSprite);
 int animSpriteHasLooped(AnimSprite *animSprite);
 
 Sprite *getCurrentSprite(AnimSprite *animSprite);
-
-#endif
