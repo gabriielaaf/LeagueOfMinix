@@ -31,8 +31,6 @@ void destroyTowerViewer(TowerViewer *viewer) {
 void towerViewerDraw(TowerViewer *viewer, Towers *towers) {
     if (!towers) return;
 
-    
-
     Tower *t;
     t = &towers->blue;
 
@@ -43,18 +41,24 @@ void towerViewerDraw(TowerViewer *viewer, Towers *towers) {
                     TOWER_HP);
 
     if (t->hp > 0) {
+        hpBarViewerDraw(viewer->hpBar,
+                    position_px(t->pos), position_py(t->pos),
+                    TOWER_W,
+                    t->hp,
+                    TOWER_HP);
         vg_draw_rectangle(position_px(t->pos), position_py(t->pos), TOWER_W, TOWER_H, 1);
     }
 
     t = &towers->red;
 
-    hpBarViewerDraw(viewer->hpBar,
+    
+    if (t->hp > 0) {
+        hpBarViewerDraw(viewer->hpBar,
                     position_px(t->pos), position_py(t->pos),
                     TOWER_W,
                     t->hp,
                     TOWER_HP);
-
-    if (t->hp > 0) {
+        
         vg_draw_rectangle(position_px(t->pos), position_py(t->pos), TOWER_W, TOWER_H, 4);
     }
 
