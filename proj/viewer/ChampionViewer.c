@@ -1,5 +1,4 @@
 #include "ChampionViewer.h"
-#include "../model/champion/ChampionConfig.h"
 #include <stdlib.h>
 
 ChampionViewer *createChampionViewer(AnimSprite **animations, int numAnimations) {
@@ -90,7 +89,7 @@ int championDraw(ChampionViewer *viewer, Champion *champion) {
                     position_px(pos), position_py(pos),
                     championGetWidth(champion),
                     championGetHp(champion),
-                    CHAMPION_HP);
+                    championGetMaxHp(champion));
 
     return drawAnimSprite(viewer->animations[viewer->currentAnimation]);
 }

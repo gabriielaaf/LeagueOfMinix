@@ -7,6 +7,7 @@ struct Champion {
     Direction dir;
     Team team;
     int hp;
+    int max_hp;
     int speed;
     int attack_dmg;
     int respawn_timer;
@@ -25,6 +26,7 @@ Champion *createChampion(Position respawnPos, Direction dir, int width, int heig
     champion->respawnPos = respawnPos;
     champion->pos = respawnPos;
     champion->hp = CHAMPION_HP;
+    champion->max_hp = CHAMPION_HP;
     champion->attack_dmg = CHAMPION_ATTACK_DMG;
     champion->speed = CHAMPION_SPEED;
     champion->respawn_timer = ALIVE;
@@ -40,7 +42,7 @@ void destroyChampion(Champion *champion) {
 }
 
 void championRespawn(Champion *champion) {
-    champion->hp = CHAMPION_HP;
+    champion->hp = champion->max_hp;
     champion->pos = champion->respawnPos;
     champion->state = CHAMPION_IDLE;
 }
@@ -59,6 +61,10 @@ ChampionState championGetState(Champion *champion) {
 
 int championGetHp(Champion *champion) {
     return champion->hp;
+}
+
+int championGetMaxHp(Champion *champion) {
+    return champion->max_hp;
 }
 
 int championGetSpeed(Champion *champion) {
@@ -108,6 +114,10 @@ void championClearPosition(Champion *champion) {
 
 void championAddHp(Champion *champion, int delta) {
     champion->hp += delta;
+}
+
+void championAddMaxHp(Champion *champion, int delta) {
+    champion->max_hp += delta;
 }
 
 void championAddSpeed(Champion *champion, int delta) {
