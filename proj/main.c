@@ -133,7 +133,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                     timerInterpretInterrupt(&tstate);
 
                     if (tstate.should_update) {
-                        controllerUpdate(ctrl);
+                        controllerUpdate(ctrl, tstate.second_elapsed);
 
                         if (ctrl->state.running) {
                             controllerDraw(ctrl);

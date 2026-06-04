@@ -45,7 +45,7 @@ Controller *controllerCreate() {
     return ctrl;
 }
 
-void controllerUpdate(Controller *ctrl) {
+void controllerUpdate(Controller *ctrl, bool second_elapsed) {
     if (!ctrl) return;
 
     if (ctrl->kbd.exit) {
@@ -86,8 +86,8 @@ void controllerUpdate(Controller *ctrl) {
                 &p2_looped
             );
 
-            championUpdate(ctrl->state.game->p1, p1_looped);
-            championUpdate(ctrl->state.game->p2, p2_looped);
+            championUpdate(ctrl->state.game->p1, p1_looped, second_elapsed);
+            championUpdate(ctrl->state.game->p2, p2_looped, second_elapsed);
 
             break;
         }

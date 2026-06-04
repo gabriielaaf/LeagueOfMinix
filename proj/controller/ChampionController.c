@@ -1,16 +1,18 @@
 #include "ChampionController.h"
 
-void championUpdate(Champion *champion, bool animationLooped) {
+void championUpdate(Champion *champion, bool animationLooped, bool second_elapsed) {
     if (champion == NULL) {
         return;
     }
 
     if (championGetHp(champion) <= 0) {
-        int timer = championGetRespawnTimer(champion) - 1;
-        championSetRespawnTimer(champion, timer);
-        if (timer == 0) {
-            championSetRespawnTimer(champion, ALIVE);
-            championRespawn(champion);
+        if (second_elapsed) {
+            int timer = championGetRespawnTimer(champion) - 1;
+            championSetRespawnTimer(champion, timer);
+            if (timer == 0) {
+                championSetRespawnTimer(champion, ALIVE);
+                championRespawn(champion);
+            }
         }
         return;
     }

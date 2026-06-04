@@ -20,5 +20,5 @@ typedef struct {
 Controller *controllerCreate();
 void controllerDestroy(Controller *ctrl);
 
-void controllerUpdate(Controller *ctrl);
+void controllerUpdate(Controller *ctrl, bool second_elapsed);
 void controllerDraw(Controller *ctrl);

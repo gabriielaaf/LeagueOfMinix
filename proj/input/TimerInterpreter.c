@@ -11,6 +11,6 @@ void timerInterpretInterrupt(TimerState *state) {
     state->total_ticks++;
     state->tick_counter++;
     state->should_update = (state->tick_counter >= state->ticks_per_update);
-    if (state->should_update)
-        state->tick_counter = 0;
+    if (state->should_update) state->tick_counter = 0;
+    state->second_elapsed = (state->total_ticks % sys_hz() == 0);
 }
