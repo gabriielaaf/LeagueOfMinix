@@ -183,15 +183,21 @@ void minionsUpdate(Minions *minions, Towers *towers, Champion *p1, Champion *p2,
     }
 }
 
-void minionsTakeHit(Minions *minions, Box attack_box, int damage, Team attacker_team) {
+int minionsTakeHit(Minions *minions, Box attack_box, int damage, Team attacker_team) {
     MinionWave *enemy_waves = (attacker_team == TEAM_RED) ? minions->blue_waves : minions->red_waves;
+    int kills = 0;
     for (int w = 0; w < MAX_WAVES; w++) {
         if (!enemy_waves[w].active) continue;
         for (int i = 0; i < MINION_COUNT; i++) {
             Minion *m = &enemy_waves[w].minions[i];
             if (m->state == MINION_DEAD) continue;
             Box mb = {position_px(m->pos), position_py(m->pos), MINION_W, MINION_H};
-            if (boxesOverlap(attack_box, mb)) m->hp -= damage;
+            if (boxesOverlap(attack_box, mb)) {
+                bool was_alive = m->hp > 0;
+                m->hp -= damage;
+                if (was_alive && m->hp <= 0) kills++;
+            }
         }
     }
+    return kills;
 }

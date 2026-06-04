@@ -60,3 +60,6 @@ Box championGetCollisionBox(Champion *champion);
 Box championGetAttackBox(Champion *champion);
 
 bool championAttackHits(Champion *attacker, Champion *target);
+
+int championCurrentPoints(Champion *champion);
+void championUpdatePoints(Champion *champion, int delta);

@@ -14,5 +14,5 @@
 #define RESPAWN_SECONDS 9
 #define ALIVE -1
 
-#define BLUE_SPAWN (Position){150, MODE105_HEIGHT / 2}
-#define RED_SPAWN (Position){MODE105_WIDTH - 150, MODE105_HEIGHT / 2}
+#define BLUE_SPAWN (Position){0, 0}
+#define RED_SPAWN (Position){MODE105_WIDTH - CHAMPION_W, 0}

@@ -101,7 +101,7 @@ bool championHits(Champion *attacker, Champion *target) {
     return championAttackHits(attacker, target);
 }
 
-void championDecreaseHp(Champion *target, int dmg) {
+void championDecreaseHp(Champion *attacker, Champion *target, int dmg) {
     if (target == NULL) {
         return;
     }
@@ -109,6 +109,7 @@ void championDecreaseHp(Champion *target, int dmg) {
     if (championGetHp(target) <= 0) {
         championSetRespawnTimer(target, RESPAWN_SECONDS);
         championClearPosition(target);
+        championUpdatePoints(attacker, 2);
     }
 }
 

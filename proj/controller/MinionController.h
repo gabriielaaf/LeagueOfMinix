@@ -9,4 +9,4 @@
 
 void minionsControllerInit(Minions *minions, int map_w);
 void minionsUpdate(Minions *minions, Towers *towers, Champion *p1, Champion *p2, int map_w, bool second_elapsed);
-void minionsTakeHit(Minions *minions, Box attack_box, int damage, Team attacker_team);
+int minionsTakeHit(Minions *minions, Box attack_box, int damage, Team attacker_team);
