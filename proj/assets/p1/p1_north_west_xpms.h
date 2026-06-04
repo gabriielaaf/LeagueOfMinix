@@ -161,7 +161,7 @@ static xpm_row_t p1_north_west_move1_xpm[] = {
     "............................HH.HHHHHHHH..HHH....................",
     "................................HHHHHH.HH......................."};
 
-static xpm_row_t p1_north_west_move2_xpm []= {
+static xpm_row_t p1_north_west_move2_xpm[] = {
     "64 68 7",
     ". 255",
     "O 0",
@@ -238,8 +238,7 @@ static xpm_row_t p1_north_west_move2_xpm []= {
     "................HHHHHHHHHHHHHHH.HHHHH...........................",
     "................HHH.HHHHHHHHHHH..HHH............................",
     "....................HH.HHHHHHHH..HHH............................",
-    "........................HHHHHH.HH..............................."
-};
+    "........................HHHHHH.HH..............................."};
 
 static xpm_row_t p1_north_west_attack_up_xpm[] = {
     "64 68 7",
