@@ -5,7 +5,7 @@
 
 #include <stdlib.h>
 
-#define MINION_ANIM_TIME 10
+#define MINION_ANIM_TIME 25
 
 MinionViewer *createMinionViewer(xpm_row_t *stop_xpm, xpm_row_t *atk_xpm) {
     MinionViewer *viewer = malloc(sizeof(MinionViewer));
@@ -88,12 +88,10 @@ static int drawMinion(MinionViewer *viewer, Minion *m) {
     AnimSprite *anim = (m->state == MINION_ATTACKING) ? viewer->atk : viewer->idle;
     int mx = position_px(m->pos);
     int my = position_py(m->pos);
-    setAnimSpritePosition(anim, mx, my);
-
     int sprite_w = getWidth(getCurrentSprite(anim));
-    int bar_x = (m->team == TEAM_RED) ? mx + sprite_w - MINION_W : mx;
-    hpBarViewerDraw(viewer->hpBar, bar_x, my, MINION_W, m->hp, MINION_HP);
-
+    int draw_x = (m->team == TEAM_RED) ? mx - (sprite_w - MINION_W) : mx;
+    setAnimSpritePosition(anim, draw_x, my);
+    hpBarViewerDraw(viewer->hpBar, mx, my, MINION_W, m->hp, MINION_HP);
     return drawAnimSprite(anim);
 }
 

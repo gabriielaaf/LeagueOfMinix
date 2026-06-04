@@ -1,5 +1,9 @@
 #include "Tower.h"
 
+Box towerGetBox(Tower *tower) {
+    return (Box){position_px(tower->pos), position_py(tower->pos), TOWER_W, TOWER_H};
+}
+
 void towersInit(Towers *towers, int map_w) {
     towers->blue.pos = (Position){TOWER_X_MARGIN, TOWER_LANE_Y};
     towers->blue.team = TEAM_BLUE;

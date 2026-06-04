@@ -7,11 +7,13 @@ struct Champion {
     Direction dir;
     Team team;
     int hp;
-    int speed;
+    int max_hp;
+    float speed;
     int attack_dmg;
     int respawn_timer;
     int width;
     int height;
+    int points;
 };
 
 Champion *createChampion(Position respawnPos, Direction dir, int width, int height) {
@@ -25,12 +27,14 @@ Champion *createChampion(Position respawnPos, Direction dir, int width, int heig
     champion->respawnPos = respawnPos;
     champion->pos = respawnPos;
     champion->hp = CHAMPION_HP;
+    champion->max_hp = CHAMPION_HP;
     champion->attack_dmg = CHAMPION_ATTACK_DMG;
     champion->speed = CHAMPION_SPEED;
     champion->respawn_timer = ALIVE;
     champion->state = CHAMPION_IDLE;
     champion->width = width;
     champion->height = height;
+    champion->points = 0;
 
     return champion;
 }
@@ -40,7 +44,7 @@ void destroyChampion(Champion *champion) {
 }
 
 void championRespawn(Champion *champion) {
-    champion->hp = CHAMPION_HP;
+    champion->hp = champion->max_hp;
     champion->pos = champion->respawnPos;
     champion->state = CHAMPION_IDLE;
 }
@@ -61,7 +65,11 @@ int championGetHp(Champion *champion) {
     return champion->hp;
 }
 
-int championGetSpeed(Champion *champion) {
+int championGetMaxHp(Champion *champion) {
+    return champion->max_hp;
+}
+
+float championGetSpeed(Champion *champion) {
     return champion->speed;
 }
 
@@ -102,12 +110,16 @@ void championSetRespawnTimer(Champion *champion, int timer) {
 }
 
 void championClearPosition(Champion *champion) {
-    champion->pos.x = -champion->width;
-    champion->pos.y = -champion->height;
+    champion->pos.x = champion->respawnPos.x;
+    champion->pos.y = champion->respawnPos.y;
 }
 
 void championAddHp(Champion *champion, int delta) {
     champion->hp += delta;
+}
+
+void championAddMaxHp(Champion *champion, int delta) {
+    champion->max_hp += delta;
 }
 
 void championAddSpeed(Champion *champion, int delta) {
@@ -168,4 +180,13 @@ bool championAttackHits(Champion *attacker, Champion *target) {
         target->height
     };
     return boxesOverlap(attack, hit);
+}
+
+int championCurrentPoints(Champion *champion) { 
+    return champion->points;
+}
+
+void championUpdatePoints(Champion *champion, int delta) {
+    if (!champion) return;
+    champion->points += delta;
 }

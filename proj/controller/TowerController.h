@@ -7,3 +7,4 @@
 
 void towerTakeHit(Tower *t, Box attack_box, int dmg);
 void towersUpdate(Towers *towers, Minions *minions, Champion *p1, Champion *p2);
+void towersTakeHit(Towers *towers, Box attack_box, int damage, Team attacker_team);
