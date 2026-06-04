@@ -51,7 +51,10 @@ static Minion *findNearestEnemy(Minion *m, Minions *minions) {
             int dx = (position_px(m->pos) + MINION_W / 2) - (position_px(e->pos) + MINION_W / 2);
             int dy = (position_py(m->pos) + MINION_H / 2) - (position_py(e->pos) + MINION_H / 2);
             int dist = dx * dx + dy * dy;
-            if (dist < min_dist) { min_dist = dist; nearest = e; }
+            if (dist < min_dist) {
+                min_dist = dist;
+                nearest = e; 
+            }
         }
     }
     return nearest;
@@ -82,11 +85,13 @@ void minionsControllerInit(Minions *minions, int map_w) {
     spawnWavePair(minions, map_w);
 }
 
-void minionsUpdate(Minions *minions, int map_w) {
-    minions->spawn_timer++;
-    if (minions->spawn_timer >= SPAWN_INTERVAL) {
-        minions->spawn_timer = 0;
-        spawnWavePair(minions, map_w);
+void minionsUpdate(Minions *minions, int map_w, bool second_elapsed) {
+    if (second_elapsed) {
+        minions->spawn_timer--;
+        if (minions->spawn_timer <= 0) {
+            minions->spawn_timer = SPAWN_SECONDS;
+            spawnWavePair(minions, map_w);
+        }
     }
 
     for (int w = 0; w < MAX_WAVES; w++) {

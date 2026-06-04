@@ -14,4 +14,5 @@ typedef struct {
 GameController *gameControllerCreate(int map_w, int map_h);
 void gameControllerDestroy(GameController *gc);
 void gameControllerUpdate(GameController *gc, Champion *p1, Champion *p2, Minions *minions,
-                          KeyboardState *kbd, MouseState *mouse);
+                          KeyboardState *kbd, MouseState *mouse, bool second_elapsed,
+                          bool p1_looped, bool p2_looped);

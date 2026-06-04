@@ -59,6 +59,14 @@ MinionViewer *createMinionViewer(xpm_row_t *stop_xpm, xpm_row_t *atk_xpm) {
         return NULL;
     }
 
+    viewer->hpBar = createHpBarViewer();
+    if (!viewer->hpBar) {
+        destroyAnimSprite(viewer->atk);
+        destroyAnimSprite(viewer->idle);
+        free(viewer);
+        return NULL;
+    }
+
     return viewer;
 }
 
@@ -66,6 +74,7 @@ void destroyMinionViewer(MinionViewer *viewer) {
     if (!viewer) return;
     if (viewer->idle) destroyAnimSprite(viewer->idle);
     if (viewer->atk) destroyAnimSprite(viewer->atk);
+    destroyHpBarViewer(viewer->hpBar);
     free(viewer);
 }
 
@@ -77,7 +86,14 @@ void minionViewerUpdate(MinionViewer *viewer) {
 
 static int drawMinion(MinionViewer *viewer, Minion *m) {
     AnimSprite *anim = (m->state == MINION_ATTACKING) ? viewer->atk : viewer->idle;
-    setAnimSpritePosition(anim, position_px(m->pos), position_py(m->pos));
+    int mx = position_px(m->pos);
+    int my = position_py(m->pos);
+    setAnimSpritePosition(anim, mx, my);
+
+    int sprite_w = getWidth(getCurrentSprite(anim));
+    int bar_x = (m->team == TEAM_RED) ? mx + sprite_w - MINION_W : mx;
+    hpBarViewerDraw(viewer->hpBar, bar_x, my, MINION_W, m->hp, MINION_HP);
+
     return drawAnimSprite(anim);
 }
 

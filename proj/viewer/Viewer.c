@@ -62,6 +62,7 @@ void viewerDraw(Viewer *v, State *state, int cursor_x, int cursor_y) {
             if (state->menu) {
                 menuViewerDraw(v->menuViewer, state->menu);
             }
+            spriteDraw(v->cursor, cursor_x, cursor_y);
             break;
 
         case STATE_PLAYING:
@@ -97,8 +98,6 @@ void viewerDraw(Viewer *v, State *state, int cursor_x, int cursor_y) {
             }
             break;
     }
-
-    spriteDraw(v->cursor, cursor_x, cursor_y);
 
     video_swap_buffers();
 }

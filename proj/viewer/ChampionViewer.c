@@ -1,4 +1,5 @@
 #include "ChampionViewer.h"
+#include "../model/champion/ChampionConfig.h"
 #include <stdlib.h>
 
 ChampionViewer *createChampionViewer(AnimSprite **animations, int numAnimations) {
@@ -15,6 +16,11 @@ ChampionViewer *createChampionViewer(AnimSprite **animations, int numAnimations)
     viewer->animations = animations;
     viewer->numAnimations = numAnimations;
     viewer->currentAnimation = 0;
+    viewer->hpBar = createHpBarViewer();
+    if (!viewer->hpBar) {
+        free(viewer);
+        return NULL;
+    }
 
     return viewer;
 }
@@ -28,6 +34,7 @@ void destroyChampionViewer(ChampionViewer *viewer) {
         destroyAnimSprite(viewer->animations[i]);
     }
 
+    destroyHpBarViewer(viewer->hpBar);
     free(viewer);
 }
 
@@ -74,6 +81,12 @@ int championDraw(ChampionViewer *viewer, Champion *champion) {
         position_px(pos),
         position_py(pos)
     );
+
+    hpBarViewerDraw(viewer->hpBar,
+                    position_px(pos), position_py(pos),
+                    championGetWidth(champion),
+                    championGetHp(champion),
+                    CHAMPION_HP);
 
     return drawAnimSprite(viewer->animations[viewer->currentAnimation]);
 }

@@ -7,5 +7,5 @@ void minionsInit(Minions *minions) {
     }
     minions->red_count = 0;
     minions->blue_count = 0;
-    minions->spawn_timer = 0;
+    minions->spawn_timer = SPAWN_SECONDS;
 }

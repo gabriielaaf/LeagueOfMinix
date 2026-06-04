@@ -33,6 +33,7 @@ SRCS = main.c \
        Sprite.c \
        ChampionViewer.c \
        GameViewer.c \
+       HpBarViewer.c \
        MinionViewer.c \
        ButtonViewer.c \
        MenuViewer.c \
