@@ -113,7 +113,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
                 timerInterpretInterrupt(&tstate);
 
                 if (tstate.should_update) {
-                    stateStep(&ctrl->state, &ctrl->kbd, &ctrl->mouse);
+                    controllerUpdate(ctrl);
 
                     if (ctrl->state.running) {
                         controllerDraw(ctrl);

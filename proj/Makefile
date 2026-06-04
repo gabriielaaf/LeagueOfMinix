@@ -30,7 +30,8 @@ SRCS = main.c \
        GameViewer.c \
        MinionViewer.c \
        Viewer.c \
-       MenuState.c
+       MenuState.c \
+       MenuController.c
 
 CFLAGS += -pedantic
 CFLAGS += -I${.CURDIR}/../lab2

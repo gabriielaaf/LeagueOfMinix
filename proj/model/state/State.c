@@ -27,6 +27,11 @@ bool stateInit(State *state) {
 void stateDestroy(State *state) {
     if (state == NULL) return;
 
+    if (state->menu != NULL) {
+        menuStateDestroy(state->menu);
+        state->menu = NULL;
+    }
+
     if (state->game != NULL) {
         gameStateDestroy(state->game);
         state->game = NULL;
@@ -63,35 +68,4 @@ void gameQuit(State *state) {
     if (state == NULL) return;
 
     state->running = false;
-}
-
-void stateStep(State *state, KeyboardState *kbd, MouseState *mouse) {
-    if (state == NULL || kbd == NULL || mouse == NULL) return;
-
-    if (kbd->exit) {
-        gameQuit(state);
-        return;
-    }
-
-    switch (state->state) {
-       case STATE_MENU:
-            menuStateStep(state->menu, kbd, mouse);
-
-            if (menuStateShouldStart(state->menu)) {
-                menuStateReset(state->menu);
-                gameStart(state);
-            }
-
-            break;
-
-        case STATE_PLAYING:
-            gameStateStep(state->game, kbd, mouse);
-            break;
-
-        case STATE_PAUSED:
-            break;
-
-        case STATE_GAME_OVER:
-            break;
-    }
 }

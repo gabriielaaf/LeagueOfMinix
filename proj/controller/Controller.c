@@ -1,4 +1,5 @@
 #include "Controller.h"
+#include "MenuController.h"
 #include "vbe.h"
 
 #include <lcom/lcf.h>
@@ -26,6 +27,37 @@ Controller *controllerCreate() {
     }
 
     return ctrl;
+}
+
+void controllerUpdate(Controller *ctrl) {
+    if (!ctrl) return;
+
+    if (ctrl->kbd.exit) {
+        gameQuit(&ctrl->state);
+        return;
+    }
+
+    switch (ctrl->state.state) {
+        case STATE_MENU:
+            menuControllerUpdate(ctrl->state.menu, &ctrl->kbd, &ctrl->mouse);
+
+            if (menuStateShouldStart(ctrl->state.menu)) {
+                menuStateReset(ctrl->state.menu);
+                gameStart(&ctrl->state);
+            }
+
+            break;
+
+        case STATE_PLAYING:
+            gameStateStep(ctrl->state.game, &ctrl->kbd, &ctrl->mouse);
+            break;
+
+        case STATE_PAUSED:
+            break;
+
+        case STATE_GAME_OVER:
+            break;
+    }
 }
 
 void controllerDestroy(Controller *ctrl) {

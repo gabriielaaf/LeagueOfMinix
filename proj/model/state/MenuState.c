@@ -13,17 +13,10 @@ void menuStateDestroy(MenuState *menu) {
     free(menu);
 }
 
-void menuStateStep(MenuState *menu, KeyboardState *kbd, MouseState *mouse) {
-    (void)mouse;
+void menuStateSetPlayClicked(MenuState *menu, bool clicked) {
+    if (!menu) return;
 
-    if (!menu || !kbd) return;
-
-    menu->play_clicked = false;
-
-    // Temporário: carregar em W começa o jogo
-    if (kbd->p1.up) {
-        menu->play_clicked = true;
-    }
+    menu->play_clicked = clicked;
 }
 
 bool menuStateShouldStart(MenuState *menu) {
@@ -32,5 +25,7 @@ bool menuStateShouldStart(MenuState *menu) {
 
 void menuStateReset(MenuState *menu) {
     if (!menu) return;
+
     menu->play_clicked = false;
 }
+

@@ -34,4 +34,3 @@ void gameResume(State *state);
 void gameOver(State *state, int winner);
 void gameQuit(State *state);
 
-void stateStep(State *state, KeyboardState *kbd, MouseState *mouse);
