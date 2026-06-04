@@ -132,18 +132,31 @@ int(vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color) {
 }
 
 int(vg_draw_hline)(uint16_t x, uint16_t y, uint16_t len, uint32_t color) {
+  if (video_mem == NULL) {
+    return 1;
+  }
+
   if (y >= vmi.YResolution) {
     return 1;
   }
 
-  if ((uint32_t)x + len > vmi.XResolution) {
+  if ((uint32_t) x + len > vmi.XResolution) {
     return 1;
   }
 
+  char *buffer = video_get_back_buffer();
+
+  char *dst = buffer +
+              y * vmi.BytesPerScanLine +
+              x * bytes_per_pixel;
+
+  if (bytes_per_pixel == 1) {
+    memset(dst, (uint8_t) color, len);
+    return 0;
+  }
+
   for (uint16_t i = 0; i < len; i++) {
-    if (vg_draw_pixel(x + i, y, color) != 0) {
-      return 1;
-    }
+    memcpy(dst + i * bytes_per_pixel, &color, bytes_per_pixel);
   }
 
   return 0;
@@ -152,17 +165,39 @@ int(vg_draw_hline)(uint16_t x, uint16_t y, uint16_t len, uint32_t color) {
 int(vg_draw_rectangle)(uint16_t x, uint16_t y,
                        uint16_t width, uint16_t height,
                        uint32_t color) {
-  if ((uint32_t)x + width > vmi.XResolution) {
+  if (video_mem == NULL) {
     return 1;
   }
 
-  if ((uint32_t)y + height > vmi.YResolution) {
+  if ((uint32_t) x + width > vmi.XResolution) {
     return 1;
+  }
+
+  if ((uint32_t) y + height > vmi.YResolution) {
+    return 1;
+  }
+
+  char *buffer = video_get_back_buffer();
+
+  if (bytes_per_pixel == 1) {
+    for (uint16_t row = 0; row < height; row++) {
+      char *dst = buffer +
+                  (y + row) * vmi.BytesPerScanLine +
+                  x;
+
+      memset(dst, (uint8_t) color, width);
+    }
+
+    return 0;
   }
 
   for (uint16_t row = 0; row < height; row++) {
-    if (vg_draw_hline(x, y + row, width, color) != 0) {
-      return 1;
+    char *dst = buffer +
+                (y + row) * vmi.BytesPerScanLine +
+                x * bytes_per_pixel;
+
+    for (uint16_t col = 0; col < width; col++) {
+      memcpy(dst + col * bytes_per_pixel, &color, bytes_per_pixel);
     }
   }
 
