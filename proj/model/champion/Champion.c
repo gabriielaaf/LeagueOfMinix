@@ -112,6 +112,10 @@ void championClearPosition(Champion *champion) {
     champion->pos.y = -champion->height;
 }
 
+void championAddHp(Champion *champion, int delta) {
+    champion->hp += delta;
+}
+
 void championAddMaxHp(Champion *champion, int delta) {
     champion->max_hp += delta;
 }
