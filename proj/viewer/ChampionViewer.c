@@ -1,5 +1,4 @@
 #include "ChampionViewer.h"
-#include "../model/champion/ChampionConfig.h"
 #include <stdlib.h>
 
 ChampionViewer *createChampionViewer(AnimSprite **animations, int numAnimations) {
@@ -52,7 +51,11 @@ bool championViewerUpdate(ChampionViewer *viewer, Champion *champion) {
             targetAnimation = (int)dir + 16;
             break;
         case CHAMPION_ATTACKING:
-            targetAnimation = (int)dir + 8;
+            if (viewer->currentAnimation >= 8 && viewer->currentAnimation < 16) {
+                targetAnimation = viewer->currentAnimation;
+            } else {
+                targetAnimation = (int)dir + 8;
+            }
             break;
         default:
             targetAnimation = (int)dir;
@@ -86,7 +89,7 @@ int championDraw(ChampionViewer *viewer, Champion *champion) {
                     position_px(pos), position_py(pos),
                     championGetWidth(champion),
                     championGetHp(champion),
-                    CHAMPION_HP);
+                    championGetMaxHp(champion));
 
     return drawAnimSprite(viewer->animations[viewer->currentAnimation]);
 }

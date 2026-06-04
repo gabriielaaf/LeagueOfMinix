@@ -2,6 +2,7 @@
 #include "ChampionController.h"
 #include "../model/minion/MinionConfig.h"
 #include "../model/tower/TowerConfig.h"
+#include "../model/Box.h"
 #include <math.h>
 
 static bool minionInRange(Tower *t, Minion *m) {
@@ -84,7 +85,6 @@ static void updateTower(Tower *t, Minions *minions, Champion *enemy_champ) {
     if (t->attack_timer < TOWER_ATTACK_SPEED) return;
     t->attack_timer = 0;
 
-    // Validate locked minion: dead or walked out of range
     if (t->minion_target != NULL) {
         if (t->minion_target->state == MINION_DEAD || !minionInRange(t, t->minion_target)) {
             t->minion_target = NULL;
@@ -92,11 +92,9 @@ static void updateTower(Tower *t, Minions *minions, Champion *enemy_champ) {
         }
     }
 
-    // Validate champion lock: died or left range
     if (t->targeting_champion && !championInRange(t, enemy_champ))
         t->targeting_champion = false;
 
-    // Acquire a new target only if we have none (minions have priority)
     if (t->minion_target == NULL && !t->targeting_champion) {
         t->minion_target = findNearestMinion(t, minions);
         if (t->minion_target == NULL)
@@ -116,4 +114,11 @@ static void updateTower(Tower *t, Minions *minions, Champion *enemy_champ) {
 void towersUpdate(Towers *towers, Minions *minions, Champion *p1, Champion *p2) {
     updateTower(&towers->blue, minions, p2);
     updateTower(&towers->red,  minions, p1);
+}
+
+void towersTakeHit(Towers *towers, Box attack_box, int damage, Team attacker_team) {
+    Tower *target = (attacker_team == TEAM_RED) ? &towers->blue : &towers->red;
+    if (target->hp <= 0) return;
+    if (boxesOverlap(attack_box, towerGetBox(target)))
+        target->hp -= damage;
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Position.h"
+#include "../Box.h"
 #include "../champion/Champion.h"
 #include "../minion/Minion.h"
 #include "TowerConfig.h"
@@ -30,3 +31,4 @@ typedef struct {
 } Towers;
 
 void towersInit(Towers *towers, int map_w);
+Box towerGetBox(Tower *tower);

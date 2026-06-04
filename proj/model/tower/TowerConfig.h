@@ -2,10 +2,10 @@
 
 #define TOWER_W 32
 #define TOWER_H 64
-#define TOWER_LANE_Y 300
+#define TOWER_LANE_Y 340
 #define TOWER_X_MARGIN 20
 
-#define TOWER_HP 500
+#define TOWER_HP 300
 #define TOWER_DMG 30
 #define TOWER_ATTACK_SPEED 90
 #define TOWER_RANGE 120

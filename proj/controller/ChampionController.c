@@ -103,7 +103,7 @@ void championUpgradeHp(Champion *champion) {
     if (champion == NULL) {
         return;
     }
-    championAddHp(champion, 10);
+    championAddMaxHp(champion, 10);
 }
 
 void championUpgradeDamage(Champion *champion) {

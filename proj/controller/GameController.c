@@ -41,17 +41,18 @@ void gameControllerUpdate(GameController *gc, Champion *p1, Champion *p2, Minion
         if (championHits(p1, p2)) {
             championDecreaseHp(p2, championGetAttackDmg(p1));
         }
-
         minionsTakeHit(minions, championGetAttackBox(p1), championGetAttackDmg(p1), TEAM_BLUE);
+        towersTakeHit(towers, championGetAttackBox(p1), championGetAttackDmg(p1), TEAM_BLUE);
     }
     if (mouse->p2.attack && championAttack(p2)) {
         if (championHits(p2, p1)) {
             championDecreaseHp(p1, championGetAttackDmg(p2));
         }
         minionsTakeHit(minions, championGetAttackBox(p2), championGetAttackDmg(p2), TEAM_RED);
+        towersTakeHit(towers, championGetAttackBox(p2), championGetAttackDmg(p2), TEAM_RED);
     }
 
     mouseClearEvents(mouse);
-    minionsUpdate(minions, gc->map_w, second_elapsed);
+    minionsUpdate(minions, towers, gc->map_w, second_elapsed);
     towersUpdate(towers, minions, p1, p2);
 }
