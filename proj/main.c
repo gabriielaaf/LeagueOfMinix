@@ -35,25 +35,69 @@ int(proj_main_loop)(int argc, char *argv[]) {
     if ((argc > 0 && strcmp(argv[0], "test") == 0) ||
         (argc > 1 && strcmp(argv[1], "test") == 0)) {
 
-        if (video_init_page_flipping(0x105) != 0) {
-        return 1;
+        printf("[TEST] Entrei no modo test\n");
+        fflush(stdout);
+
+        printf("[TEST] Vou chamar video_init_page_flipping(0x118)\n");
+        fflush(stdout);
+
+        if (video_init_page_flipping(0x118) != 0) {
+            printf("[TEST ERROR] video_init_page_flipping falhou\n");
+            fflush(stdout);
+            return 1;
         }
+
+        printf("[TEST] Video inicializado com sucesso\n");
+        fflush(stdout);
+
+        printf("[TEST] Vou criar sprite gabi_test_xpm\n");
+        fflush(stdout);
 
         Sprite *sprite = spriteCreate(gabi_test_xpm);
 
         if (sprite == NULL) {
-        vg_exit();
-        return 1;
+            printf("[TEST ERROR] spriteCreate(gabi_test_xpm) devolveu NULL\n");
+            fflush(stdout);
+
+            vg_exit();
+            return 1;
         }
 
+        printf("[TEST] Sprite criado com sucesso\n");
+        fflush(stdout);
+
+        printf("[TEST] Vou limpar o back buffer\n");
+        fflush(stdout);
+
         video_clear_back_buffer(0);
-        spriteDraw(sprite, 300, 300);
+
+        printf("[TEST] Vou desenhar sprite em 0,0\n");
+        fflush(stdout);
+
+        spriteDraw(sprite, 0, 0);
+
+        printf("[TEST] Vou fazer video_swap_buffers\n");
+        fflush(stdout);
+
         video_swap_buffers();
+
+        printf("[TEST] Sprite desenhado. Vou esperar ESC\n");
+        fflush(stdout);
 
         wait_for_esc();
 
+        printf("[TEST] ESC recebido. Vou destruir sprite\n");
+        fflush(stdout);
+
         spriteDestroy(sprite);
+
+        printf("[TEST] Vou sair do modo grafico\n");
+        fflush(stdout);
+
         vg_exit();
+
+        printf("[TEST] Saiu com sucesso\n");
+        fflush(stdout);
 
         return 0;
     }
@@ -61,7 +105,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
     (void) argc;
     (void) argv;
 
-    if (video_init_page_flipping(0x105) != 0) {
+    if (video_init_page_flipping(0x118) != 0) {
         return 1;
     }
 

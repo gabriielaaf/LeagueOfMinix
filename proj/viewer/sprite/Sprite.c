@@ -13,14 +13,13 @@ struct Sprite {
 
 Sprite *spriteCreate(xpm_map_t xpm) {
     Sprite *sprite = malloc(sizeof(Sprite));
-
     if (sprite == NULL) {
         return NULL;
     }
 
     xpm_image_t img;
 
-    sprite->map = xpm_load(xpm, XPM_INDEXED, &img);
+    sprite->map = xpm_load(xpm, XPM_8_8_8, &img);
 
     if (sprite->map == NULL) {
         free(sprite);
@@ -50,7 +49,7 @@ int spriteDraw(Sprite *sprite, int x, int y) {
         return 1;
     }
 
-    return vg_draw_pixmap(sprite->map, sprite->width, sprite->height, x, y, TRANSPARENT_COLOR);
+    return vg_draw_pixmap(sprite->map, sprite->width, sprite->height, x, y, 0xFFFFFFFF);
 }
 
 int getWidth(Sprite *sprite) { return sprite->width; }
