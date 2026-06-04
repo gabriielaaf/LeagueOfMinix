@@ -6,6 +6,7 @@ PROG=proj
        ${.CURDIR}/model/champion \
        ${.CURDIR}/model/minion \
        ${.CURDIR}/model/state \
+       ${.CURDIR}/model/button \
        ${.CURDIR}/viewer \
        ${.CURDIR}/viewer/sprite
 
@@ -14,6 +15,8 @@ SRCS = main.c \
        Controller.c \
        GameController.c \
        MinionController.c \
+       MenuController.c \
+       ButtonController.c \
        KeyboardInterpreter.c \
        MouseInterpreter.c \
        TimerInterpreter.c \
@@ -23,15 +26,17 @@ SRCS = main.c \
        Minion.c \
        GameState.c \
        State.c \
+       MenuState.c \
+       Button.c \
        AnimSprite.c \
        BuildSprites.c \
        Sprite.c \
        ChampionViewer.c \
        GameViewer.c \
        MinionViewer.c \
-       Viewer.c \
-       MenuState.c \
-       MenuController.c
+       ButtonViewer.c \
+       MenuViewer.c \
+       Viewer.c
 
 CFLAGS += -pedantic
 CFLAGS += -I${.CURDIR}/../lab2

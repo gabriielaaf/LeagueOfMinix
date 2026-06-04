@@ -1,31 +1,47 @@
 #include "MenuState.h"
+
 #include <stdlib.h>
+
+#define PLAY_BUTTON_X 250
+#define PLAY_BUTTON_Y 350
+#define PLAY_BUTTON_W 96
+#define PLAY_BUTTON_H 32
 
 MenuState *menuStateCreate() {
     MenuState *menu = malloc(sizeof(MenuState));
     if (!menu) return NULL;
 
-    menu->play_clicked = false;
+    menu->playButton = buttonStateCreate(
+        PLAY_BUTTON_X,
+        PLAY_BUTTON_Y,
+        PLAY_BUTTON_W,
+        PLAY_BUTTON_H
+    );
+
+    if (!menu->playButton) {
+        free(menu);
+        return NULL;
+    }
+
     return menu;
 }
 
 void menuStateDestroy(MenuState *menu) {
+    if (!menu) return;
+
+    if (menu->playButton) {
+        buttonStateDestroy(menu->playButton);
+    }
+
     free(menu);
 }
 
-void menuStateSetPlayClicked(MenuState *menu, bool clicked) {
-    if (!menu) return;
-
-    menu->play_clicked = clicked;
-}
-
 bool menuStateShouldStart(MenuState *menu) {
-    return menu && menu->play_clicked;
+    if (!menu || !menu->playButton) return false;
+    return menu->playButton->clicked;
 }
 
 void menuStateReset(MenuState *menu) {
-    if (!menu) return;
-
-    menu->play_clicked = false;
+    if (!menu || !menu->playButton) return;
+    menu->playButton->clicked = false;
 }
-

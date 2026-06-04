@@ -1,18 +1,19 @@
 #pragma once
 
 #include <stdbool.h>
-#include <stdint.h>
 
 typedef struct {
     int x;
     int y;
-    int w;
-    int h;
+    int width;
+    int height;
 
-    bool clicked;
     bool hovered;
+    bool clicked;
+} ButtonState;
 
-    uint32_t color;
-    uint32_t hover_color;
-    uint32_t border_color;
-} Button;
+ButtonState *buttonStateCreate(int x, int y, int width, int height);
+void buttonStateDestroy(ButtonState *button);
+
+bool buttonStateContains(ButtonState *button, int x, int y);
+void buttonStateResetClick(ButtonState *button);

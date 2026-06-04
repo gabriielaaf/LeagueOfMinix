@@ -1,34 +1,37 @@
 #include "ButtonViewer.h"
-#include "video.h"
 
-#include <stdint.h>
+#include <stdlib.h>
 
-static void drawFilledRect(int x, int y, int w, int h, uint32_t color) {
-    for (int row = 0; row < h; row++) {
-        for (int col = 0; col < w; col++) {
-            video_draw_pixel(x + col, y + row, color);
-        }
+ButtonViewer *buttonViewerCreate(xpm_map_t normal_xpm, xpm_map_t hover_xpm) {
+    ButtonViewer *viewer = malloc(sizeof(ButtonViewer));
+    if (!viewer) return NULL;
+
+    viewer->normal = spriteCreate(normal_xpm);
+    viewer->hover = spriteCreate(hover_xpm);
+
+    if (!viewer->normal || !viewer->hover) {
+        buttonViewerDestroy(viewer);
+        return NULL;
     }
+
+    return viewer;
 }
 
-void buttonViewerDraw(Button *button) {
-    if (!button) return;
+void buttonViewerDestroy(ButtonViewer *viewer) {
+    if (!viewer) return;
 
-    uint32_t body_color = button->hovered ? button->hover_color : button->color;
+    if (viewer->normal) spriteDestroy(viewer->normal);
+    if (viewer->hover) spriteDestroy(viewer->hover);
 
-    drawFilledRect(
-        button->x - 4,
-        button->y - 4,
-        button->w + 8,
-        button->h + 8,
-        button->border_color
-    );
+    free(viewer);
+}
 
-    drawFilledRect(
-        button->x,
-        button->y,
-        button->w,
-        button->h,
-        body_color
-    );
+void buttonViewerDraw(ButtonViewer *viewer, ButtonState *button) {
+    if (!viewer || !button) return;
+
+    if (button->hovered) {
+        spriteDraw(viewer->hover, button->x, button->y);
+    } else {
+        spriteDraw(viewer->normal, button->x, button->y);
+    }
 }

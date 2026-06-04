@@ -1,13 +1,21 @@
 #include "Controller.h"
+
 #include "MenuController.h"
+#include "ChampionController.h"
+#include "GameController.h"
+
 #include "vbe.h"
 
 #include <lcom/lcf.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 Controller *controllerCreate() {
     Controller *ctrl = malloc(sizeof(Controller));
     if (!ctrl) return NULL;
+
+    ctrl->gameCtrl = NULL;
+    ctrl->viewer = NULL;
 
     if (!stateInit(&ctrl->state)) {
         free(ctrl);
@@ -19,8 +27,16 @@ Controller *controllerCreate() {
     keyboardStateInit(&ctrl->kbd);
     mouseStateInit(&ctrl->mouse, MODE105_WIDTH / 2, MODE105_HEIGHT / 2);
 
+    ctrl->gameCtrl = gameControllerCreate(MODE105_WIDTH, MODE105_HEIGHT);
+    if (!ctrl->gameCtrl) {
+        stateDestroy(&ctrl->state);
+        free(ctrl);
+        return NULL;
+    }
+
     ctrl->viewer = viewerCreate();
     if (!ctrl->viewer) {
+        gameControllerDestroy(ctrl->gameCtrl);
         stateDestroy(&ctrl->state);
         free(ctrl);
         return NULL;
@@ -48,9 +64,33 @@ void controllerUpdate(Controller *ctrl) {
 
             break;
 
-        case STATE_PLAYING:
-            gameStateStep(ctrl->state.game, &ctrl->kbd, &ctrl->mouse);
+        case STATE_PLAYING: {
+            gameControllerUpdate(
+                ctrl->gameCtrl,
+                ctrl->state.game->p1,
+                ctrl->state.game->p2,
+                &ctrl->state.game->minions,
+                &ctrl->kbd,
+                &ctrl->mouse
+            );
+
+            bool p1_looped = false;
+            bool p2_looped = false;
+
+            gameViewerUpdate(
+                ctrl->viewer->gameViewer,
+                ctrl->state.game->p1,
+                ctrl->state.game->p2,
+                &ctrl->state.game->minions,
+                &p1_looped,
+                &p2_looped
+            );
+
+            championUpdate(ctrl->state.game->p1, p1_looped);
+            championUpdate(ctrl->state.game->p2, p2_looped);
+
             break;
+        }
 
         case STATE_PAUSED:
             break;
@@ -60,26 +100,29 @@ void controllerUpdate(Controller *ctrl) {
     }
 }
 
-void controllerDestroy(Controller *ctrl) {
-    if (!ctrl) return;
-
-    stateDestroy(&ctrl->state);
-
-    if (ctrl->viewer) {
-        viewerDestroy(ctrl->viewer);
-    }
-
-    free(ctrl);
-}
-
 void controllerDraw(Controller *ctrl) {
     if (!ctrl) return;
 
     viewerDraw(
         ctrl->viewer,
         &ctrl->state,
-        ctrl->state.game,
         ctrl->mouse.x,
         ctrl->mouse.y
     );
+}
+
+void controllerDestroy(Controller *ctrl) {
+    if (!ctrl) return;
+
+    if (ctrl->viewer) {
+        viewerDestroy(ctrl->viewer);
+    }
+
+    if (ctrl->gameCtrl) {
+        gameControllerDestroy(ctrl->gameCtrl);
+    }
+
+    stateDestroy(&ctrl->state);
+
+    free(ctrl);
 }

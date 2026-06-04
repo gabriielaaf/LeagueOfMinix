@@ -1,5 +1,15 @@
 #pragma once
 
-#include "../model/Button.h"
+#include <lcom/lcf.h>
 
-void buttonViewerDraw(Button *button);
+#include "../model/Button.h"
+#include "sprite/Sprite.h"
+
+typedef struct {
+    Sprite *normal;
+    Sprite *hover;
+} ButtonViewer;
+
+ButtonViewer *buttonViewerCreate(xpm_map_t normal_xpm, xpm_map_t hover_xpm);
+void buttonViewerDestroy(ButtonViewer *viewer);
+void buttonViewerDraw(ButtonViewer *viewer, ButtonState *button);

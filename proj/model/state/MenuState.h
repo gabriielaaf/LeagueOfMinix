@@ -1,14 +1,14 @@
 #pragma once
 
 #include <stdbool.h>
+#include "../Button.h"
 
 typedef struct {
-    bool play_clicked;
+    ButtonState *playButton;
 } MenuState;
 
 MenuState *menuStateCreate();
 void menuStateDestroy(MenuState *menu);
 
-void menuStateSetPlayClicked(MenuState *menu, bool clicked);
 bool menuStateShouldStart(MenuState *menu);
 void menuStateReset(MenuState *menu);

@@ -7,10 +7,10 @@
 #include "video.h"
 #include "keyboard.h"
 #include "mouse.h"
-#include "input/TimerInterpreter.h"
+#include "vbe.h"
 
+#include "input/TimerInterpreter.h"
 #include "controller/Controller.h"
-#include "model/state/GameState.h"
 
 void lazy_link();
 
@@ -30,7 +30,8 @@ int main(int argc, char *argv[]) {
 }
 
 int(proj_main_loop)(int argc, char *argv[]) {
-    (void)argc; (void)argv;
+    (void) argc;
+    (void) argv;
 
     if (video_init_page_flipping(0x105) != 0) {
         return 1;
@@ -69,61 +70,81 @@ int(proj_main_loop)(int argc, char *argv[]) {
     }
 
     uint32_t timer_irq_set = BIT(timer_bit_no);
-    uint32_t kbd_irq_set   = BIT(kbd_bit_no);
+    uint32_t kbd_irq_set = BIT(kbd_bit_no);
     uint32_t mouse_irq_set = BIT(mouse_bit_no);
 
     TimerState tstate;
     timerStateInit(&tstate, 1);
 
-    int r, ipc_status;
+    int r;
+    int ipc_status;
     message msg;
 
     while (ctrl->state.running) {
-        if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+        r = driver_receive(ANY, &msg, &ipc_status);
+
+        if (r != 0) {
             printf("driver_receive failed: %d\n", r);
             continue;
         }
 
-        if (!is_ipc_notify(ipc_status)) continue;
+        if (!is_ipc_notify(ipc_status)) {
+            continue;
+        }
 
         switch (_ENDPOINT_P(msg.m_source)) {
-        case HARDWARE:
-            if (msg.m_notify.interrupts & kbd_irq_set) {
-                kbd_ih();
-                if (kbd_error) {
-                    kbd_error = false;
-                    reset_scancode();
-                    break;
-                }
-                if (scancode_complete()) {
-                    keyboardInterpretScancode(&ctrl->kbd, get_scancode_bytes(), get_scancode_size());
-                    reset_scancode();
-                }
-            }
+            case HARDWARE:
+                if (msg.m_notify.interrupts & kbd_irq_set) {
+                    kbd_ih();
 
-            if (msg.m_notify.interrupts & mouse_irq_set) {
-                mouse_ih();
-                if (packet_complete()) {
-                    mouseInterpretPacket(&ctrl->mouse, get_packet(), MODE105_WIDTH, MODE105_HEIGHT);
-                    reset_packet();
-                }
-            }
+                    if (kbd_error) {
+                        kbd_error = false;
+                        reset_scancode();
+                        break;
+                    }
 
-            if (msg.m_notify.interrupts & timer_irq_set) {
-                timerInterpretInterrupt(&tstate);
+                    if (scancode_complete()) {
+                        keyboardInterpretScancode(
+                            &ctrl->kbd,
+                            get_scancode_bytes(),
+                            get_scancode_size()
+                        );
 
-                if (tstate.should_update) {
-                    controllerUpdate(ctrl);
-
-                    if (ctrl->state.running) {
-                        controllerDraw(ctrl);
+                        reset_scancode();
                     }
                 }
-            }
-            break;
 
-        default:
-            break;
+                if (msg.m_notify.interrupts & mouse_irq_set) {
+                    mouse_ih();
+
+                    if (packet_complete()) {
+                        mouseInterpretPacket(
+                            &ctrl->mouse,
+                            get_packet(),
+                            MODE105_WIDTH,
+                            MODE105_HEIGHT
+                        );
+
+                        reset_packet();
+                    }
+                }
+
+                if (msg.m_notify.interrupts & timer_irq_set) {
+                    timerInterpretInterrupt(&tstate);
+
+                    if (tstate.should_update) {
+                        controllerUpdate(ctrl);
+
+                        if (ctrl->state.running) {
+                            controllerDraw(ctrl);
+                        }
+                    }
+                }
+
+                break;
+
+            default:
+                break;
         }
     }
 
