@@ -13,6 +13,7 @@ struct Champion {
     int respawn_timer;
     int width;
     int height;
+    int points;
 };
 
 Champion *createChampion(Position respawnPos, Direction dir, int width, int height) {
@@ -33,6 +34,7 @@ Champion *createChampion(Position respawnPos, Direction dir, int width, int heig
     champion->state = CHAMPION_IDLE;
     champion->width = width;
     champion->height = height;
+    champion->points = 0;
 
     return champion;
 }
@@ -178,4 +180,12 @@ bool championAttackHits(Champion *attacker, Champion *target) {
         target->height
     };
     return boxesOverlap(attack, hit);
+}
+
+int championCurrentPoints(Champion *champion) { 
+    return champion->points;
+}
+
+void championUpdatePoints(Champion *champion, int delta) {
+    champion->points += delta;
 }

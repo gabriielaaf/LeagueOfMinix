@@ -12,7 +12,7 @@ void championMove(Champion *champion1, Champion *champion2, int dx, int dy, int 
 bool championAttack(Champion *champion);
 bool championHits(Champion *attacker, Champion *target);
 
-void championDecreaseHp(Champion *target, int dmg);
+void championDecreaseHp(Champion *attacker, Champion *target, int dmg);
 void championUpgradeHp(Champion *champion);
 void championUpgradeDamage(Champion *champion);
 void championUpgradeSpeed(Champion *champion);
