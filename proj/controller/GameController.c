@@ -33,13 +33,16 @@ void gameControllerUpdate(GameController *gc, Champion *p1, Champion *p2, Minion
     championMove(p2, p1, dx2, dy2, gc->map_w, gc->map_h);
 
     if (mouse->p1.attack && championAttack(p1)) {
-        if (championHits(p1, p2))
+        if (championHits(p1, p2)) {
             championDecreaseHp(p2, championGetAttackDmg(p1));
+        }
+
         minionsTakeHit(minions, championGetAttackBox(p1), championGetAttackDmg(p1), TEAM_BLUE);
     }
     if (mouse->p2.attack && championAttack(p2)) {
-        if (championHits(p2, p1))
+        if (championHits(p2, p1)) {
             championDecreaseHp(p1, championGetAttackDmg(p2));
+        }
         minionsTakeHit(minions, championGetAttackBox(p2), championGetAttackDmg(p2), TEAM_RED);
     }
 

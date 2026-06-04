@@ -93,6 +93,7 @@ void championDecreaseHp(Champion *target, int dmg) {
     championAddHp(target, -dmg);
     if (championGetHp(target) <= 0) {
         championSetRespawnTimer(target, RESPAWN_SECONDS);
+        championClearPosition(target);
     }
 }
 

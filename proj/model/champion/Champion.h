@@ -51,6 +51,7 @@ void championSetHp(Champion *champion, int hp);
 void championSetRespawnTimer(Champion *champion, int timer);
 
 void championDecreaseRespawnTimer(Champion *champion);
+void championClearPosition(Champion *champion);
 void championAddHp(Champion *champion, int delta);
 void championAddSpeed(Champion *champion, int delta);
 void championAddAttackDmg(Champion *champion, int delta);
