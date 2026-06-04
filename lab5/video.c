@@ -169,10 +169,27 @@ int(vg_draw_rectangle)(uint16_t x, uint16_t y,
   return 0;
 }
 
-int(vg_draw_pixmap)(uint8_t *pixmap,uint16_t width,uint16_t height,int x,int y,uint32_t transparent_color) {
-  if (pixmap == NULL) {
+static uint32_t rgb_to_mode_color(uint8_t r, uint8_t g, uint8_t b) {
+  uint32_t color = 0;
+
+  color |= ((uint32_t)(r >> (8 - vmi.RedMaskSize))) << vmi.RedFieldPosition;
+  color |= ((uint32_t)(g >> (8 - vmi.GreenMaskSize))) << vmi.GreenFieldPosition;
+  color |= ((uint32_t)(b >> (8 - vmi.BlueMaskSize))) << vmi.BlueFieldPosition;
+
+  return color;
+}
+
+int(vg_draw_pixmap)(uint8_t *pixmap,
+                    uint16_t width,
+                    uint16_t height,
+                    int x,
+                    int y,
+                    uint32_t transparent_color) {
+  if (pixmap == NULL || video_mem == NULL) {
     return 1;
   }
+
+  char *buffer = video_get_back_buffer();
 
   for (uint16_t row = 0; row < height; row++) {
     int screen_y = y + row;
@@ -188,15 +205,28 @@ int(vg_draw_pixmap)(uint8_t *pixmap,uint16_t width,uint16_t height,int x,int y,u
         continue;
       }
 
-      uint32_t color = pixmap[row * width + col];
+      /*
+       * XPM_8_8_8 = 3 bytes por pixel:
+       * R G B
+       */
+      size_t src_index = ((size_t)row * width + col) * 3;
 
-      if (color == transparent_color) {
+      uint8_t b = pixmap[src_index];
+      uint8_t g = pixmap[src_index + 1];
+      uint8_t r = pixmap[src_index + 2];
+
+      uint32_t rgb_color = ((uint32_t)r << 16) | ((uint32_t)g << 8) | b;
+
+      if (rgb_color == transparent_color) {
         continue;
       }
 
-      if (vg_draw_pixel((uint16_t) screen_x, (uint16_t) screen_y, color) != 0) {
-        return 1;
-      }
+      uint32_t color = rgb_to_mode_color(r, g, b);
+
+      unsigned int offset =
+          screen_y * vmi.BytesPerScanLine + screen_x * bytes_per_pixel;
+
+      memcpy(&buffer[offset], &color, bytes_per_pixel);
     }
   }
 
