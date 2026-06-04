@@ -81,6 +81,7 @@ void controllerUpdate(Controller *ctrl, bool second_elapsed) {
                 ctrl->state.game->p1,
                 ctrl->state.game->p2,
                 &ctrl->state.game->minions,
+                &ctrl->state.game->towers,
                 &ctrl->kbd,
                 &ctrl->mouse,
                 second_elapsed,

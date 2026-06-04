@@ -17,9 +17,9 @@ void gameControllerDestroy(GameController *gc) {
 }
 
 void gameControllerUpdate(GameController *gc, Champion *p1, Champion *p2, Minions *minions,
-                          KeyboardState *kbd, MouseState *mouse, bool second_elapsed,
+                          Towers *towers, KeyboardState *kbd, MouseState *mouse, bool second_elapsed,
                           bool p1_looped, bool p2_looped) {
-    if (!gc || !p1 || !p2 || !minions || !kbd || !mouse) return;
+    if (!gc || !p1 || !p2 || !minions || !towers || !kbd || !mouse) return;
 
     championUpdate(p1, p1_looped, second_elapsed);
     championUpdate(p2, p2_looped, second_elapsed);
@@ -53,4 +53,5 @@ void gameControllerUpdate(GameController *gc, Champion *p1, Champion *p2, Minion
 
     mouseClearEvents(mouse);
     minionsUpdate(minions, gc->map_w, second_elapsed);
+    towersUpdate(towers, minions, p1, p2);
 }

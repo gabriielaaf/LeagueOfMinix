@@ -5,6 +5,7 @@ PROG=proj
        ${.CURDIR}/model \
        ${.CURDIR}/model/champion \
        ${.CURDIR}/model/minion \
+       ${.CURDIR}/model/tower \
        ${.CURDIR}/model/state \
        ${.CURDIR}/model/button \
        ${.CURDIR}/viewer \
@@ -15,6 +16,7 @@ SRCS = main.c \
        Controller.c \
        GameController.c \
        MinionController.c \
+       TowerController.c \
        MenuController.c \
        ButtonController.c \
        KeyboardInterpreter.c \
@@ -24,6 +26,7 @@ SRCS = main.c \
        Position.c \
        Champion.c \
        Minion.c \
+       Tower.c \
        GameState.c \
        State.c \
        MenuState.c \
@@ -35,6 +38,7 @@ SRCS = main.c \
        GameViewer.c \
        HpBarViewer.c \
        MinionViewer.c \
+       TowerViewer.c \
        ButtonViewer.c \
        MenuViewer.c \
        Viewer.c

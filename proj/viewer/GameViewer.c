@@ -49,8 +49,9 @@ void gameViewerUpdate(GameViewer *gv, Champion *p1, Champion *p2, Minions *minio
     minionViewerUpdate(gv->minion_red);
 }
 
-void gameViewerDraw(GameViewer *gv, Champion *p1, Champion *p2, Minions *minions) {
-    if (!gv || !p1 || !p2 || !minions) return;
+void gameViewerDraw(GameViewer *gv, Champion *p1, Champion *p2, Minions *minions, Towers *towers) {
+    if (!gv || !p1 || !p2 || !minions || !towers) return;
+    towerViewerDraw(towers);
     minionViewerDraw(gv->minion_blue, minions, TEAM_BLUE);
     minionViewerDraw(gv->minion_red,  minions, TEAM_RED);
     championDraw(gv->p1, p1);
