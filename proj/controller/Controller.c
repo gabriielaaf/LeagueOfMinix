@@ -1,7 +1,6 @@
 #include "Controller.h"
 
 #include "MenuController.h"
-#include "ChampionController.h"
 #include "GameController.h"
 
 #include "vbe.h"
@@ -65,15 +64,6 @@ void controllerUpdate(Controller *ctrl, bool second_elapsed) {
             break;
 
         case STATE_PLAYING: {
-            gameControllerUpdate(
-                ctrl->gameCtrl,
-                ctrl->state.game->p1,
-                ctrl->state.game->p2,
-                &ctrl->state.game->minions,
-                &ctrl->kbd,
-                &ctrl->mouse
-            );
-
             bool p1_looped = false;
             bool p2_looped = false;
 
@@ -86,8 +76,18 @@ void controllerUpdate(Controller *ctrl, bool second_elapsed) {
                 &p2_looped
             );
 
-            championUpdate(ctrl->state.game->p1, p1_looped, second_elapsed);
-            championUpdate(ctrl->state.game->p2, p2_looped, second_elapsed);
+            gameControllerUpdate(
+                ctrl->gameCtrl,
+                ctrl->state.game->p1,
+                ctrl->state.game->p2,
+                &ctrl->state.game->minions,
+                &ctrl->state.game->towers,
+                &ctrl->kbd,
+                &ctrl->mouse,
+                second_elapsed,
+                p1_looped,
+                p2_looped
+            );
 
             break;
         }

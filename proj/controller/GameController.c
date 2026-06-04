@@ -1,4 +1,5 @@
 #include "GameController.h"
+#include "ChampionController.h"
 
 #include <lcom/lcf.h>
 #include <stdlib.h>
@@ -16,18 +17,22 @@ void gameControllerDestroy(GameController *gc) {
 }
 
 void gameControllerUpdate(GameController *gc, Champion *p1, Champion *p2, Minions *minions,
-                          KeyboardState *kbd, MouseState *mouse) {
-    if (!gc || !p1 || !p2 || !minions || !kbd || !mouse) return;
+                          Towers *towers, KeyboardState *kbd, MouseState *mouse, bool second_elapsed,
+                          bool p1_looped, bool p2_looped) {
+    if (!gc || !p1 || !p2 || !minions || !towers || !kbd || !mouse) return;
+
+    championUpdate(p1, p1_looped, second_elapsed);
+    championUpdate(p2, p2_looped, second_elapsed);
 
     int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
-    if (kbd->p1.left)  dx1--;
+    if (kbd->p1.left) dx1--;
     if (kbd->p1.right) dx1++;
-    if (kbd->p1.up)    dy1--;
-    if (kbd->p1.down)  dy1++;
-    if (kbd->p2.left)  dx2--;
+    if (kbd->p1.up) dy1--;
+    if (kbd->p1.down) dy1++;
+    if (kbd->p2.left) dx2--;
     if (kbd->p2.right) dx2++;
-    if (kbd->p2.up)    dy2--;
-    if (kbd->p2.down)  dy2++;
+    if (kbd->p2.up) dy2--;
+    if (kbd->p2.down) dy2++;
 
     championMove(p1, p2, dx1, dy1, gc->map_w, gc->map_h);
     championMove(p2, p1, dx2, dy2, gc->map_w, gc->map_h);
@@ -47,5 +52,6 @@ void gameControllerUpdate(GameController *gc, Champion *p1, Champion *p2, Minion
     }
 
     mouseClearEvents(mouse);
-    minionsUpdate(minions, gc->map_w);
+    minionsUpdate(minions, gc->map_w, second_elapsed);
+    towersUpdate(towers, minions, p1, p2);
 }

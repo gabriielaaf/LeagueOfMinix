@@ -21,7 +21,7 @@ GameViewer *gameViewerCreate() {
     gv->p1 = createChampionViewer(anim1, NUM_ANIMS);
     gv->p2 = createChampionViewer(anim2, NUM_ANIMS);
     gv->minion_blue = createMinionViewer((xpm_row_t *)minion_p1_stop, (xpm_row_t *)minion_p1_attack);
-    gv->minion_red  = createMinionViewer((xpm_row_t *)minion_p2_stop, (xpm_row_t *)minion_p2_attack);
+    gv->minion_red = createMinionViewer((xpm_row_t *)minion_p2_stop, (xpm_row_t *)minion_p2_attack);
 
     if (!gv->p1 || !gv->p2 || !gv->minion_blue || !gv->minion_red) {
         gameViewerDestroy(gv);
@@ -33,10 +33,10 @@ GameViewer *gameViewerCreate() {
 
 void gameViewerDestroy(GameViewer *gv) {
     if (!gv) return;
-    if (gv->p1)          destroyChampionViewer(gv->p1);
-    if (gv->p2)          destroyChampionViewer(gv->p2);
+    if (gv->p1) destroyChampionViewer(gv->p1);
+    if (gv->p2) destroyChampionViewer(gv->p2);
     if (gv->minion_blue) destroyMinionViewer(gv->minion_blue);
-    if (gv->minion_red)  destroyMinionViewer(gv->minion_red);
+    if (gv->minion_red) destroyMinionViewer(gv->minion_red);
     free(gv);
 }
 
@@ -49,8 +49,9 @@ void gameViewerUpdate(GameViewer *gv, Champion *p1, Champion *p2, Minions *minio
     minionViewerUpdate(gv->minion_red);
 }
 
-void gameViewerDraw(GameViewer *gv, Champion *p1, Champion *p2, Minions *minions) {
-    if (!gv || !p1 || !p2 || !minions) return;
+void gameViewerDraw(GameViewer *gv, Champion *p1, Champion *p2, Minions *minions, Towers *towers) {
+    if (!gv || !p1 || !p2 || !minions || !towers) return;
+    towerViewerDraw(towers);
     minionViewerDraw(gv->minion_blue, minions, TEAM_BLUE);
     minionViewerDraw(gv->minion_red,  minions, TEAM_RED);
     championDraw(gv->p1, p1);

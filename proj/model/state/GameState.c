@@ -23,6 +23,7 @@ GameState *gameStateCreate() {
 
     minionsInit(&gs->minions);
     minionsControllerInit(&gs->minions, MODE105_WIDTH);
+    towersInit(&gs->towers, MODE105_WIDTH);
 
     return gs;
 }
