@@ -67,7 +67,7 @@ static void updateProjectile(TowerProjectile *p, Champion *enemy_champ) {
         if (p->minion_target != NULL) {
             p->minion_target->hp -= p->damage;
         } else {
-            championDecreaseHp(NULL ,enemy_champ, p->damage);
+            championDecreaseHp(NULL, enemy_champ, p->damage);
         }
         p->active = false;
     } else {

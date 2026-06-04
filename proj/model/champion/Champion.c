@@ -187,5 +187,6 @@ int championCurrentPoints(Champion *champion) {
 }
 
 void championUpdatePoints(Champion *champion, int delta) {
+    if (!champion) return;
     champion->points += delta;
 }
