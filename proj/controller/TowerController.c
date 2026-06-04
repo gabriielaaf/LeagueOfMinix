@@ -44,7 +44,7 @@ static Minion *findNearestMinion(Tower *t, Minions *minions) {
     return best;
 }
 
-static void updateProjectile(TowerProjectile *p, Champion *enemy_champ) {
+static void updateProjectile(TowerProjectile *p, Champion *friend_champ, Champion *enemy_champ) {
     if (!p->active) return;
 
     float tx, ty;
@@ -67,7 +67,7 @@ static void updateProjectile(TowerProjectile *p, Champion *enemy_champ) {
         if (p->minion_target != NULL) {
             p->minion_target->hp -= p->damage;
         } else {
-            championDecreaseHp(NULL, enemy_champ, p->damage);
+            championDecreaseHp(friend_champ, enemy_champ, p->damage);
         }
         p->active = false;
     } else {
@@ -76,10 +76,10 @@ static void updateProjectile(TowerProjectile *p, Champion *enemy_champ) {
     }
 }
 
-static void updateTower(Tower *t, Minions *minions, Champion *enemy_champ) {
+static void updateTower(Tower *t, Minions *minions, Champion *friend_champ, Champion *enemy_champ) {
     if (t->hp <= 0) return;
 
-    updateProjectile(&t->projectile, enemy_champ);
+    updateProjectile(&t->projectile, friend_champ, enemy_champ);
 
     t->attack_timer++;
     if (t->attack_timer < TOWER_ATTACK_SPEED) return;
@@ -112,8 +112,8 @@ static void updateTower(Tower *t, Minions *minions, Champion *enemy_champ) {
 }
 
 void towersUpdate(Towers *towers, Minions *minions, Champion *p1, Champion *p2) {
-    updateTower(&towers->blue, minions, p2);
-    updateTower(&towers->red,  minions, p1);
+    updateTower(&towers->blue, minions, p1, p2);
+    updateTower(&towers->red,  minions, p2, p1);
 }
 
 void towersTakeHit(Towers *towers, Box attack_box, int damage, Team attacker_team) {
