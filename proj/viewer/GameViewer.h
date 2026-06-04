@@ -3,8 +3,10 @@
 #include <stdbool.h>
 #include "../model/champion/Champion.h"
 #include "../model/minion/Minion.h"
+#include "../model/tower/Tower.h"
 #include "ChampionViewer.h"
 #include "MinionViewer.h"
+#include "TowerViewer.h"
 
 typedef struct {
     ChampionViewer *p1;
@@ -16,4 +18,4 @@ typedef struct {
 GameViewer *gameViewerCreate();
 void gameViewerDestroy(GameViewer *gv);
 void gameViewerUpdate(GameViewer *gv, Champion *p1, Champion *p2, Minions *minions, bool *p1_looped, bool *p2_looped);
-void gameViewerDraw(GameViewer *gv, Champion *p1, Champion *p2, Minions *minions);
+void gameViewerDraw(GameViewer *gv, Champion *p1, Champion *p2, Minions *minions, Towers *towers);

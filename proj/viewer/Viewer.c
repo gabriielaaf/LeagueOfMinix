@@ -70,7 +70,8 @@ void viewerDraw(Viewer *v, State *state, int cursor_x, int cursor_y) {
                     v->gameViewer,
                     state->game->p1,
                     state->game->p2,
-                    &state->game->minions
+                    &state->game->minions,
+                    &state->game->towers
                 );
             }
             break;
@@ -81,7 +82,8 @@ void viewerDraw(Viewer *v, State *state, int cursor_x, int cursor_y) {
                     v->gameViewer,
                     state->game->p1,
                     state->game->p2,
-                    &state->game->minions
+                    &state->game->minions,
+                    &state->game->towers
                 );
             }
             break;
@@ -92,13 +94,15 @@ void viewerDraw(Viewer *v, State *state, int cursor_x, int cursor_y) {
                     v->gameViewer,
                     state->game->p1,
                     state->game->p2,
-                    &state->game->minions
+                    &state->game->minions,
+                    &state->game->towers
                 );
             }
             break;
     }
 
-    spriteDraw(v->cursor, cursor_x, cursor_y);
+    if (state->state != STATE_PLAYING)
+        spriteDraw(v->cursor, cursor_x, cursor_y);
 
     video_swap_buffers();
 }
