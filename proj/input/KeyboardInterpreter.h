@@ -18,6 +18,7 @@ typedef struct {
     PlayerInput p2;
     
     bool exit;
+    bool shop;
 } KeyboardState;
 
 void keyboardStateInit(KeyboardState *state);

@@ -6,6 +6,7 @@ Controller *controllerCreate() {
 
     ctrl->gameCtrl = NULL;
     ctrl->viewer = NULL;
+    ctrl->shopCtrl = NULL;
 
     if (!stateInit(&ctrl->state)) {
         free(ctrl);
@@ -24,8 +25,17 @@ Controller *controllerCreate() {
         return NULL;
     }
 
+    ctrl->shopCtrl = shopControllerCreate();
+    if (!ctrl->shopCtrl) {
+        gameControllerDestroy(ctrl->gameCtrl);
+        stateDestroy(&ctrl->state);
+        free(ctrl);
+        return NULL;
+    }
+
     ctrl->viewer = viewerCreate();
     if (!ctrl->viewer) {
+        shopControllerDestroy(ctrl->shopCtrl);
         gameControllerDestroy(ctrl->gameCtrl);
         stateDestroy(&ctrl->state);
         free(ctrl);
@@ -41,6 +51,19 @@ void controllerUpdate(Controller *ctrl, bool second_elapsed) {
     if (ctrl->kbd.exit) {
         gameQuit(&ctrl->state);
         return;
+    }
+
+    if (ctrl->kbd.shop) {
+        if (ctrl->state.state == STATE_PLAYING) {
+            gamePause(&ctrl->state);
+            mouseClearEvents(&ctrl->mouse);
+        } 
+        else if (ctrl->state.state == STATE_PAUSED) {
+            gameResume(&ctrl->state);
+            mouseClearEvents(&ctrl->mouse);
+        }
+
+        ctrl->kbd.shop = false;
     }
 
     switch (ctrl->state.state) {
@@ -85,6 +108,7 @@ void controllerUpdate(Controller *ctrl, bool second_elapsed) {
         }
 
         case STATE_PAUSED:
+            shopControllerUpdate(ctrl->shopCtrl, ctrl->state.shop, &ctrl->mouse);
             break;
 
         case STATE_GAME_OVER:
@@ -108,6 +132,10 @@ void controllerDestroy(Controller *ctrl) {
 
     if (ctrl->viewer) {
         viewerDestroy(ctrl->viewer);
+    }
+
+    if (ctrl->shopCtrl) {
+        shopControllerDestroy(ctrl->shopCtrl);
     }
 
     if (ctrl->gameCtrl) {

@@ -47,7 +47,9 @@ SRCS = main.c \
        shopBarState.c \
        GameOverViewer.c \
        TextDrawer.c \
-       ShopViewer.c
+       ShopViewer.c \
+       ShopController.c \
+       ShopBarController.c
 
 
 CFLAGS += -pedantic

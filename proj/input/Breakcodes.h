@@ -12,6 +12,8 @@
 #define S_BREAK 0x9F
 #define D_MAKE 0x20
 #define D_BREAK 0xA0
+#define P_MAKE  0x19
+#define P_BREAK 0x99
 
 
 /* Player 2: */

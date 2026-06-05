@@ -12,6 +12,7 @@
 
 #include "GameController.h"
 #include "MenuController.h"
+#include "ShopController.h"
 
 #include "vbe.h"
 
@@ -23,6 +24,7 @@ typedef struct {
 
     GameController *gameCtrl;
     Viewer *viewer;
+    ShopController *shopCtrl;
 } Controller;
 
 Controller *controllerCreate();

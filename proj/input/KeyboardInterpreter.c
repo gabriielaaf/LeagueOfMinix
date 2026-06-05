@@ -14,6 +14,7 @@ void keyboardStateInit(KeyboardState *keyboardState) {
     playerInputInit(&keyboardState->p2);
 
     keyboardState->exit = false;
+    keyboardState->shop = false;
 }
 
 void keyboardInterpretScancode(KeyboardState *state, uint8_t *bytes, uint8_t size) {
@@ -62,7 +63,9 @@ void keyboardInterpretScancode(KeyboardState *state, uint8_t *bytes, uint8_t siz
             case ESC_BREAK:
                 state->exit = true;
                 break;
-
+            case P_MAKE:
+                state->shop = true;
+                break;
             default:
                 break;
         }
