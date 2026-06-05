@@ -4,13 +4,22 @@
 
 #include "../model/state/shopBarState.h"
 
+#include "../assets/buttons/buy_buttons.h"
+
+#include "ButtonViewer.h"
+
 #include "video.h"
 
 /**
  * @brief Renderer for a single upgradeable bar in the shop.
  */
 typedef struct {
-    int dummy; /**< Reserved for future renderer state. */
+    uint32_t border_color;
+    uint32_t empty_color;
+    uint32_t fill_color;
+    uint32_t buy_hover_color;
+    uint32_t buy_disabled_color;
+    ButtonViewer *buttonViewer;
 } ShopBarViewer;
 
 /**

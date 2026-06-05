@@ -1,18 +1,16 @@
 #include "shopBarViewer.h"
 
-#define BAR_BORDER_COLOR 7
-#define BAR_EMPTY_COLOR 0
-#define BAR_FILL_COLOR 6
-
-#define BUY_COLOR 1
-#define BUY_HOVER_COLOR 4
-#define BUY_DISABLED_COLOR 8
-
 ShopBarViewer *shopBarViewerCreate() {
     ShopBarViewer *viewer = malloc(sizeof(ShopBarViewer));
     if (!viewer) return NULL;
 
-    viewer->dummy = 0;
+    viewer->border_color = 0xCCCCCC;
+    viewer->empty_color = 0x000000;
+    viewer->fill_color = 0x00AA00;
+    viewer->buy_hover_color = 0xFFAA00;
+    viewer->buy_disabled_color = 0x888888;
+
+    viewer->buttonViewer = buttonViewerCreate(buy_button_xpm, buy_button_hover_xpm);
 
     return viewer;
 }
@@ -33,7 +31,7 @@ void shopBarViewerDraw(ShopBarViewer *viewer, ShopBarState *bar) {
         bar->y - 3,
         bar->width + 6,
         bar->height + 6,
-        BAR_BORDER_COLOR
+        viewer->border_color
     );
 
     vg_draw_rectangle(
@@ -41,7 +39,7 @@ void shopBarViewerDraw(ShopBarViewer *viewer, ShopBarState *bar) {
         bar->y,
         bar->width,
         bar->height,
-        BAR_EMPTY_COLOR
+        viewer->empty_color
     );
 
     for (int i = 0; i < bar->level; i++) {
@@ -50,17 +48,8 @@ void shopBarViewerDraw(ShopBarViewer *viewer, ShopBarState *bar) {
             bar->y + 2,
             segmentWidth - 4,
             bar->height - 4,
-            BAR_FILL_COLOR
+            viewer->fill_color
         );
-    }
-
-    uint32_t buyColor = BUY_COLOR;
-
-    if (shopBarStateIsMaxed(bar)) {
-        buyColor = BUY_DISABLED_COLOR;
-    }
-    else if (bar->buyButton->hovered) {
-        buyColor = BUY_HOVER_COLOR;
     }
 
     vg_draw_rectangle(
@@ -68,15 +57,10 @@ void shopBarViewerDraw(ShopBarViewer *viewer, ShopBarState *bar) {
         bar->buyButton->y - 3,
         bar->buyButton->width + 6,
         bar->buyButton->height + 6,
-        BAR_BORDER_COLOR
+        viewer->border_color
     );
 
-    vg_draw_rectangle(
-        bar->buyButton->x,
-        bar->buyButton->y,
-        bar->buyButton->width,
-        bar->buyButton->height,
-        buyColor
-    );
+    buttonViewerDraw(viewer->buttonViewer, bar->buyButton, bar->x + bar->width + 10, bar->y);
+
 }
 
