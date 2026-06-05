@@ -26,8 +26,13 @@ void buttonViewerDestroy(ButtonViewer *viewer) {
     free(viewer);
 }
 
-void buttonViewerDraw(ButtonViewer *viewer, ButtonState *button) {
+void buttonViewerDraw(ButtonViewer *viewer, ButtonState *button, int x, int y) {
     if (!viewer || !button) return;
+
+    button->x = x;
+    button->y = y;
+    button->width = getWidth(viewer->normal);
+    button->height = getHeight(viewer->normal);
 
     if (button->hovered) {
         spriteDraw(viewer->hover, button->x, button->y);
@@ -35,3 +40,4 @@ void buttonViewerDraw(ButtonViewer *viewer, ButtonState *button) {
         spriteDraw(viewer->normal, button->x, button->y);
     }
 }
+

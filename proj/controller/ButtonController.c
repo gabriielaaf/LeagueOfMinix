@@ -5,7 +5,10 @@ void buttonControllerUpdate(ButtonState *button, MouseState *mouse) {
 
     button->hovered = buttonStateContains(button, mouse->x, mouse->y);
 
-    if (button->hovered && mouse->p1.attack) {
+    button->clicked = false;
+
+    if (button->hovered && mouse->p1.attack_pressed) {
         button->clicked = true;
     }
 }
+

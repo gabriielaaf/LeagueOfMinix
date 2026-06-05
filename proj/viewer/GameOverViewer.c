@@ -3,6 +3,11 @@
 #include "TextDrawer.h"
 #include "../assets/menu/play_buttons_xpms.h" // temporário: button_xpm e button_hover_xpm
 
+#define RESTART_BUTTON_X 280
+#define RESTART_BUTTON_Y 540
+
+#define QUIT_BUTTON_X 525
+#define QUIT_BUTTON_Y 540
 #include <stdlib.h>
 
 #define COLOR_WHITE  0xFFFFFF
@@ -58,7 +63,7 @@ void gameOverViewerDraw(GameOverViewer *viewer, State *state) {
     if (!viewer || !state || !state->gameOver) return;
 
    
-    buttonViewerDraw(viewer->restartButtonViewer, state->gameOver->restartButton);
-    buttonViewerDraw(viewer->quitButtonViewer, state->gameOver->quitButton);
+    buttonViewerDraw(viewer->restartButtonViewer, state->gameOver->restartButton, RESTART_BUTTON_X, RESTART_BUTTON_Y);
+    buttonViewerDraw(viewer->quitButtonViewer, state->gameOver->quitButton, QUIT_BUTTON_X, QUIT_BUTTON_Y);
 
 }

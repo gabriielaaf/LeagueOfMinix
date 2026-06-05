@@ -12,8 +12,12 @@ typedef struct {
     bool clicked;
 } ButtonState;
 
-ButtonState *buttonStateCreate(int x, int y, int width, int height);
+ButtonState *buttonStateCreate();
 void buttonStateDestroy(ButtonState *button);
+
+void buttonStateSetPosition(ButtonState *button, int x, int y);
+void buttonStateSetSize(ButtonState *button, int width, int height);
 
 bool buttonStateContains(ButtonState *button, int x, int y);
 void buttonStateResetClick(ButtonState *button);
+
