@@ -30,4 +30,4 @@ void shopViewerDestroy(ShopViewer *viewer);
  * @param viewer ShopViewer supplying the bar renderer.
  * @param shop ShopState containing the current upgrade levels and button states.
  */
-void shopViewerDraw(ShopViewer *viewer, ShopState *shop);
+void shopViewerDraw(ShopViewer *viewer, ShopState *shop, int p1_points, int p2_points);

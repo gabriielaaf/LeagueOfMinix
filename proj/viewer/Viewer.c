@@ -118,7 +118,9 @@ void viewerDraw(Viewer *v, State *state, int cursor_x, int cursor_y) {
         case STATE_PAUSED:
 
             if (state->shop) {
-                shopViewerDraw(v->shopViewer, state->shop);
+                shopViewerDraw(v->shopViewer, state->shop,
+                               championCurrentPoints(state->game->p1),
+                               championCurrentPoints(state->game->p2));
             }
 
             break;
