@@ -47,6 +47,8 @@ Viewer *viewerCreate() {
         return NULL;
     }
 
+    //adicionar aqui os background
+
     return v;
 }
 
