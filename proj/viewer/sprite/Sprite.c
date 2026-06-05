@@ -49,7 +49,7 @@ int spriteDraw(Sprite *sprite, int x, int y) {
         return 1;
     }
 
-    return vg_draw_pixmap(sprite->map, sprite->width, sprite->height, x, y, 0xFFFFFFFF);
+    return vg_draw_pixmap(sprite->map, sprite->width, sprite->height, x, y, 0x00B140);
 }
 
 int getWidth(Sprite *sprite) { return sprite->width; }
