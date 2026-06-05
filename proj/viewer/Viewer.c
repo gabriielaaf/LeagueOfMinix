@@ -106,7 +106,7 @@ static const uint8_t *viewerGetBackground(Viewer *v, State *state) {
 void viewerDraw(Viewer *v, State *state, int cursor_x, int cursor_y) {
     if (!v || !state) return;
 
-    video_clear_back_buffer(viewerGetBackground(v, state->state));
+    video_clear_back_buffer(viewerGetBackground(v, state));
 
     switch (state->state) {
         case STATE_MENU:

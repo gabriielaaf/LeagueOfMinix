@@ -2,115 +2,69 @@
 #include "BuildSprites.h"
 
 static xpm_row_t *p1_idle_xpms[8] = {
-    p1_north_stop_xpm,
     p1_south_stop_xpm,
-    p1_east_stop_xpm,
-    p1_west_stop_xpm,
-    p1_north_east_stop_xpm,
-    p1_north_west_stop_xpm,
-    p1_south_east_stop_xpm,
-    p1_south_west_stop_xpm,
+    p1_south_stop_xpm,
+    p1_south_stop_xpm,
+    p1_south_stop_xpm,
+    p1_south_stop_xpm,
+    p1_south_stop_xpm,
+    p1_south_stop_xpm,
+    p1_south_stop_xpm,
 };
 
 static xpm_row_t *p1_move_xpms[8][MOVE_FRAMES] = {
-    {p1_north_move1_xpm, p1_north_move2_xpm},
     {p1_south_move1_xpm, p1_south_move2_xpm},
-    {p1_east_move1_xpm, p1_east_move2_xpm},
-    {p1_west_move1_xpm, p1_west_move2_xpm},
-    {p1_north_east_move1_xpm, p1_north_east_move2_xpm},
-    {p1_north_west_move1_xpm, p1_north_west_move2_xpm},
-    {p1_south_east_move1_xpm, p1_south_east_move2_xpm},
-    {p1_south_west_move1_xpm, p1_south_west_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
 };
 
 static xpm_row_t *p1_attack_xpms[8][ATTACK_FRAMES] = {
-    {p1_north_attack_up_xpm,
-      p1_north_attack_mid_xpm,
-      p1_north_attack_down_xpm},
-
-    {p1_south_attack_up_xpm,
-      p1_south_attack_mid_xpm,
-      p1_south_attack_down_xpm},
-
-    {p1_east_attack_up_xpm,
-      p1_east_attack_mid_xpm,
-      p1_east_attack_down_xpm},
-
-    {p1_west_attack_up_xpm,
-      p1_west_attack_mid_xpm,
-      p1_west_attack_down_xpm},
-
-    {p1_north_east_attack_up_xpm,
-      p1_north_east_attack_mid_xpm,
-      p1_north_east_attack_down_xpm},
-
-    {p1_north_west_attack_up_xpm,
-      p1_north_west_attack_mid_xpm,
-      p1_north_west_attack_down_xpm},
-
-    {p1_south_east_attack_up_xpm,
-      p1_south_east_attack_mid_xpm,
-      p1_south_east_attack_down_xpm},
-
-    {p1_south_west_attack_up_xpm,
-      p1_south_west_attack_mid_xpm,
-      p1_south_west_attack_down_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
 };
 
 static xpm_row_t *p2_idle_xpms[8] = {
-    p2_north_stop_xpm,
-    p2_south_stop_xpm,
-    p2_east_stop_xpm,
-    p2_west_stop_xpm,
-    p2_north_east_stop_xpm,
-    p2_north_west_stop_xpm,
-    p2_south_east_stop_xpm,
-    p2_south_west_stop_xpm,
+    p1_south_stop_xpm,
+    p1_south_stop_xpm,
+    p1_south_stop_xpm,
+    p1_south_stop_xpm,
+    p1_south_stop_xpm,
+    p1_south_stop_xpm,
+    p1_south_stop_xpm,
+    p1_south_stop_xpm,
 };
 
 static xpm_row_t *p2_move_xpms[8][MOVE_FRAMES] = {
-    {p2_north_stop_xpm, p2_north_stop_xpm},
-    {p2_south_move1_xpm, p2_south_move2_xpm},
-    {p2_east_stop_xpm, p2_east_stop_xpm},
-    {p2_west_move1_xpm, p2_west_move2_xpm},
-    {p2_north_east_stop_xpm, p2_north_east_stop_xpm},
-    {p2_north_west_stop_xpm, p2_north_west_stop_xpm},
-    {p2_south_east_stop_xpm, p2_south_east_stop_xpm},
-    {p2_south_west_move1_xpm, p2_south_west_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_south_move1_xpm, p1_south_move2_xpm},
 };
 
 static xpm_row_t *p2_attack_xpms[8][ATTACK_FRAMES] = {
-    {p2_north_attack_up_xpm,
-      p2_north_attack_mid_xpm,
-      p2_north_attack_down_xpm},
-
-    {p2_south_attack_up_xpm,
-      p2_south_attack_mid_xpm,
-      p2_south_attack_down_xpm},
-
-    {p2_east_attack_up_xpm,
-      p2_east_attack_mid_xpm,
-      p2_east_down_xpm},
-
-    {p2_west_attack_up_xpm,
-      p2_west_attack_mid_xpm,
-      p2_west_attack_down_xpm},
-
-    {p2_north_east_attack_up_xpm,
-      p2_north_east_attack_mid_xpm,
-      p2_north_east_attack_down_xpm},
-
-    {p2_north_west_attack_up_xpm,
-      p2_north_west_attack_mid_xpm,
-      p2_north_west_attack_down_xpm},
-
-    {p2_south_east_attack_up_xpm,
-      p2_south_east_attack_mid_xpm,
-      p2_south_east_attack_down_xpm},
-
-    {p2_south_west_attack_up_xpm,
-      p2_south_west_attack_mid_xpm,
-      p2_south_west_attack_down_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
 };
 
 static void destroyAnimations(AnimSprite **animations, int count) {
