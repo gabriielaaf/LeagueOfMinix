@@ -9,14 +9,20 @@
 #include "ShopViewer.h"
 #include "GameOverViewer.h"
 
+typedef enum {
+    BG_NONE = -1,
+    BG_ARENA,
+    BG_MENU,
+    BG_SHOP,
+    BG_GAME_OVER_BLUE,
+    BG_GAME_OVER_RED
+} BackgroundType;
+
 typedef struct {
     Sprite *cursor;
 
-    Sprite *arenaBackground;
-    Sprite *menuBackground;
-    Sprite *shopBackground;
-    Sprite *gameOverBlueBackground;
-    Sprite *gameOverRedBackground;
+    Sprite *currentBackground;
+    BackgroundType loadedBackground;
 
     GameViewer *gameViewer;
     MenuViewer *menuViewer;

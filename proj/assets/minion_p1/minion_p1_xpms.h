@@ -322,7 +322,7 @@ static xpm_row_t minion_p1_stop[] = {
 "                                            F.j.y.;.}.                                                                                                                              ",
 "                                                                                                                                                                                    "};
 
-    static xpm_row_t minion_p1_attack[] = {
+static xpm_row_t minion_p1_attack[] = {
 "90 60 256 2",
 "  	c None",
 ". 	c #02080C",

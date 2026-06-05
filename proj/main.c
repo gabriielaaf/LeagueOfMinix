@@ -105,20 +105,26 @@ int(proj_main_loop)(int argc, char *argv[]) {
     (void) argc;
     (void) argv;
 
+    printf("[INIT] video_init_page_flipping\n"); fflush(stdout);
     if (video_init_page_flipping(0x118) != 0) {
+        printf("[INIT ERROR] video_init failed\n"); fflush(stdout);
         return 1;
     }
 
+    printf("[INIT] controllerCreate\n"); fflush(stdout);
     Controller *ctrl = controllerCreate();
     if (!ctrl) {
+        printf("[INIT ERROR] controllerCreate returned NULL\n"); fflush(stdout);
         vg_exit();
         return 1;
     }
 
+    printf("[INIT] controller OK, subscribing interrupts\n"); fflush(stdout);
     lazy_link();
 
     uint8_t timer_bit_no;
     if (timer_subscribe_int(&timer_bit_no) != 0) {
+        printf("[INIT ERROR] timer_subscribe failed\n"); fflush(stdout);
         controllerDestroy(ctrl);
         vg_exit();
         return 1;
@@ -126,6 +132,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     uint8_t kbd_bit_no;
     if (kbd_subscribe_int(&kbd_bit_no) != 0) {
+        printf("[INIT ERROR] kbd_subscribe failed\n"); fflush(stdout);
         timer_unsubscribe_int();
         controllerDestroy(ctrl);
         vg_exit();
