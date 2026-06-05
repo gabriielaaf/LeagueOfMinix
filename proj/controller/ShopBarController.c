@@ -4,13 +4,21 @@ ShopBarController *shopBarControllerCreate() {
     ShopBarController *controller = malloc(sizeof(ShopBarController));
     if (!controller) return NULL;
 
-    controller->dummy = 0;
+    controller->buyButton = buttonStateCreate();
+    if (!controller->buyButton) {
+        free(controller);
+        return NULL;
+    }
 
     return controller;
 }
 
 void shopBarControllerDestroy(ShopBarController *controller) {
     if (!controller) return;
+
+    if (controller->buyButton) {
+        buttonStateDestroy(controller->buyButton);
+    }
 
     free(controller);
 }
@@ -35,17 +43,29 @@ bool shopBarControllerUpdate(ShopBarController *controller,
                              ShopBarState *bar,
                              int mouse_x,
                              int mouse_y,
-                             bool mouse_pressed) {
+                             bool mouse_pressed,
+                             Champion *owner) {
     if (!controller || !bar || !bar->buyButton) {
         return false;
     }
 
-    ButtonState *buyButton = bar->buyButton;
+    ButtonState *buyButton = controller->buyButton;
+
+    if (!buyButton) {
+        buyButton = bar->buyButton;
+    }
+
+    buyButton->x = bar->buyButton->x;
+    buyButton->y = bar->buyButton->y;
+    buyButton->width = bar->buyButton->width;
+    buyButton->height = bar->buyButton->height;
 
     buyButton->hovered = isInsideButton(buyButton, mouse_x, mouse_y);
+    bar->buyButton->hovered = buyButton->hovered;
 
-    if (buyButton->hovered && mouse_pressed && !shopBarStateIsMaxed(bar)) {
+    if (buyButton->hovered && mouse_pressed && !shopBarStateIsMaxed(bar) && owner && championCurrentPoints(owner) >= 2) {
         buyButton->clicked = true;
+        championUpdatePoints(owner, -2);
         shopBarStateBuy(bar);
         return true;
     }

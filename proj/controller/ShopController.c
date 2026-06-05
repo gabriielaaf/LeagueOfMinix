@@ -8,7 +8,9 @@
  */
 static void playerShopControllerUpdate(ShopController *controller,
                                        PlayerShopState *playerShop,
-                                       MouseState *mouse) {
+                                       MouseState *mouse,
+                                       Champion *owner,
+                                       bool mouse_pressed) {
     if (!controller || !playerShop || !mouse) return;
 
     if (playerShop->attackBar) {
@@ -17,7 +19,8 @@ static void playerShopControllerUpdate(ShopController *controller,
             playerShop->attackBar,
             mouse->x,
             mouse->y,
-            mouse->p1.attack_pressed
+            mouse_pressed,
+            owner
         );
     }
 
@@ -27,7 +30,8 @@ static void playerShopControllerUpdate(ShopController *controller,
             playerShop->defenseBar,
             mouse->x,
             mouse->y,
-            mouse->p1.attack_pressed
+            mouse_pressed,
+            owner
         );
     }
 
@@ -37,7 +41,8 @@ static void playerShopControllerUpdate(ShopController *controller,
             playerShop->hpBar,
             mouse->x,
             mouse->y,
-            mouse->p1.attack_pressed
+            mouse_pressed,
+            owner
         );
     }
 }
@@ -66,10 +71,10 @@ void shopControllerDestroy(ShopController *controller) {
     free(controller);
 }
 
-void shopControllerUpdate(ShopController *controller, ShopState *shop, MouseState *mouse) {
-    if (!controller || !shop || !mouse) return;
+void shopControllerUpdate(ShopController *controller, ShopState *shop, MouseState *mouse, GameState *game) {
+    if (!controller || !shop || !mouse || !game) return;
 
-    playerShopControllerUpdate(controller, shop->player1Shop, mouse);
-    playerShopControllerUpdate(controller, shop->player2Shop, mouse);
+    playerShopControllerUpdate(controller, shop->player1Shop, mouse, game->p1, mouse->p1.attack_pressed);
+    playerShopControllerUpdate(controller, shop->player2Shop, mouse, game->p2, mouse->p2.attack_pressed);
 }
 

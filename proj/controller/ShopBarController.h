@@ -3,13 +3,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "../model/champion/Champion.h"
 #include "../model/state/shopBarState.h"
 
 /**
  * @brief Controller for a single upgradeable shop bar (currently stateless).
  */
 typedef struct {
-    int dummy; /**< Reserved for future controller state. */
+    ButtonState *buyButton; /**< Buy button state owned by this controller. */
 } ShopBarController;
 
 /**
@@ -34,4 +35,9 @@ void shopBarControllerDestroy(ShopBarController *controller);
  * @param mouse_pressed True if the primary mouse button was clicked this frame.
  * @return true if an upgrade was purchased this frame.
  */
-bool shopBarControllerUpdate(ShopBarController *controller, ShopBarState *bar, int mouse_x, int mouse_y, bool mouse_pressed);
+bool shopBarControllerUpdate(ShopBarController *controller,
+                             ShopBarState *bar,
+                             int mouse_x,
+                             int mouse_y,
+                             bool mouse_pressed,
+                             Champion *owner);

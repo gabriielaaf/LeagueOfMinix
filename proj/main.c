@@ -14,6 +14,8 @@
 #include "assets/gabiteste.h"
 #include "viewer/sprite/Sprite.h"
 
+#include "model/champion/Champion.h"
+
 void lazy_link();
 
 int main(int argc, char *argv[]) {
