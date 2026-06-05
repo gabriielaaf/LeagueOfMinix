@@ -79,6 +79,13 @@ void minionViewerUpdate(MinionViewer *viewer) {
     updateAnimSprite(viewer->atk);
 }
 
+/**
+ * @brief Draws a single minion with its HP bar at its current world position.
+ * Selects the attack or idle animation clip based on the minion's state.
+ * @param viewer MinionViewer supplying the animation clips and HP bar.
+ * @param m Minion to draw.
+ * @return 0 on success, non-zero on error.
+ */
 static int drawMinion(MinionViewer *viewer, Minion *m) {
     AnimSprite *anim = (m->state == MINION_ATTACKING) ? viewer->atk : viewer->idle;
     int mx = position_px(m->pos);

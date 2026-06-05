@@ -1,19 +1,22 @@
 #include "Champion.h"
 
+/**
+ * @brief Full definition of the opaque Champion type.
+ */
 struct Champion {
-    ChampionState state;
-    Position respawnPos;
-    Position pos;
-    Direction dir;
-    Team team;
-    int hp;
-    int max_hp;
-    float speed;
-    int attack_dmg;
-    int respawn_timer;
-    int width;
-    int height;
-    int points;
+    ChampionState state;  /**< Current action state (idle, moving, attacking). */
+    Position respawnPos;  /**< Fixed world position the champion returns to on respawn. */
+    Position pos;         /**< Current world position. */
+    Direction dir;        /**< Current facing direction. */
+    Team team;            /**< Team this champion belongs to. */
+    int hp;               /**< Current hp points. */
+    int max_hp;           /**< Maximum hp points. */
+    float speed;          /**< Movement speed in pixels per tick. */
+    int attack_dmg;       /**< Damage dealt per attack. */
+    int respawn_timer;    /**< Countdown in seconds until respawn; ALIVE when not dead. */
+    int width;            /**< Sprite width in pixels. */
+    int height;           /**< Sprite height in pixels. */
+    int points;           /**< Accumulated kill/score points. */
 };
 
 Champion *createChampion(Position respawnPos, Direction dir, int width, int height) {

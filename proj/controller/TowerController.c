@@ -1,5 +1,11 @@
 #include "TowerController.h"
 
+/**
+ * @brief Tests whether a minion's centre is within the tower's attack range.
+ * @param t Source tower.
+ * @param m Minion to test.
+ * @return true if the minion is within TOWER_RANGE pixels of the tower centre.
+ */
 static bool minionInRange(Tower *t, Minion *m) {
     int tcx = position_px(t->pos) + TOWER_W / 2;
     int tcy = position_py(t->pos) + TOWER_H / 2;
@@ -8,6 +14,12 @@ static bool minionInRange(Tower *t, Minion *m) {
     return (dx * dx + dy * dy) <= TOWER_RANGE * TOWER_RANGE;
 }
 
+/**
+ * @brief Tests whether a living champion's centre is within the tower's attack range.
+ * @param t Source tower.
+ * @param champ Champion to test (dead or NULL champions return false).
+ * @return true if the champion is within TOWER_RANGE pixels of the tower centre.
+ */
 static bool championInRange(Tower *t, Champion *champ) {
     if (!champ || championGetHp(champ) <= 0) return false;
     int tcx = position_px(t->pos) + TOWER_W / 2;
@@ -18,6 +30,12 @@ static bool championInRange(Tower *t, Champion *champ) {
     return (dx * dx + dy * dy) <= TOWER_RANGE * TOWER_RANGE;
 }
 
+/**
+ * @brief Finds the closest living enemy minion within TOWER_RANGE of the tower.
+ * @param t Source tower (team determines which minion waves are considered enemies).
+ * @param minions All active minion waves.
+ * @return Pointer to the nearest enemy minion, or NULL if none are in range.
+ */
 static Minion *findNearestMinion(Tower *t, Minions *minions) {
     int tcx = position_px(t->pos) + TOWER_W / 2;
     int tcy = position_py(t->pos) + TOWER_H / 2;
@@ -39,6 +57,14 @@ static Minion *findNearestMinion(Tower *t, Minions *minions) {
     return best;
 }
 
+/**
+ * @brief Moves an active projectile toward its target and resolves a hit on contact.
+ * Deactivates the projectile if its target dies before impact.
+ * @param p Projectile to update.
+ * @param team Team that fired the projectile (determines tip offset).
+ * @param friend_champ Friendly champion used as the attacker when dealing champion damage.
+ * @param enemy_champ Enemy champion target when targeting_champion is true.
+ */
 static void updateProjectile(TowerProjectile *p, Team team, Champion *friend_champ, Champion *enemy_champ) {
     if (!p->active) return;
 
@@ -74,6 +100,16 @@ static void updateProjectile(TowerProjectile *p, Team team, Champion *friend_cha
     }
 }
 
+/**
+ * @brief Runs one tick of logic for a single tower.
+ * Updates the in-flight projectile, increments the attack timer, revalidates the
+ * current target, acquires a new one when needed, and fires a new projectile
+ * when the attack timer reaches TOWER_ATTACK_SPEED.
+ * @param t Tower to update.
+ * @param minions All active minion waves (enemy minions are potential targets).
+ * @param friend_champ Friendly champion passed through to the projectile updater.
+ * @param enemy_champ Enemy champion (potential target when no minion is in range).
+ */
 static void updateTower(Tower *t, Minions *minions, Champion *friend_champ, Champion *enemy_champ) {
     if (t->hp <= 0) return;
 

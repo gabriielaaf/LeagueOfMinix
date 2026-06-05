@@ -3,11 +3,15 @@
 #define TEXT_CHAR_W 5
 #define TEXT_CHAR_H 7
 
+/**
+ * @brief Bitmap glyph definition for a single character.
+ */
 typedef struct {
-    char c;
-    uint8_t rows[TEXT_CHAR_H];
+    char c;                   /**< ASCII character this glyph represents. */
+    uint8_t rows[TEXT_CHAR_H]; /**< Bitmap rows, one byte per row (5 pixels wide). */
 } TextGlyph;
 
+/** @brief Look-up table of bitmap glyphs for all supported characters. */
 static const TextGlyph glyphs[] = {
     {'A', {0x0E, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x11}},
     {'B', {0x1E, 0x11, 0x11, 0x1E, 0x11, 0x11, 0x1E}},
@@ -58,10 +62,17 @@ static const TextGlyph glyphs[] = {
     {')', {0x08, 0x04, 0x02, 0x02, 0x02, 0x04, 0x08}},
 };
 
+/** @brief Fallback glyph rendered when a character is not in the look-up table. */
 static const uint8_t unknownGlyph[TEXT_CHAR_H] = {
     0x0E, 0x11, 0x01, 0x02, 0x04, 0x00, 0x04
 };
 
+/**
+ * @brief Looks up the bitmap row data for a character.
+ * Lowercase letters are normalised to uppercase before the search.
+ * @param c Character to look up.
+ * @return Pointer to the glyph's row array, or unknownGlyph if not found.
+ */
 static const uint8_t *textGetGlyph(char c) {
     if (c >= 'a' && c <= 'z') {
         c = c - 'a' + 'A';
@@ -76,6 +87,14 @@ static const uint8_t *textGetGlyph(char c) {
     return unknownGlyph;
 }
 
+/**
+ * @brief Draws a scaled pixel block at the given screen coordinate.
+ * Draws a single pixel when scale is 1, otherwise draws a filled rectangle.
+ * @param x Screen X coordinate of the block's top-left corner.
+ * @param y Screen Y coordinate of the block's top-left corner.
+ * @param color 32-bit ARGB colour.
+ * @param scale Side length of the pixel block in screen pixels.
+ */
 static void textDrawPixelBlock(int x, int y, uint32_t color, uint8_t scale) {
     if (x < 0 || y < 0) {
         return;

@@ -36,6 +36,25 @@ void destroyChampionViewer(ChampionViewer *viewer) {
     free(viewer);
 }
 
+/**
+ * @brief Maps diagonal directions to their nearest cardinal equivalent.
+ *
+ * Since only 4-direction sprites exist, NORTHEAST/NORTHWEST collapse to NORTH
+ * and SOUTHEAST/SOUTHWEST collapse to SOUTH. All cardinal directions pass through unchanged.
+ *
+ * @param dir The direction to map.
+ * @return The nearest supported cardinal Direction.
+ */
+static Direction mapDir(Direction dir) {
+    switch (dir) {
+        case NORTHEAST: return NORTH;
+        case NORTHWEST: return NORTH;
+        case SOUTHEAST: return SOUTH;
+        case SOUTHWEST: return SOUTH;
+        default: return dir;
+    }
+}
+
 bool championViewerUpdate(ChampionViewer *viewer, Champion *champion) {
     if (viewer == NULL || champion == NULL) {
         return false;
@@ -43,17 +62,17 @@ bool championViewerUpdate(ChampionViewer *viewer, Champion *champion) {
 
     int targetAnimation;
     ChampionState state = championGetState(champion);
-    Direction dir = championGetDir(champion);
+    Direction dir = mapDir(championGetDir(champion));
 
     switch (state) {
         case CHAMPION_MOVING:
-            targetAnimation = (int)dir + 16;
+            targetAnimation = (int)dir + 8;
             break;
         case CHAMPION_ATTACKING:
-            if (viewer->currentAnimation >= 8 && viewer->currentAnimation < 16) {
+            if (viewer->currentAnimation >= 4 && viewer->currentAnimation < 8) {
                 targetAnimation = viewer->currentAnimation;
             } else {
-                targetAnimation = (int)dir + 8;
+                targetAnimation = (int)dir + 4;
             }
             break;
         default:

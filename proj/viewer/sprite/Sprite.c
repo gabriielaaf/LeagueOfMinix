@@ -1,10 +1,12 @@
 #include "Sprite.h"
 
+/**
+ * @brief Full definition of the opaque Sprite type.
+ */
 struct Sprite {
-    int width;
-    int height;
-
-    uint8_t *map;
+    int width;    /**< Width in pixels. */
+    int height;   /**< Height in pixels. */
+    uint8_t *map; /**< Raw pixel data loaded from the XPM image. */
 };
 
 Sprite *spriteCreate(xpm_map_t xpm) {

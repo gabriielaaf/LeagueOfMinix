@@ -26,6 +26,11 @@ void shopViewerDestroy(ShopViewer *viewer) {
     free(viewer);
 }
 
+/**
+ * @brief Draws all three upgrade bars for a single player's shop column.
+ * @param viewer ShopViewer providing the bar renderer.
+ * @param playerShop PlayerShopState containing the bars to draw.
+ */
 static void playerShopViewerDraw(ShopViewer *viewer, PlayerShopState *playerShop) {
     if (!viewer || !playerShop) return;
 

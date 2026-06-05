@@ -1,5 +1,4 @@
-#ifndef P1_WEST_XPMS_H
-#define P1_WEST_XPMS_H
+#pragma once
 
 #include <lcom/lcf.h>
 
@@ -1475,6 +1474,7 @@ static xpm_row_t p1_west_move1_xpm[] = {
 "                                                                                                                                                                                                                                                "};
 
 static xpm_row_t p1_west_move2_xpm[] = {
+<<<<<<< HEAD
 "120 106 256 2",
 "  	c None",
 ". 	c #000000",

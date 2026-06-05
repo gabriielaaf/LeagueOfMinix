@@ -1,5 +1,9 @@
 #include "KeyboardInterpreter.h"
 
+/**
+ * @brief Zeroes all directional flags of a PlayerInput.
+ * @param playerInput PlayerInput to initialise.
+ */
 static void playerInputInit(PlayerInput *playerInput) {
     playerInput->down = false;
     playerInput->up = false;

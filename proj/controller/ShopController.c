@@ -1,5 +1,11 @@
 #include "ShopController.h"
 
+/**
+ * @brief Processes mouse input for all three upgrade bars of a single player's shop column.
+ * @param controller ShopController providing the bar controller.
+ * @param playerShop PlayerShopState containing the bars to update.
+ * @param mouse Current mouse state providing cursor position and click events.
+ */
 static void playerShopControllerUpdate(ShopController *controller,
                                        PlayerShopState *playerShop,
                                        MouseState *mouse) {

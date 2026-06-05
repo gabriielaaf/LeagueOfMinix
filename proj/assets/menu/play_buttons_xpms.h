@@ -3,6 +3,7 @@
 #include <lcom/lcf.h>
 
 static xpm_row_t play_button_xpm[] = {
+
     "403 164 256 2",
     "  	c None",
     "AA	c #846F43",

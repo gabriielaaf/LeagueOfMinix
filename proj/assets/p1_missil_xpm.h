@@ -1,5 +1,9 @@
-/* XPM */
+#pragma once
+
+#include <lcom/lcf.h>
+
 static xpm_row_t p1_missil1_xpm[] = {
+
 "150 100 256 2",
 "  	c None",
 ". 	c #010E21",

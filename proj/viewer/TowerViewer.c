@@ -3,6 +3,12 @@
 
 #define PROJECTILE_ANIM_TIME 8
 
+/**
+ * @brief Creates a two-frame AnimSprite for a tower projectile from two XPM rows.
+ * @param frame1 XPM row data for the first animation frame.
+ * @param frame2 XPM row data for the second animation frame.
+ * @return Pointer to the new AnimSprite, or NULL on failure.
+ */
 static AnimSprite *createProjectileAnim(xpm_row_t *frame1, xpm_row_t *frame2) {
     Sprite **frames = malloc(2 * sizeof(Sprite *));
     if (!frames) return NULL;

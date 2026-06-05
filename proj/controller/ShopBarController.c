@@ -15,6 +15,13 @@ void shopBarControllerDestroy(ShopBarController *controller) {
     free(controller);
 }
 
+/**
+ * @brief Tests whether a screen coordinate is inside a button's bounding rectangle.
+ * @param button Button to test (NULL returns false).
+ * @param mouse_x Cursor X coordinate in pixels.
+ * @param mouse_y Cursor Y coordinate in pixels.
+ * @return true if (mouse_x, mouse_y) is within the button bounds.
+ */
 static bool isInsideButton(ButtonState *button, int mouse_x, int mouse_y) {
     if (!button) return false;
 

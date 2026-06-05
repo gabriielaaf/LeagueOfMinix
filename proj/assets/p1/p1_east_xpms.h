@@ -1,5 +1,4 @@
-#ifndef P1_EAST_XPMS_H
-#define P1_EAST_XPMS_H
+#pragma once
 
 #include <lcom/lcf.h>
 
@@ -1479,6 +1478,7 @@ static xpm_row_t p1_east_move1_xpm[] = {
 "      #.G G Z                                                                                                                                                                                                                                                                                                                         "};
 
 static xpm_row_t p1_east_move2_xpm[] = {
+<<<<<<< HEAD
 "135 110 256 2",
 "  	c None",
 ". 	c #000000",

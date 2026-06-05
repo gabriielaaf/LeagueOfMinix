@@ -1,6 +1,4 @@
-#ifndef CURSOR_XPM_H
-#define CURSOR_XPM_H
-
+#pragma once
 #include <lcom/lcf.h>
 
 static xpm_row_t cursor_xpm[] = {
@@ -314,6 +312,3 @@ static xpm_row_t cursor_xpm[] = {
 "                                                                                                    ",
 "                                                                                                    ",
 "                                                                                                    "};
-
-
-#endif

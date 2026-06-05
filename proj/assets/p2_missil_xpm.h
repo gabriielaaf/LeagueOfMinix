@@ -1,3 +1,7 @@
+#pragma once
+
+#include <lcom/lcf.h>
+
 static xpm_row_t p2_missil1_xpm[] = {
 
 "150 100 256 2",

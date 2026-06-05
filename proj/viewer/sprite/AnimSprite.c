@@ -1,16 +1,17 @@
 #include "AnimSprite.h"
 
+/**
+ * @brief Full definition of the opaque AnimSprite type.
+ */
 struct AnimSprite {
-    int x;
-    int y;
-
-    int currentSprite;
-    int currentTime;
-    int animationTime;
-    int numSprites;
-    int looped;
-
-    Sprite **sprites;
+    int x;             /**< Screen X coordinate of the top-left corner. */
+    int y;             /**< Screen Y coordinate of the top-left corner. */
+    int currentSprite; /**< Index of the frame currently being displayed. */
+    int currentTime;   /**< Ticks elapsed on the current frame. */
+    int animationTime; /**< Number of ticks each frame is held before advancing. */
+    int numSprites;    /**< Total number of frames in the animation. */
+    int looped;        /**< Set to 1 for one tick after the animation wraps around. */
+    Sprite **sprites;  /**< Array of frame sprites (not owned by this struct). */
 };
 
 AnimSprite *createAnimSprite(int animationTime, int numSprites, int x, int y, Sprite **sprites) {

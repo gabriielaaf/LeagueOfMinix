@@ -1,5 +1,4 @@
-#ifndef P1_SOUTH_XPMS_H
-#define P1_SOUTH_XPMS_H
+#pragma once
 
 #include <lcom/lcf.h>
 
@@ -1859,4 +1858,3 @@ static xpm_row_t p1_south_attack_mid_xpm[] = {
 "                                        z+s+                                                                                                                                                                                                    ",
 "                                                                                                                                                                                                                                                ",
 "                                                                                                                                                                                                                                                "};
-#endif
