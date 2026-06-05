@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 #include "ButtonViewer.h"
-#include "TextDrawer.h"
 
 #include "../assets/retry_button_xpm.h"
 #include "../assets/retry_button_hover_xpm.h"

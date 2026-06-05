@@ -1,6 +1,5 @@
 #include "ShopViewer.h"
-#include "TextDrawer.h"
-#include <stdio.h>
+
 
 ShopViewer *shopViewerCreate() {
     ShopViewer *viewer = malloc(sizeof(ShopViewer));
@@ -38,14 +37,6 @@ static void playerShopViewerDraw(ShopViewer *viewer, PlayerShopState *playerShop
     if (!viewer || !playerShop) return;
 
     if (playerShop->attackBar) {
-        char buf[16];
-        int len = snprintf(buf, sizeof(buf), "PTS: %d", points);
-        int stride = (5 + 1) * 2;
-        int total_w = (len - 1) * stride + 5 * 2;
-        int px = playerShop->attackBar->x + playerShop->attackBar->width / 2 - total_w / 2;
-        int py = playerShop->attackBar->y - 20;
-        textDrawString(buf, px, py, color, 2, 1);
-
         shopBarViewerDraw(viewer->barViewer, playerShop->attackBar);
     }
 

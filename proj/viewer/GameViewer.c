@@ -1,6 +1,5 @@
 #include "GameViewer.h"
 #include "sprite/BuildSprites.h"
-#include "TextDrawer.h"
 #include "../assets/minion_p1/minion_p1_xpms.h"
 #include "../assets/minion_p2/minion_p2_xpms.h"
 #include "../assets/tower_p1_xpm.h"
@@ -92,36 +91,6 @@ void gameViewerUpdate(GameViewer *gv, Champion *p1, Champion *p2, Minions *minio
     minionViewerUpdate(gv->minion_red);
 }
 
-/**
- * @brief Draws the HUD overlay for a single champion: respawn countdown while dead,
- * and the accumulated point total at all times.
- * @param champion Champion whose HUD is drawn (NULL is silently ignored).
- */
-static void drawChampionHUD(Champion *champion) {
-    if (!champion) return;
-
-    bool isRed = championGetTeam(champion) == TEAM_RED;
-    int stride = (5 + HUD_SPACING) * HUD_SCALE;
-    uint32_t color = isRed ? 0xFF4444 : 0x4444FF;
-
-    int timer = championGetRespawnTimer(champion);
-    if (timer > 0) {
-        char buf[16];
-        snprintf(buf, sizeof(buf), "RESP: %d", timer);
-        int total_w = 6 * stride + 5 * HUD_SCALE;
-        int x = isRed ? (MODE105_WIDTH - total_w - 5) : 5;
-        textDrawString(buf, x, 5, color, HUD_SCALE, HUD_SPACING);
-    }
-
-    int pts = championCurrentPoints(champion);
-    char pbuf[16];
-    int len = snprintf(pbuf, sizeof(pbuf), "PTS: %d", pts);
-    int text_w = (len - 1) * stride + 5 * HUD_SCALE;
-    int px = isRed ? (MODE105_WIDTH - text_w - 5) : 5;
-    int py = MODE105_HEIGHT - 7 * HUD_SCALE - 5;
-    textDrawString(pbuf, px, py, color, HUD_SCALE, HUD_SPACING);
-}
-
 void gameViewerDraw(GameViewer *gv, Champion *p1, Champion *p2, Minions *minions, Towers *towers) {
     if (!gv || !p1 || !p2 || !minions || !towers) return;
 
@@ -130,6 +99,4 @@ void gameViewerDraw(GameViewer *gv, Champion *p1, Champion *p2, Minions *minions
     minionViewerDraw(gv->minion_red, minions, TEAM_RED);
     championDraw(gv->p1, p1);
     championDraw(gv->p2, p2);
-    drawChampionHUD(p1);
-    drawChampionHUD(p2);
 }

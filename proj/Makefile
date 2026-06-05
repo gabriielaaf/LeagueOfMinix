@@ -47,7 +47,6 @@ SRCS = main.c \
        ShopState.c \
        shopBarState.c \
        GameOverViewer.c \
-       TextDrawer.c \
        ShopViewer.c \
        ShopController.c \
        ShopBarController.c
