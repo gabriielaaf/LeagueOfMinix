@@ -76,10 +76,31 @@ void viewerDestroy(Viewer *v) {
     free(v);
 }
 
+static const uint8_t *viewerGetBackground(Viewer *v, StateType state) {
+    if (!v) return NULL;
+
+    switch (state) {
+        case STATE_PLAYING:
+            return spriteGetMap(v->arenaBackground);
+
+        case STATE_PAUSED:
+            return spriteGetMap(v->arenaBackground);
+
+        case STATE_MENU:
+            return spriteGetMap(v->menuBackground);
+
+        case STATE_GAME_OVER:
+            return spriteGetMap(v->gameOverBackground);
+
+        default:
+            return NULL;
+    }
+}
+
 void viewerDraw(Viewer *v, State *state, int cursor_x, int cursor_y) {
     if (!v || !state) return;
 
-    video_clear_back_buffer(0);
+    video_clear_back_buffer(viewerGetBackground(v, state->state));
 
     switch (state->state) {
         case STATE_MENU:

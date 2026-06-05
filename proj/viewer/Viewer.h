@@ -12,6 +12,11 @@
 typedef struct {
     Sprite *cursor;
 
+    Sprite *arenaBackground;
+    Sprite *menuBackground;
+    Sprite *shopBackground;
+    Sprite *gameOverBackground;
+
     GameViewer *gameViewer;
     MenuViewer *menuViewer;
     ShopViewer *shopViewer;
