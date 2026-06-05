@@ -84,6 +84,10 @@ int championGetRespawnTimer(Champion *champion) {
     return champion->respawn_timer;
 }
 
+Team championGetTeam(Champion *champion) {
+    return champion->team;
+}
+
 int championGetWidth(Champion *champion) {
     return champion->width;
 }

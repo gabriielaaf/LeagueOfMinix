@@ -122,6 +122,13 @@ int championGetAttackDmg(Champion *champion);
 int championGetRespawnTimer(Champion *champion);
 
 /**
+ * @brief Returns the team of the champion.
+ * @param champion Target champion.
+ * @return TEAM_RED or TEAM_BLUE.
+ */
+Team championGetTeam(Champion *champion);
+
+/**
  * @brief Returns the sprite width of the champion in pixels.
  * @param champion Target champion.
  * @return Width in pixels.
