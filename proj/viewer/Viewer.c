@@ -110,15 +110,6 @@ void viewerDraw(Viewer *v, State *state, int cursor_x, int cursor_y) {
             break;
 
         case STATE_PAUSED:
-            if (state->game) {
-                gameViewerDraw(
-                    v->gameViewer,
-                    state->game->p1,
-                    state->game->p2,
-                    &state->game->minions,
-                    &state->game->towers
-                );
-            }
 
             if (state->shop) {
                 shopViewerDraw(v->shopViewer, state->shop);
