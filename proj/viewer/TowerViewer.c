@@ -1,6 +1,5 @@
 #include "TowerViewer.h"
 
-#include <stdlib.h>
 
 #define PROJECTILE_ANIM_TIME 8
 

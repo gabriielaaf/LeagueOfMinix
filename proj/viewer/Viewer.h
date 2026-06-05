@@ -3,11 +3,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "sprite/Sprite.h"
+#include "../assets/arena.h"
+#include "../assets/cursor/cursor_xpms.h"
+#include "../assets/home.h"
+#include "../assets/p1_lose_xpm.h"
+#include "../assets/p2_lose_xpm.h"
+#include "../assets/shop_xpm.h"
+#include "GameOverViewer.h"
 #include "GameViewer.h"
 #include "MenuViewer.h"
 #include "ShopViewer.h"
-#include "GameOverViewer.h"
+#include "sprite/Sprite.h"
+#include "video.h"
 
 typedef struct {
     Sprite *cursor;
