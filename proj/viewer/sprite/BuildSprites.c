@@ -1,7 +1,7 @@
 #include "BuildSprites.h"
 
 static xpm_row_t *p1_idle_xpms[8] = {
-    p1_south_stop_xpm,
+    p1_north_stop_xpm,
     p1_south_stop_xpm,
     p1_south_stop_xpm,
     p1_south_stop_xpm,
@@ -12,7 +12,7 @@ static xpm_row_t *p1_idle_xpms[8] = {
 };
 
 static xpm_row_t *p1_move_xpms[8][MOVE_FRAMES] = {
-    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_north_move1_xpm, p1_north_move2_xpm},
     {p1_south_move1_xpm, p1_south_move2_xpm},
     {p1_south_move1_xpm, p1_south_move2_xpm},
     {p1_south_move1_xpm, p1_south_move2_xpm},
@@ -23,7 +23,7 @@ static xpm_row_t *p1_move_xpms[8][MOVE_FRAMES] = {
 };
 
 static xpm_row_t *p1_attack_xpms[8][ATTACK_FRAMES] = {
-    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_north_attack_up_xpm, p1_north_attack_mid_xpm},
     {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
     {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
     {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
@@ -34,7 +34,7 @@ static xpm_row_t *p1_attack_xpms[8][ATTACK_FRAMES] = {
 };
 
 static xpm_row_t *p2_idle_xpms[8] = {
-    p1_south_stop_xpm,
+    p1_north_stop_xpm,
     p1_south_stop_xpm,
     p1_south_stop_xpm,
     p1_south_stop_xpm,
@@ -45,7 +45,7 @@ static xpm_row_t *p2_idle_xpms[8] = {
 };
 
 static xpm_row_t *p2_move_xpms[8][MOVE_FRAMES] = {
-    {p1_south_move1_xpm, p1_south_move2_xpm},
+    {p1_north_move1_xpm, p1_north_move2_xpm},
     {p1_south_move1_xpm, p1_south_move2_xpm},
     {p1_south_move1_xpm, p1_south_move2_xpm},
     {p1_south_move1_xpm, p1_south_move2_xpm},
@@ -56,7 +56,7 @@ static xpm_row_t *p2_move_xpms[8][MOVE_FRAMES] = {
 };
 
 static xpm_row_t *p2_attack_xpms[8][ATTACK_FRAMES] = {
-    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
+    {p1_north_attack_up_xpm, p1_north_attack_mid_xpm},
     {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
     {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
     {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
