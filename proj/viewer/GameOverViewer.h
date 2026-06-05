@@ -5,7 +5,7 @@
 #include "ButtonViewer.h"
 #include "TextDrawer.h"
 
-#include "../assets/menu/play_buttons_xpms.h"
+#include "../assets/menu/play_buttons_xpms.h" // temporário: button_xpm e button_hover_xpm
 
 #include "../model/state/State.h"
 

@@ -1,4 +1,6 @@
 #include "MenuViewer.h"
+#define PLAY_BUTTON_X 250
+#define PLAY_BUTTON_Y 400
 
 MenuViewer *menuViewerCreate() {
     MenuViewer *viewer = malloc(sizeof(MenuViewer));
@@ -33,6 +35,6 @@ void menuViewerDraw(MenuViewer *viewer, MenuState *menu) {
     if (!viewer || !menu) return;
 
     if (menu->playButton) {
-        buttonViewerDraw(viewer->playButtonViewer, menu->playButton);
+        buttonViewerDraw(viewer->playButtonViewer, menu->playButton, PLAY_BUTTON_X, PLAY_BUTTON_Y);
     }
 }

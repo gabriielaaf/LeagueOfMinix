@@ -1,9 +1,15 @@
 #include "GameOverViewer.h"
 
-#define COLOR_WHITE 0xFFFFFF
-#define COLOR_RED 0xFF3333
-#define COLOR_BLUE 0x3399FF
-#define COLOR_GOLD 0xFFD700
+#define RESTART_BUTTON_X 280
+#define RESTART_BUTTON_Y 540
+
+#define QUIT_BUTTON_X 525
+#define QUIT_BUTTON_Y 540
+
+#define COLOR_WHITE  0xFFFFFF
+#define COLOR_RED    0xFF3333
+#define COLOR_BLUE   0x3399FF
+#define COLOR_GOLD   0xFFD700
 
 GameOverViewer *gameOverViewerCreate() {
     GameOverViewer *viewer = malloc(sizeof(GameOverViewer));
@@ -53,7 +59,7 @@ void gameOverViewerDraw(GameOverViewer *viewer, State *state) {
     if (!viewer || !state || !state->gameOver) return;
 
    
-    buttonViewerDraw(viewer->restartButtonViewer, state->gameOver->restartButton);
-    buttonViewerDraw(viewer->quitButtonViewer, state->gameOver->quitButton);
+    buttonViewerDraw(viewer->restartButtonViewer, state->gameOver->restartButton, RESTART_BUTTON_X, RESTART_BUTTON_Y);
+    buttonViewerDraw(viewer->quitButtonViewer, state->gameOver->quitButton, QUIT_BUTTON_X, QUIT_BUTTON_Y);
 
 }
