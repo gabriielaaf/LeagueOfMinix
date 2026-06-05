@@ -21,11 +21,11 @@
  * @brief Aggregated renderer for all in-match entities.
  */
 typedef struct {
-    ChampionViewer *p1;         /**< Viewer for the player-1 champion. */
-    ChampionViewer *p2;         /**< Viewer for the player-2 champion. */
-    MinionViewer *minion_blue;  /**< Viewer for blue-team minions. */
-    MinionViewer *minion_red;   /**< Viewer for red-team minions. */
-    TowerViewer *tower;         /**< Viewer for both towers. */
+    ChampionViewer *p1; /**< Viewer for the player-1 champion. */
+    ChampionViewer *p2; /**< Viewer for the player-2 champion. */
+    MinionViewer *minion_blue; /**< Viewer for blue-team minions. */
+    MinionViewer *minion_red; /**< Viewer for red-team minions. */
+    TowerViewer *tower; /**< Viewer for both towers. */
 } GameViewer;
 
 /**
