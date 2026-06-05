@@ -24,10 +24,10 @@ static void playerShopControllerUpdate(ShopController *controller,
         );
     }
 
-    if (playerShop->defenseBar) {
+    if (playerShop->speedBar) {
         shopBarControllerUpdate(
             controller->barController,
-            playerShop->defenseBar,
+            playerShop->speedBar,
             mouse->x,
             mouse->y,
             mouse_pressed,
@@ -74,7 +74,7 @@ void shopControllerDestroy(ShopController *controller) {
 void shopControllerUpdate(ShopController *controller, ShopState *shop, MouseState *mouse, GameState *game) {
     if (!controller || !shop || !mouse || !game) return;
 
-    playerShopControllerUpdate(controller, shop->player1Shop, mouse, game->p1, mouse->p1.attack_pressed);
-    playerShopControllerUpdate(controller, shop->player2Shop, mouse, game->p2, mouse->p2.attack_pressed);
+    playerShopControllerUpdate(controller, shop->player1Shop, mouse, game->p1, mouse->p1.attack);
+    playerShopControllerUpdate(controller, shop->player2Shop, mouse, game->p2, mouse->p2.attack);
 }
 

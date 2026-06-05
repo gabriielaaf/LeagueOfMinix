@@ -14,8 +14,6 @@
 #include "assets/gabiteste.h"
 #include "viewer/sprite/Sprite.h"
 
-#include "model/champion/Champion.h"
-
 void lazy_link();
 
 int main(int argc, char *argv[]) {
@@ -37,69 +35,25 @@ int(proj_main_loop)(int argc, char *argv[]) {
     if ((argc > 0 && strcmp(argv[0], "test") == 0) ||
         (argc > 1 && strcmp(argv[1], "test") == 0)) {
 
-        printf("[TEST] Entrei no modo test\n");
-        fflush(stdout);
-
-        printf("[TEST] Vou chamar video_init_page_flipping(0x118)\n");
-        fflush(stdout);
-
         if (video_init_page_flipping(0x118) != 0) {
-            printf("[TEST ERROR] video_init_page_flipping falhou\n");
-            fflush(stdout);
             return 1;
         }
-
-        printf("[TEST] Video inicializado com sucesso\n");
-        fflush(stdout);
-
-        printf("[TEST] Vou criar sprite gabi_test_xpm\n");
-        fflush(stdout);
 
         Sprite *sprite = spriteCreate(gabi_test_xpm);
 
         if (sprite == NULL) {
-            printf("[TEST ERROR] spriteCreate(gabi_test_xpm) devolveu NULL\n");
-            fflush(stdout);
-
             vg_exit();
             return 1;
         }
 
-        printf("[TEST] Sprite criado com sucesso\n");
-        fflush(stdout);
-
-        printf("[TEST] Vou limpar o back buffer\n");
-        fflush(stdout);
-
         video_clear_back_buffer(0);
-
-        printf("[TEST] Vou desenhar sprite em 0,0\n");
-        fflush(stdout);
-
         spriteDraw(sprite, 0, 0);
-
-        printf("[TEST] Vou fazer video_swap_buffers\n");
-        fflush(stdout);
-
         video_swap_buffers();
-
-        printf("[TEST] Sprite desenhado. Vou esperar ESC\n");
-        fflush(stdout);
 
         wait_for_esc();
 
-        printf("[TEST] ESC recebido. Vou destruir sprite\n");
-        fflush(stdout);
-
         spriteDestroy(sprite);
-
-        printf("[TEST] Vou sair do modo grafico\n");
-        fflush(stdout);
-
         vg_exit();
-
-        printf("[TEST] Saiu com sucesso\n");
-        fflush(stdout);
 
         return 0;
     }
@@ -107,26 +61,20 @@ int(proj_main_loop)(int argc, char *argv[]) {
     (void) argc;
     (void) argv;
 
-    printf("[INIT] video_init_page_flipping\n"); fflush(stdout);
     if (video_init_page_flipping(0x118) != 0) {
-        printf("[INIT ERROR] video_init failed\n"); fflush(stdout);
         return 1;
     }
 
-    printf("[INIT] controllerCreate\n"); fflush(stdout);
     Controller *ctrl = controllerCreate();
     if (!ctrl) {
-        printf("[INIT ERROR] controllerCreate returned NULL\n"); fflush(stdout);
         vg_exit();
         return 1;
     }
 
-    printf("[INIT] controller OK, subscribing interrupts\n"); fflush(stdout);
     lazy_link();
 
     uint8_t timer_bit_no;
     if (timer_subscribe_int(&timer_bit_no) != 0) {
-        printf("[INIT ERROR] timer_subscribe failed\n"); fflush(stdout);
         controllerDestroy(ctrl);
         vg_exit();
         return 1;
@@ -134,7 +82,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
 
     uint8_t kbd_bit_no;
     if (kbd_subscribe_int(&kbd_bit_no) != 0) {
-        printf("[INIT ERROR] kbd_subscribe failed\n"); fflush(stdout);
         timer_unsubscribe_int();
         controllerDestroy(ctrl);
         vg_exit();
@@ -165,7 +112,6 @@ int(proj_main_loop)(int argc, char *argv[]) {
         r = driver_receive(ANY, &msg, &ipc_status);
 
         if (r != 0) {
-            printf("driver_receive failed: %d\n", r);
             continue;
         }
 

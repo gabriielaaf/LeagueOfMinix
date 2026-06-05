@@ -11,39 +11,34 @@
 #define PLAYER2_SHOP_X (SCREEN_WIDTH - 40 - SHOP_TOTAL_W)
 
 #define SHOP_ATTACK_Y 520
-#define SHOP_DEFENSE_Y 585
-#define SHOP_HP_Y 650
+#define SHOP_SPEED_Y  585
+#define SHOP_HP_Y     650
 
-/**
- * @brief Allocates and positions the three upgrade bars for one player's shop column.
- * @param x Left edge of the shop column in pixels.
- * @return Pointer to the new PlayerShopState, or NULL on allocation failure.
- */
 static PlayerShopState *playerShopStateCreate(int x) {
     PlayerShopState *playerShop = malloc(sizeof(PlayerShopState));
     if (!playerShop) return NULL;
 
     playerShop->attackBar = NULL;
-    playerShop->defenseBar = NULL;
-    playerShop->hpBar = NULL;
+    playerShop->speedBar  = NULL;
+    playerShop->hpBar     = NULL;
 
-    playerShop->attackBar = shopBarStateCreate(x, SHOP_ATTACK_Y);
+    playerShop->attackBar = shopBarStateCreate(x, SHOP_ATTACK_Y, UPGRADE_DAMAGE);
     if (!playerShop->attackBar) {
         free(playerShop);
         return NULL;
     }
 
-    playerShop->defenseBar = shopBarStateCreate(x, SHOP_DEFENSE_Y);
-    if (!playerShop->defenseBar) {
+    playerShop->speedBar = shopBarStateCreate(x, SHOP_SPEED_Y, UPGRADE_SPEED);
+    if (!playerShop->speedBar) {
         shopBarStateDestroy(playerShop->attackBar);
         free(playerShop);
         return NULL;
     }
 
-    playerShop->hpBar = shopBarStateCreate(x, SHOP_HP_Y);
+    playerShop->hpBar = shopBarStateCreate(x, SHOP_HP_Y, UPGRADE_HP);
     if (!playerShop->hpBar) {
         shopBarStateDestroy(playerShop->attackBar);
-        shopBarStateDestroy(playerShop->defenseBar);
+        shopBarStateDestroy(playerShop->speedBar);
         free(playerShop);
         return NULL;
     }
@@ -51,52 +46,28 @@ static PlayerShopState *playerShopStateCreate(int x) {
     return playerShop;
 }
 
-/**
- * @brief Frees a PlayerShopState and all upgrade bars it owns.
- * @param playerShop PlayerShopState to destroy.
- */
 static void playerShopStateDestroy(PlayerShopState *playerShop) {
     if (!playerShop) return;
 
-    if (playerShop->attackBar) {
-        shopBarStateDestroy(playerShop->attackBar);
-    }
-
-    if (playerShop->defenseBar) {
-        shopBarStateDestroy(playerShop->defenseBar);
-    }
-
-    if (playerShop->hpBar) {
-        shopBarStateDestroy(playerShop->hpBar);
-    }
+    if (playerShop->attackBar) shopBarStateDestroy(playerShop->attackBar);
+    if (playerShop->speedBar)  shopBarStateDestroy(playerShop->speedBar);
+    if (playerShop->hpBar)     shopBarStateDestroy(playerShop->hpBar);
 
     free(playerShop);
 }
 
-/**
- * @brief Clears the one-frame click flag on every buy button of a single player's shop.
- * @param playerShop PlayerShopState whose buttons should be reset.
- */
 static void playerShopStateResetClicks(PlayerShopState *playerShop) {
     if (!playerShop) return;
 
-    if (playerShop->attackBar) {
-        shopBarStateResetClick(playerShop->attackBar);
-    }
-
-    if (playerShop->defenseBar) {
-        shopBarStateResetClick(playerShop->defenseBar);
-    }
-
-    if (playerShop->hpBar) {
-        shopBarStateResetClick(playerShop->hpBar);
-    }
+    if (playerShop->attackBar) shopBarStateResetClick(playerShop->attackBar);
+    if (playerShop->speedBar)  shopBarStateResetClick(playerShop->speedBar);
+    if (playerShop->hpBar)     shopBarStateResetClick(playerShop->hpBar);
 }
 
 ShopState *shopStateCreate(int player1X,
                            int player2X,
                            int attackY,
-                           int defenseY,
+                           int speedY,
                            int hpY,
                            int barWidth,
                            int barHeight,
@@ -127,13 +98,8 @@ ShopState *shopStateCreate(int player1X,
 void shopStateDestroy(ShopState *shop) {
     if (!shop) return;
 
-    if (shop->player1Shop) {
-        playerShopStateDestroy(shop->player1Shop);
-    }
-
-    if (shop->player2Shop) {
-        playerShopStateDestroy(shop->player2Shop);
-    }
+    if (shop->player1Shop) playerShopStateDestroy(shop->player1Shop);
+    if (shop->player2Shop) playerShopStateDestroy(shop->player2Shop);
 
     free(shop);
 }

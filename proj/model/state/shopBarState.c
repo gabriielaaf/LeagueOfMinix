@@ -6,7 +6,7 @@
 #define BUY_BUTTON_W 80
 #define BUY_BUTTON_H 40
 
-ShopBarState *shopBarStateCreate(int x, int y) {
+ShopBarState *shopBarStateCreate(int x, int y, UpgradeType upgrade_type) {
     ShopBarState *bar = malloc(sizeof(ShopBarState));
     if (!bar) return NULL;
 
@@ -16,6 +16,7 @@ ShopBarState *shopBarStateCreate(int x, int y) {
     bar->height = SHOP_BAR_H;
 
     bar->level = 0;
+    bar->upgrade_type = upgrade_type;
 
     bar->buyButton = buttonStateCreate(
         x + SHOP_BAR_W + 15,

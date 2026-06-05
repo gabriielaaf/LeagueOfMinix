@@ -67,6 +67,16 @@ bool shopBarControllerUpdate(ShopBarController *controller,
         buyButton->clicked = true;
         championUpdatePoints(owner, -2);
         shopBarStateBuy(bar);
+
+        switch (bar->upgrade_type) {
+            case UPGRADE_DAMAGE: championAddAttackDmg(owner, 5);  break;
+            case UPGRADE_SPEED:  championAddSpeed(owner, 1);      break;
+            case UPGRADE_HP:
+                championAddMaxHp(owner, 20);
+                championAddHp(owner, 20);
+                break;
+        }
+
         return true;
     }
 

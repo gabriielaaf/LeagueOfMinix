@@ -38,8 +38,8 @@ static void playerShopViewerDraw(ShopViewer *viewer, PlayerShopState *playerShop
         shopBarViewerDraw(viewer->barViewer, playerShop->attackBar);
     }
 
-    if (playerShop->defenseBar) {
-        shopBarViewerDraw(viewer->barViewer, playerShop->defenseBar);
+    if (playerShop->speedBar) {
+        shopBarViewerDraw(viewer->barViewer, playerShop->speedBar);
     }
 
     if (playerShop->hpBar) {
