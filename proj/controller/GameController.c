@@ -37,14 +37,16 @@ void gameControllerUpdate(GameController *gc, Champion *p1, Champion *p2, Minion
         if (championHits(p1, p2)) {
             championDecreaseHp(p1, p2, championGetAttackDmg(p1));
         }
-        minionsTakeHit(minions, championGetAttackBox(p1), championGetAttackDmg(p1), TEAM_BLUE);
+        int p1_kills = minionsTakeHit(minions, championGetAttackBox(p1), championGetAttackDmg(p1), TEAM_BLUE);
+        if (p1_kills > 0) championUpdatePoints(p1, p1_kills);
         towerTakeHit(&towers->red, championGetAttackBox(p1), championGetAttackDmg(p1));
     }
     if (mouse->p2.attack && championAttack(p2)) {
         if (championHits(p2, p1)) {
             championDecreaseHp(p2, p1, championGetAttackDmg(p2));
         }
-        minionsTakeHit(minions, championGetAttackBox(p2), championGetAttackDmg(p2), TEAM_RED);
+        int p2_kills = minionsTakeHit(minions, championGetAttackBox(p2), championGetAttackDmg(p2), TEAM_RED);
+        if (p2_kills > 0) championUpdatePoints(p2, p2_kills);
         towerTakeHit(&towers->blue, championGetAttackBox(p2), championGetAttackDmg(p2));
     }
 
