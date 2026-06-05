@@ -9,6 +9,8 @@ typedef struct Sprite Sprite;
 
 Sprite *spriteCreate(xpm_map_t xpm);
 
+const uint8_t *spriteGetMap(const Sprite *sprite);
+
 void spriteDestroy(Sprite *sprite);
 
 int spriteDraw(Sprite *sprite, int x, int y);
