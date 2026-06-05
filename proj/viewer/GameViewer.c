@@ -92,6 +92,11 @@ void gameViewerUpdate(GameViewer *gv, Champion *p1, Champion *p2, Minions *minio
     minionViewerUpdate(gv->minion_red);
 }
 
+/**
+ * @brief Draws the HUD overlay for a single champion: respawn countdown while dead,
+ * and the accumulated point total at all times.
+ * @param champion Champion whose HUD is drawn (NULL is silently ignored).
+ */
 static void drawChampionHUD(Champion *champion) {
     if (!champion) return;
 

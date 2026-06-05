@@ -14,12 +14,12 @@
  * @brief Renderer for a single upgradeable bar in the shop.
  */
 typedef struct {
-    uint32_t border_color;
-    uint32_t empty_color;
-    uint32_t fill_color;
-    uint32_t buy_hover_color;
-    uint32_t buy_disabled_color;
-    ButtonViewer *buttonViewer;
+    uint32_t border_color;       /**< Colour of the bar border. */
+    uint32_t empty_color;        /**< Colour of the unfilled portion of the bar. */
+    uint32_t fill_color;         /**< Colour of the filled (purchased) portion. */
+    uint32_t buy_hover_color;    /**< Buy button colour when the cursor is over it. */
+    uint32_t buy_disabled_color; /**< Buy button colour when the bar is at max level. */
+    ButtonViewer *buttonViewer;  /**< Viewer used to render the buy button. */
 } ShopBarViewer;
 
 /**

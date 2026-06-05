@@ -7,6 +7,11 @@
 #define SHOP_SPEED_Y  364
 #define SHOP_HP_Y     429
 
+/**
+ * @brief Allocates and positions the three upgrade bars for a single player's shop column.
+ * @param x Left edge of the shop column in pixels.
+ * @return Pointer to the new PlayerShopState, or NULL on allocation failure.
+ */
 static PlayerShopState *playerShopStateCreate(int x) {
     PlayerShopState *playerShop = malloc(sizeof(PlayerShopState));
     if (!playerShop) return NULL;
@@ -39,6 +44,10 @@ static PlayerShopState *playerShopStateCreate(int x) {
     return playerShop;
 }
 
+/**
+ * @brief Frees a PlayerShopState and all upgrade bars it owns.
+ * @param playerShop PlayerShopState to destroy.
+ */
 static void playerShopStateDestroy(PlayerShopState *playerShop) {
     if (!playerShop) return;
 
@@ -49,6 +58,10 @@ static void playerShopStateDestroy(PlayerShopState *playerShop) {
     free(playerShop);
 }
 
+/**
+ * @brief Clears the one-frame click flag on every buy button in the player's shop column.
+ * @param playerShop PlayerShopState to reset.
+ */
 static void playerShopStateResetClicks(PlayerShopState *playerShop) {
     if (!playerShop) return;
 
