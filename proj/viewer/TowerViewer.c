@@ -15,7 +15,6 @@ TowerViewer *createTowerViewer(xpm_map_t xpm_blue, xpm_map_t xpm_red) {
 
     if (!viewer->hpBar || !viewer->blue || !viewer->red) {
         destroyTowerViewer(viewer);
-        free(viewer);
         return NULL;
     }
 
