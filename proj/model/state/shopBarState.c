@@ -1,6 +1,6 @@
 #include "shopBarState.h"
 
-#define SHOP_BAR_W 300
+#define SHOP_BAR_W 250
 #define SHOP_BAR_H 40
 
 #define BUY_BUTTON_W 80

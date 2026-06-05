@@ -1,18 +1,11 @@
 #include "ShopState.h"
 
-#define SCREEN_WIDTH 1024
+#define PLAYER1_SHOP_X 51
+#define PLAYER2_SHOP_X 563
 
-#define SHOP_BAR_W 300
-#define BUY_BUTTON_W 80
-#define BUY_BUTTON_GAP 15
-#define SHOP_TOTAL_W (SHOP_BAR_W + BUY_BUTTON_GAP + BUY_BUTTON_W)
-
-#define PLAYER1_SHOP_X 40
-#define PLAYER2_SHOP_X (SCREEN_WIDTH - 40 - SHOP_TOTAL_W)
-
-#define SHOP_ATTACK_Y 520
-#define SHOP_SPEED_Y  585
-#define SHOP_HP_Y     650
+#define SHOP_ATTACK_Y 299
+#define SHOP_SPEED_Y  364
+#define SHOP_HP_Y     429
 
 static PlayerShopState *playerShopStateCreate(int x) {
     PlayerShopState *playerShop = malloc(sizeof(PlayerShopState));

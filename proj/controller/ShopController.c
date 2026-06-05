@@ -75,6 +75,6 @@ void shopControllerUpdate(ShopController *controller, ShopState *shop, MouseStat
     if (!controller || !shop || !mouse || !game) return;
 
     playerShopControllerUpdate(controller, shop->player1Shop, mouse, game->p1, mouse->p1.attack);
-    playerShopControllerUpdate(controller, shop->player2Shop, mouse, game->p2, mouse->p2.attack);
+    playerShopControllerUpdate(controller, shop->player2Shop, mouse, game->p2, mouse->p1.attack);
 }
 
