@@ -18,8 +18,8 @@ GameOverViewer *gameOverViewerCreate() {
     viewer->quitButtonViewer = NULL;
 
     viewer->restartButtonViewer = buttonViewerCreate(
-        (xpm_map_t) button_xpm,
-        (xpm_map_t) button_hover_xpm
+        (xpm_map_t) play_button_xpm,
+        (xpm_map_t) play_button_hover_xpm
     );
 
     if (!viewer->restartButtonViewer) {
