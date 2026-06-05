@@ -1,7 +1,7 @@
 #pragma once
 
 
-static xpm_row_t tower_xpm[] = {
+static xpm_row_t blue_tower_xpm[] = {
     
 "150 225 256 2",
 "  	c None",
