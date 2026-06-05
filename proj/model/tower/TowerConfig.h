@@ -1,8 +1,8 @@
 #pragma once
 
-#define TOWER_W 32
-#define TOWER_H 64
-#define TOWER_LANE_Y 340
+#define TOWER_W 150
+#define TOWER_H 225
+#define TOWER_LANE_Y 300
 #define TOWER_X_MARGIN 20
 
 #define TOWER_HP 20
