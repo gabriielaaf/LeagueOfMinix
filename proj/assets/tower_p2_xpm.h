@@ -1,5 +1,6 @@
 #pragma once
 
+#include <lcom/lcf.h>
 
 static xpm_row_t gabi_test_xpm[] = {
 "150 225 256 2",
