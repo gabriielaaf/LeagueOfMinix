@@ -1,3 +1,5 @@
+
+
 #include "Viewer.h"
 
 #include "../assets/cursor/cursor_xpms.h"
@@ -12,6 +14,8 @@ Viewer *viewerCreate() {
     v->cursor = NULL;
     v->gameViewer = NULL;
     v->menuViewer = NULL;
+    v->shopViewer = NULL;
+    v->gameOverViewer = NULL;
 
     v->cursor = spriteCreate((xpm_map_t) cursor_xpm);
     if (!v->cursor) {
@@ -27,6 +31,18 @@ Viewer *viewerCreate() {
 
     v->menuViewer = menuViewerCreate();
     if (!v->menuViewer) {
+        viewerDestroy(v);
+        return NULL;
+    }
+
+    v->shopViewer = shopViewerCreate();
+    if (!v->shopViewer) {
+        viewerDestroy(v);
+        return NULL;
+    }
+
+    v->gameOverViewer = gameOverViewerCreate();
+    if (!v->gameOverViewer) {
         viewerDestroy(v);
         return NULL;
     }
@@ -47,6 +63,14 @@ void viewerDestroy(Viewer *v) {
 
     if (v->menuViewer) {
         menuViewerDestroy(v->menuViewer);
+    }
+
+    if (v->shopViewer) {
+        shopViewerDestroy(v->shopViewer);
+    }
+
+    if (v->gameOverViewer) {
+        gameOverViewerDestroy(v->gameOverViewer);
     }
 
     free(v);
@@ -86,23 +110,21 @@ void viewerDraw(Viewer *v, State *state, int cursor_x, int cursor_y) {
                     &state->game->towers
                 );
             }
+
+            if (state->shop) {
+                shopViewerDraw(v->shopViewer, state->shop);
+            }
+
             break;
 
         case STATE_GAME_OVER:
-            if (state->game) {
-                gameViewerDraw(
-                    v->gameViewer,
-                    state->game->p1,
-                    state->game->p2,
-                    &state->game->minions,
-                    &state->game->towers
-                );
-            }
+            gameOverViewerDraw(v->gameOverViewer, state);
             break;
     }
 
-    if (state->state != STATE_PLAYING)
+    if (state->state != STATE_PLAYING) {
         spriteDraw(v->cursor, cursor_x, cursor_y);
+    }
 
     video_swap_buffers();
 }

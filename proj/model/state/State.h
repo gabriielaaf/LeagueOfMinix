@@ -3,10 +3,11 @@
 #include <stdbool.h>
 
 #include "GameState.h"
+#include "MenuState.h"
+#include "ShopState.h"
+
 #include "../../input/KeyboardInterpreter.h"
 #include "../../input/MouseInterpreter.h"
-#include "MenuState.h"
-
 
 typedef enum {
     STATE_MENU,
@@ -22,6 +23,7 @@ typedef struct {
 
     GameState *game;
     MenuState *menu;
+    ShopState *shop;
 
 } State;
 

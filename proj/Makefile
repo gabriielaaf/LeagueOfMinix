@@ -44,7 +44,10 @@ SRCS = main.c \
        Viewer.c \
        shopBarViewer.c \
        ShopState.c \
-       shopBarState.c 
+       shopBarState.c \
+       GameOverViewer.c \
+       TextDrawer.c \
+       ShopViewer.c
 
 
 CFLAGS += -pedantic
