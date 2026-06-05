@@ -18,10 +18,10 @@
  * @brief Aggregates all in-match entities.
  */
 typedef struct {
-    Champion *p1;   /**< Player 1 (blue) champion. */
-    Champion *p2;   /**< Player 2 (red) champion. */
+    Champion *p1; /**< Player 1 (blue) champion. */
+    Champion *p2; /**< Player 2 (red) champion. */
     Minions minions; /**< All active minion waves. */
-    Towers towers;   /**< Both team towers. */
+    Towers towers; /**< Both team towers. */
 } GameState;
 
 /**

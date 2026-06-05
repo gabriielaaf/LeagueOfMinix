@@ -20,12 +20,12 @@
  * @brief Top-level application controller that owns all game state, input, and rendering.
  */
 typedef struct {
-    State state;            /**< Full application state (menu, game, shop, game-over). */
-    KeyboardState kbd;      /**< Aggregated keyboard input state. */
-    MouseState mouse;       /**< Aggregated mouse input state. */
-    GameController *gameCtrl;  /**< In-match game logic controller. */
-    Viewer *viewer;            /**< Top-level renderer. */
-    ShopController *shopCtrl;  /**< Shop upgrade controller. */
+    State state; /**< Full application state (menu, game, shop, game-over). */
+    KeyboardState kbd; /**< Aggregated keyboard input state. */
+    MouseState mouse; /**< Aggregated mouse input state. */
+    GameController *gameCtrl; /**< In-match game logic controller. */
+    Viewer *viewer; /**< Top-level renderer. */
+    ShopController *shopCtrl; /**< Shop upgrade controller. */
 } Controller;
 
 /**

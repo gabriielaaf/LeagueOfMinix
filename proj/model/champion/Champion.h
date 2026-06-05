@@ -11,30 +11,30 @@
  * @brief Eight-way movement/facing direction.
  */
 typedef enum {
-    NORTH,     /**< Up. */
-    SOUTH,     /**< Down. */
-    EAST,      /**< Right. */
-    WEST,      /**< Left. */
+    NORTH, /**< Up. */
+    SOUTH, /**< Down. */
+    EAST, /**< Right. */
+    WEST, /**< Left. */
     NORTHEAST, /**< Up-right. */
     NORTHWEST, /**< Up-left. */
     SOUTHEAST, /**< Down-right. */
-    SOUTHWEST  /**< Down-left. */
+    SOUTHWEST /**< Down-left. */
 } Direction;
 
 /**
  * @brief Team identifier.
  */
 typedef enum {
-    TEAM_RED,  /**< Red team (player 2). */
-    TEAM_BLUE  /**< Blue team (player 1). */
+    TEAM_RED, /**< Red team (player 2). */
+    TEAM_BLUE /**< Blue team (player 1). */
 } Team;
 
 /**
  * @brief Animation / action state of a champion.
  */
 typedef enum {
-    CHAMPION_IDLE,     /**< Standing still. */
-    CHAMPION_MOVING,   /**< Walking. */
+    CHAMPION_IDLE, /**< Standing still. */
+    CHAMPION_MOVING, /**< Walking. */
     CHAMPION_ATTACKING /**< Performing an attack. */
 } ChampionState;
 

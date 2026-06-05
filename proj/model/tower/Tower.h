@@ -11,21 +11,21 @@
  * @brief A projectile fired by a tower toward a target.
  */
 typedef struct {
-    Position pos;          /**< Current world position of the projectile. */
+    Position pos; /**< Current world position of the projectile. */
     Minion *minion_target; /**< Minion target, or NULL when targeting a champion. */
     bool targeting_champion; /**< True when the projectile is homing on a champion. */
-    bool active;           /**< True while the projectile is in flight. */
-    int damage;            /**< Damage dealt on impact. */
+    bool active; /**< True while the projectile is in flight. */
+    int damage; /**< Damage dealt on impact. */
 } TowerProjectile;
 
 /**
  * @brief A defensive tower belonging to one team.
  */
 typedef struct {
-    Position pos;          /**< World position of the tower's top-left corner. */
-    Team team;             /**< Team that owns this tower. */
-    int hp;                /**< Current hit points. */
-    int attack_timer;      /**< Ticks remaining until the tower can fire again. */
+    Position pos; /**< World position of the tower's top-left corner. */
+    Team team; /**< Team that owns this tower. */
+    int hp; /**< Current hit points. */
+    int attack_timer; /**< Ticks remaining until the tower can fire again. */
     Minion *minion_target; /**< Current minion target, or NULL. */
     bool targeting_champion; /**< True when the tower is targeting a champion. */
     TowerProjectile projectile; /**< The tower's single in-flight projectile. */

@@ -15,9 +15,9 @@
  * @brief Top-level game state machine identifier.
  */
 typedef enum {
-    STATE_MENU,      /**< Main menu is displayed. */
-    STATE_PLAYING,   /**< Match is in progress. */
-    STATE_PAUSED,    /**< Match is paused and the shop is open. */
+    STATE_MENU, /**< Main menu is displayed. */
+    STATE_PLAYING, /**< Match is in progress. */
+    STATE_PAUSED, /**< Match is paused and the shop is open. */
     STATE_GAME_OVER  /**< A winner has been declared. */
 } StateType;
 
@@ -25,12 +25,12 @@ typedef enum {
  * @brief Top-level application state.
  */
 typedef struct {
-    StateType state;      /**< Current state machine node. */
-    bool running;         /**< False signals the main loop to exit. */
-    int winner;           /**< Team index of the winning player (set on game over). */
-    GameState *game;      /**< In-match game state. */
-    MenuState *menu;      /**< Main menu state. */
-    ShopState *shop;      /**< Upgrade shop state. */
+    StateType state; /**< Current state machine node. */
+    bool running; /**< False signals the main loop to exit. */
+    int winner; /**< Team index of the winning player (set on game over). */
+    GameState *game; /**< In-match game state. */
+    MenuState *menu; /**< Main menu state. */
+    ShopState *shop; /**< Upgrade shop state. */
     GameOverState *gameOver; /**< Game-over screen state. */
 } State;
 

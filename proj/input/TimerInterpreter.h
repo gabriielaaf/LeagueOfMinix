@@ -8,11 +8,11 @@
  * @brief Tracks timer interrupt cadence for fixed-rate game updates.
  */
 typedef struct {
-    int ticks_per_update;  /**< Number of timer ticks between game updates. */
-    int tick_counter;      /**< Ticks accumulated since the last game update. */
-    uint32_t total_ticks;  /**< Total ticks elapsed since initialisation. */
-    bool should_update;    /**< True on the tick that triggers a game update. */
-    bool second_elapsed;   /**< True each time a full second has passed. */
+    int ticks_per_update; /**< Number of timer ticks between game updates. */
+    int tick_counter; /**< Ticks accumulated since the last game update. */
+    uint32_t total_ticks; /**< Total ticks elapsed since initialisation. */
+    bool should_update; /**< True on the tick that triggers a game update. */
+    bool second_elapsed; /**< True each time a full second has passed. */
 } TimerState;
 
 /**

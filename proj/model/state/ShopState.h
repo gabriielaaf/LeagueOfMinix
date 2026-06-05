@@ -9,8 +9,8 @@
  */
 typedef struct {
     ShopBarState *attackBar; /**< Attack damage upgrade bar. */
-    ShopBarState *speedBar;  /**< Movement speed upgrade bar. */
-    ShopBarState *hpBar;     /**< Maximum HP upgrade bar. */
+    ShopBarState *speedBar; /**< Movement speed upgrade bar. */
+    ShopBarState *hpBar; /**< Maximum HP upgrade bar. */
 } PlayerShopState;
 
 /**

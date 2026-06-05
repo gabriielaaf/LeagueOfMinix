@@ -7,10 +7,10 @@
  * @brief State of an interactive button.
  */
 typedef struct {
-    int x;       /**< Left edge in pixels. */
-    int y;       /**< Top edge in pixels. */
-    int width;   /**< Width in pixels. */
-    int height;  /**< Height in pixels. */
+    int x; /**< Left edge in pixels. */
+    int y; /**< Top edge in pixels. */
+    int width; /**< Width in pixels. */
+    int height; /**< Height in pixels. */
     bool hovered; /**< True while the cursor is over the button. */
     bool clicked; /**< True on the frame the button was clicked. */
 } ButtonState;

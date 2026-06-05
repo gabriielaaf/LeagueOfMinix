@@ -10,9 +10,9 @@
  * @brief Directional key state for a single player.
  */
 typedef struct {
-    bool up;    /**< True while the up key is held. */
-    bool down;  /**< True while the down key is held. */
-    bool left;  /**< True while the left key is held. */
+    bool up; /**< True while the up key is held. */
+    bool down; /**< True while the down key is held. */
+    bool left; /**< True while the left key is held. */
     bool right; /**< True while the right key is held. */
 } PlayerInput;
 
@@ -22,8 +22,8 @@ typedef struct {
 typedef struct {
     PlayerInput p1; /**< Player 1 directional input (WASD). */
     PlayerInput p2; /**< Player 2 directional input (arrow keys). */
-    bool exit;      /**< True while ESC is pressed. */
-    bool shop;      /**< True while the P key is pressed. */
+    bool exit; /**< True while ESC is pressed. */
+    bool shop; /**< True while the P key is pressed. */
 } KeyboardState;
 
 /**

@@ -8,7 +8,7 @@
  */
 typedef struct {
     ButtonState *restartButton; /**< Button that restarts the match. */
-    ButtonState *quitButton;    /**< Button that exits the application. */
+    ButtonState *quitButton; /**< Button that exits the application. */
 } GameOverState;
 
 /**

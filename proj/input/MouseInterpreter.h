@@ -9,7 +9,7 @@
  * @brief Mouse attack state for a single player.
  */
 typedef struct {
-    bool attack;         /**< True only on the frame the button is first pressed. */
+    bool attack; /**< True only on the frame the button is first pressed. */
     bool attack_pressed; /**< True while the button is held down. */
 } PlayerMouseInput;
 

@@ -13,19 +13,19 @@
  */
 typedef enum {
     UPGRADE_DAMAGE, /**< Increases attack damage. */
-    UPGRADE_SPEED,  /**< Increases movement speed. */
-    UPGRADE_HP      /**< Increases max HP (and heals by the same amount). */
+    UPGRADE_SPEED, /**< Increases movement speed. */
+    UPGRADE_HP /**< Increases max HP (and heals by the same amount). */
 } UpgradeType;
 
 /**
  * @brief State for a single upgradeable bar in the shop.
  */
 typedef struct {
-    int x;       /**< Left edge of the bar in pixels. */
-    int y;       /**< Top edge of the bar in pixels. */
-    int width;   /**< Width of the bar in pixels. */
-    int height;  /**< Height of the bar in pixels. */
-    int level;   /**< Current upgrade level (0 to SHOP_BAR_MAX_LEVEL). */
+    int x; /**< Left edge of the bar in pixels. */
+    int y; /**< Top edge of the bar in pixels. */
+    int width; /**< Width of the bar in pixels. */
+    int height; /**< Height of the bar in pixels. */
+    int level; /**< Current upgrade level (0 to SHOP_BAR_MAX_LEVEL). */
     UpgradeType upgrade_type; /**< Stat upgraded when a level is purchased. */
     ButtonState *buyButton; /**< Button that purchases the next level. */
 } ShopBarState;
