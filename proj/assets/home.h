@@ -1,6 +1,5 @@
 #pragma once
 
-
 static xpm_row_t gabi_test_xpm[] = {
 
 "1024 768 255 2",
