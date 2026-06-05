@@ -12,4 +12,6 @@ typedef struct {
 
 ButtonViewer *buttonViewerCreate(xpm_map_t normal_xpm, xpm_map_t hover_xpm);
 void buttonViewerDestroy(ButtonViewer *viewer);
-void buttonViewerDraw(ButtonViewer *viewer, ButtonState *button);
+
+void buttonViewerDraw(ButtonViewer *viewer, ButtonState *button, int x, int y);
+
