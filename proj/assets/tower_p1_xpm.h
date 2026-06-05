@@ -1,5 +1,6 @@
 #pragma once
 
+#include <lcom/lcf.h>
 
 static xpm_row_t blue_tower_xpm[] = {
     
