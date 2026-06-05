@@ -32,6 +32,14 @@ Sprite *spriteCreate(xpm_map_t xpm) {
     return sprite;
 }
 
+const uint8_t *spriteGetMap(const Sprite *sprite) {
+    if (sprite == NULL) {
+        return NULL;
+    }
+
+    return sprite->map;
+}
+
 void spriteDestroy(Sprite *sprite) {
     if (sprite == NULL) {
         return;

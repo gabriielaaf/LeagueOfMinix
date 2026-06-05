@@ -1,5 +1,6 @@
 #include <lcom/lcf.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "video.h"
 #include "vbe.h"
@@ -296,20 +297,20 @@ int video_swap_buffers() {
   return 0;
 }
 
-int video_clear_back_buffer(uint32_t color) {
-    if (video_mem == NULL) {
+int video_clear_back_buffer(const uint8_t *background) {
+    char *buffer = video_get_back_buffer();
+
+    if (buffer == NULL) {
         return 1;
     }
 
-    char *buffer = video_get_back_buffer();
-
-
-    if (bytes_per_pixel == 1) {
-        memset(buffer, color, frame_size);
+    if (background != NULL) {
+        memcpy(buffer, background, frame_size);
         return 0;
     }
 
-    return vg_draw_rectangle(0, 0, vmi.XResolution, vmi.YResolution, color);
+    memset(buffer, 0, frame_size);
+    return 0;
 }
 
 int video_init_page_flipping(uint16_t mode) {

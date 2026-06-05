@@ -1,7 +1,7 @@
 #pragma once
 
 
-static xpm_row_t gabi_test_xpm[] = {
+static xpm_row_t background_xpm[] = {
     
 "1024 768 255 2",
 "  	c #0C1308",
