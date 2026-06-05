@@ -15,6 +15,7 @@ TowerViewer *createTowerViewer(xpm_map_t xpm_blue, xpm_map_t xpm_red) {
 
     if (!viewer->hpBar || !viewer->blue || !viewer->red) {
         destroyTowerViewer(viewer);
+        free(viewer);
         return NULL;
     }
 
@@ -37,13 +38,14 @@ void towerViewerDraw(TowerViewer *viewer, Towers *towers) {
     if (!viewer || !towers) return;
 
     Tower *t = &towers->blue;
+
     if (t->hp > 0) {
         spriteDraw(viewer->blue, position_px(t->pos), position_py(t->pos));
         hpBarViewerDraw(viewer->hpBar,
                         position_px(t->pos), position_py(t->pos),
                         TOWER_W, t->hp, TOWER_HP);
     }
-
+    
     t = &towers->red;
     if (t->hp > 0) {
         spriteDraw(viewer->red, position_px(t->pos), position_py(t->pos));
