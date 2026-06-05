@@ -644,3 +644,6 @@ static xpm_row_t minion_p2_attack[] = {
 "                                                                                                                              ",
 "                                                                                                                              ",
 "                                                                                                                              "};
+
+#endif
+
