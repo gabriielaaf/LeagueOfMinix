@@ -6,11 +6,11 @@ HpBarViewer *createHpBarViewer(void) {
     HpBarViewer *viewer = malloc(sizeof(HpBarViewer));
     if (!viewer) return NULL;
 
-    viewer->border_color = 0;
-    viewer->empty_color = 8;
-    viewer->high_color = 10;
-    viewer->mid_color = 14;
-    viewer->low_color = 12;
+    viewer->border_color = 0x000000;
+    viewer->empty_color = 0x444444;
+    viewer->high_color = 0x00CC00;
+    viewer->mid_color = 0xFFAA00;
+    viewer->low_color = 0xCC0000;
 
     return viewer;
 }
