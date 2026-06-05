@@ -1478,7 +1478,7 @@ static xpm_row_t p1_east_move1_xpm[] = {
 "      #.G G Z                                                                                                                                                                                                                                                                                                                         "};
 
 static xpm_row_t p1_east_move2_xpm[] = {
-<<<<<<< HEAD
+
 "135 110 256 2",
 "  	c None",
 ". 	c #000000",
@@ -1846,5 +1846,3 @@ static xpm_row_t p1_east_move2_xpm[] = {
 "  #.5.6.6.(.5.5.                                                                                                                                                                                                                                                              ",
 "    (.5.^.(.^.                                                                                                                                                                                                                                                                ",
 "      #.#.W                                                                                                                                                                                                                                                                   "};
-
-#endif

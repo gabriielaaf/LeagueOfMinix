@@ -1474,7 +1474,7 @@ static xpm_row_t p1_west_move1_xpm[] = {
 "                                                                                                                                                                                                                                                "};
 
 static xpm_row_t p1_west_move2_xpm[] = {
-<<<<<<< HEAD
+
 "120 106 256 2",
 "  	c None",
 ". 	c #000000",
@@ -1838,5 +1838,3 @@ static xpm_row_t p1_west_move2_xpm[] = {
 "                                                                                                                                                                        I z 0                                                                   ",
 "                                                                                                                                                                                                                                                ",
 "                                                                                                                                                                                                                                                "};
-
-#endif
