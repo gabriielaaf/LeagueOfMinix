@@ -1,7 +1,5 @@
 #include "ShopBarController.h"
 
-#include <stdlib.h>
-
 ShopBarController *shopBarControllerCreate() {
     ShopBarController *controller = malloc(sizeof(ShopBarController));
     if (!controller) return NULL;

@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "BuildSprites.h"
 
 static xpm_row_t *p1_idle_xpms[8] = {

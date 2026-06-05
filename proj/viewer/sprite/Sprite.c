@@ -1,8 +1,4 @@
 #include "Sprite.h"
-#include "video.h"
-
-#include <stdlib.h>
-
 
 struct Sprite {
     int width;

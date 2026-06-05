@@ -1,7 +1,9 @@
 #pragma once
 
 #include <stdlib.h>
+
 #include "ChampionConfig.h"
+
 #include "../Position.h"
 #include "../Box.h"
 

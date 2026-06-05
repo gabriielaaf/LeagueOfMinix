@@ -1,5 +1,4 @@
 #include "MenuController.h"
-#include "ButtonController.h"
 
 void menuControllerUpdate(MenuState *menu, KeyboardState *kbd, MouseState *mouse) {
     if (!menu || !menu->playButton) return;

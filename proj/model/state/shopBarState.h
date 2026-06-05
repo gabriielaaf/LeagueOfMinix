@@ -1,6 +1,8 @@
 #pragma once
 
+#include <stdlib.h>
 #include <stdbool.h>
+
 #include "../Button.h"
 
 #define SHOP_BAR_MAX_LEVEL 5

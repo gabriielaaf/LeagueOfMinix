@@ -6,6 +6,9 @@
 #define MOVE_FRAMES 2
 #define MOVE_TIME 10
 
+#include <stdlib.h>
+
+#include "Sprite.h"
 #include "AnimSprite.h"
 
 #include "../../assets/p1/p1_north_xpms.h"
@@ -25,7 +28,5 @@
 #include "../../assets/p2/p2_north_west_xpms.h"
 #include "../../assets/p2/p2_south_east_xpms.h"
 #include "../../assets/p2/p2_south_west_xpms.h"
-
-#include "Sprite.h"
 
 AnimSprite **buildAnimations(int player);

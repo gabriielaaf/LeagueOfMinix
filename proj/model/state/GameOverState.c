@@ -1,7 +1,5 @@
 #include "GameOverState.h"
 
-#include <stdlib.h>
-
 #define BUTTON_W 220
 #define BUTTON_H 60
 

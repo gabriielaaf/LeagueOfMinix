@@ -1,9 +1,11 @@
 #pragma once
 
 #include <stdbool.h>
+
 #include "../Position.h"
-#include "../champion/Champion.h"
+
 #include "MinionConfig.h"
+#include "../champion/Champion.h"
 
 typedef enum {
     MINION_MOVING,

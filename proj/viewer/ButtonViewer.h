@@ -1,9 +1,11 @@
 #pragma once
 
 #include <lcom/lcf.h>
+#include <stdlib.h>
+
+#include "sprite/Sprite.h"
 
 #include "../model/Button.h"
-#include "sprite/Sprite.h"
 
 typedef struct {
     Sprite *normal;

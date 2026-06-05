@@ -1,6 +1,9 @@
 #pragma once
 
+#include <stdlib.h>
+
 #include "../model/state/ShopState.h"
+
 #include "shopBarViewer.h"
 
 typedef struct {

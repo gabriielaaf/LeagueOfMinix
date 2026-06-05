@@ -1,14 +1,10 @@
 #include "GameOverViewer.h"
 
-#include "TextDrawer.h"
-#include "../assets/menu/play_buttons_xpms.h" // temporário: button_xpm e button_hover_xpm
-
 #define RESTART_BUTTON_X 280
 #define RESTART_BUTTON_Y 540
 
 #define QUIT_BUTTON_X 525
 #define QUIT_BUTTON_Y 540
-#include <stdlib.h>
 
 #define COLOR_WHITE  0xFFFFFF
 #define COLOR_RED    0xFF3333

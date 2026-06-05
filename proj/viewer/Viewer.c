@@ -1,5 +1,3 @@
-
-
 #include "Viewer.h"
 
 #include "../assets/cursor/cursor_xpms.h"

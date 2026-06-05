@@ -2,6 +2,9 @@
 
 #include <lcom/lcf.h>
 #include <stdint.h>
+#include <stdlib.h>
+
+#include "video.h"
 
 #define TRANSPARENT_COLOR 255
 

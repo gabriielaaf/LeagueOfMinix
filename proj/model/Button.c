@@ -1,7 +1,5 @@
 #include "Button.h"
 
-#include <stdlib.h>
-
 ButtonState *buttonStateCreate() {
     ButtonState *button = malloc(sizeof(ButtonState));
     if (!button) return NULL;

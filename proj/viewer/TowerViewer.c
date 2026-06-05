@@ -1,8 +1,4 @@
 #include "TowerViewer.h"
-#include "../model/tower/TowerConfig.h"
-#include "../assets/p1_missil_xpm.h"
-#include "../assets/p2_missil_xpm.h"
-#include "video.h"
 
 #include <stdlib.h>
 

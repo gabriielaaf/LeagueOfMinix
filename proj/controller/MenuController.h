@@ -1,6 +1,9 @@
 #pragma once
 
+#include "ButtonController.h"
+
 #include "../model/state/MenuState.h"
+
 #include "../input/KeyboardInterpreter.h"
 #include "../input/MouseInterpreter.h"
 

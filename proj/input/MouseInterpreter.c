@@ -1,7 +1,5 @@
 #include "MouseInterpreter.h"
 
-#include <stdlib.h>
-
 void mouseStateInit(MouseState *state, int x, int y) {
     if (state == NULL) {
         return;

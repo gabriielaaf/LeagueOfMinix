@@ -2,10 +2,6 @@
 #define PLAY_BUTTON_X 320
 #define PLAY_BUTTON_Y 470
 
-#include "../assets/menu/play_buttons_xpms.h"
-
-#include <stdlib.h>
-
 MenuViewer *menuViewerCreate() {
     MenuViewer *viewer = malloc(sizeof(MenuViewer));
     if (!viewer) return NULL;

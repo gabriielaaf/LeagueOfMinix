@@ -1,9 +1,5 @@
 #include "TextDrawer.h"
 
-#include "video.h"
-
-#include <stdbool.h>
-
 #define TEXT_CHAR_W 5
 #define TEXT_CHAR_H 7
 

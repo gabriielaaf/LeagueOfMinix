@@ -1,7 +1,5 @@
 #include "ShopState.h"
 
-#include <stdlib.h>
-
 #define SCREEN_WIDTH 1024
 
 #define SHOP_BAR_W 300
@@ -82,7 +80,16 @@ static void playerShopStateResetClicks(PlayerShopState *playerShop) {
     }
 }
 
-ShopState *shopStateCreate() {
+ShopState *shopStateCreate(int player1X,
+                           int player2X,
+                           int attackY,
+                           int defenseY,
+                           int hpY,
+                           int barWidth,
+                           int barHeight,
+                           int buyButtonWidth,
+                           int buyButtonHeight,
+                           int buyButtonGap) {
     ShopState *shop = malloc(sizeof(ShopState));
     if (!shop) return NULL;
 

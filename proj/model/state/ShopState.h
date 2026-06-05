@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdlib.h>
+
 #include "shopBarState.h"
 
 typedef struct {

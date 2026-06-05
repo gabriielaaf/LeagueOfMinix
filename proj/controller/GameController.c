@@ -1,9 +1,4 @@
 #include "GameController.h"
-#include "ChampionController.h"
-#include "TowerController.h"
-
-#include <lcom/lcf.h>
-#include <stdlib.h>
 
 GameController *gameControllerCreate(int map_w, int map_h) {
     GameController *gc = malloc(sizeof(GameController));

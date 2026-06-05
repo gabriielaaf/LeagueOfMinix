@@ -1,6 +1,9 @@
 #pragma once
 
 #include <stdint.h>
+#include <stdlib.h>
+
+#include "video.h"
 
 #define HP_BAR_HEIGHT 6
 #define HP_BAR_OFFSET 3

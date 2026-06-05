@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../model/state/State.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "sprite/Sprite.h"
 #include "GameViewer.h"

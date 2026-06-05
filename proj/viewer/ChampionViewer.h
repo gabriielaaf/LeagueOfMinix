@@ -1,9 +1,12 @@
 #pragma once
 
-#include "../model/champion/Champion.h"
+#include <stdlib.h>
+#include <stdbool.h>
+
 #include "sprite/AnimSprite.h"
 #include "HpBarViewer.h"
-#include <stdbool.h>
+
+#include "../model/champion/Champion.h"
 
 typedef struct {
     AnimSprite **animations;
