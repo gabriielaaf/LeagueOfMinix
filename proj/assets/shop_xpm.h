@@ -2,7 +2,7 @@
 
 #include <lcom/lcf.h>
 
-static xpm_row_t gabi_test_xpm[] = {
+static xpm_row_t shop_xpm[] = {
 
 "1024 768 255 2",
 "  	c #000000",

@@ -3,6 +3,11 @@
 #include "Viewer.h"
 
 #include "../assets/cursor/cursor_xpms.h"
+#include "../assets/arena.h"
+#include "../assets/home.h"
+#include "../assets/p1_lose_xpm.h"
+#include "../assets/p2_lose_xpm.h"
+#include "../assets/shop_xpm.h"
 #include "video.h"
 
 #include <stdlib.h>
@@ -12,40 +17,45 @@ Viewer *viewerCreate() {
     if (!v) return NULL;
 
     v->cursor = NULL;
+    v->arenaBackground = NULL;
+    v->menuBackground = NULL;
+    v->shopBackground = NULL;
+    v->gameOverBlueBackground = NULL;
+    v->gameOverRedBackground = NULL;
     v->gameViewer = NULL;
     v->menuViewer = NULL;
     v->shopViewer = NULL;
     v->gameOverViewer = NULL;
 
     v->cursor = spriteCreate((xpm_map_t) cursor_xpm);
-    if (!v->cursor) {
-        viewerDestroy(v);
-        return NULL;
-    }
+    if (!v->cursor) { viewerDestroy(v); return NULL; }
+
+    v->arenaBackground = spriteCreate((xpm_map_t) background_xpm);
+    if (!v->arenaBackground) { viewerDestroy(v); return NULL; }
+
+    v->menuBackground = spriteCreate((xpm_map_t) home_xpm);
+    if (!v->menuBackground) { viewerDestroy(v); return NULL; }
+
+    v->shopBackground = spriteCreate((xpm_map_t) shop_xpm);
+    if (!v->shopBackground) { viewerDestroy(v); return NULL; }
+
+    v->gameOverBlueBackground = spriteCreate((xpm_map_t)p1_lose_xpm);
+    if (!v->gameOverBlueBackground) { viewerDestroy(v); return NULL; }
+
+    v->gameOverRedBackground = spriteCreate((xpm_map_t) p2_lose_xpm);
+    if (!v->gameOverRedBackground) { viewerDestroy(v); return NULL; }
 
     v->gameViewer = gameViewerCreate();
-    if (!v->gameViewer) {
-        viewerDestroy(v);
-        return NULL;
-    }
+    if (!v->gameViewer) { viewerDestroy(v); return NULL; }
 
     v->menuViewer = menuViewerCreate();
-    if (!v->menuViewer) {
-        viewerDestroy(v);
-        return NULL;
-    }
+    if (!v->menuViewer) { viewerDestroy(v); return NULL; }
 
     v->shopViewer = shopViewerCreate();
-    if (!v->shopViewer) {
-        viewerDestroy(v);
-        return NULL;
-    }
+    if (!v->shopViewer) { viewerDestroy(v); return NULL; }
 
     v->gameOverViewer = gameOverViewerCreate();
-    if (!v->gameOverViewer) {
-        viewerDestroy(v);
-        return NULL;
-    }
+    if (!v->gameOverViewer) { viewerDestroy(v); return NULL; }
 
     return v;
 }
@@ -53,25 +63,16 @@ Viewer *viewerCreate() {
 void viewerDestroy(Viewer *v) {
     if (!v) return;
 
-    if (v->cursor) {
-        spriteDestroy(v->cursor);
-    }
-
-    if (v->gameViewer) {
-        gameViewerDestroy(v->gameViewer);
-    }
-
-    if (v->menuViewer) {
-        menuViewerDestroy(v->menuViewer);
-    }
-
-    if (v->shopViewer) {
-        shopViewerDestroy(v->shopViewer);
-    }
-
-    if (v->gameOverViewer) {
-        gameOverViewerDestroy(v->gameOverViewer);
-    }
+    if (v->cursor) spriteDestroy(v->cursor);
+    if (v->arenaBackground) spriteDestroy(v->arenaBackground);
+    if (v->menuBackground) spriteDestroy(v->menuBackground);
+    if (v->shopBackground) spriteDestroy(v->shopBackground);
+    if (v->gameOverBlueBackground) spriteDestroy(v->gameOverBlueBackground);
+    if (v->gameOverRedBackground) spriteDestroy(v->gameOverRedBackground);
+    if (v->gameViewer) gameViewerDestroy(v->gameViewer);
+    if (v->menuViewer) menuViewerDestroy(v->menuViewer);
+    if (v->shopViewer) shopViewerDestroy(v->shopViewer);
+    if (v->gameOverViewer) gameOverViewerDestroy(v->gameOverViewer);
 
     free(v);
 }
