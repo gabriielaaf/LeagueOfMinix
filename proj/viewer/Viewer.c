@@ -1,45 +1,26 @@
 #include "Viewer.h"
 
-static xpm_map_t backgroundXpm(BackgroundType type) {
-    switch (type) {
-        case BG_ARENA:          return (xpm_map_t) background_xpm;
-        case BG_MENU:           return (xpm_map_t) home_xpm;
-        case BG_SHOP:           return (xpm_map_t) shop_xpm;
-        case BG_GAME_OVER_BLUE: return (xpm_map_t) p1_lose_xpm;
-        case BG_GAME_OVER_RED:  return (xpm_map_t) p2_lose_xpm;
-        default:                return NULL;
-    }
-}
+#include "../assets/cursor/cursor_xpms.h"
+#include "../assets/arena.h"
+#include "../assets/home.h"
+#include "../assets/p1_lose_xpm.h"
+#include "../assets/p2_lose_xpm.h"
+#include "../assets/shop_xpm.h"
+#include "video.h"
 
-static int viewerLoadBackground(Viewer *v, BackgroundType type) {
-    if (v->loadedBackground == type) return 0;
+#include <stdlib.h>
 
-    if (v->currentBackground) {
-        spriteDestroy(v->currentBackground);
-        v->currentBackground = NULL;
-    }
-
-    v->loadedBackground = BG_NONE;
-
-    xpm_map_t xpm = backgroundXpm(type);
-    if (!xpm) { printf("[BG] no xpm for type %d\n", type); fflush(stdout); return 1; }
-
-    printf("[BG] loading background type %d\n", type); fflush(stdout);
-    v->currentBackground = spriteCreate(xpm);
-    if (!v->currentBackground) { printf("[BG ERROR] spriteCreate failed for type %d\n", type); fflush(stdout); return 1; }
-
-    printf("[BG] loaded OK\n"); fflush(stdout);
-    v->loadedBackground = type;
-    return 0;
-}
 
 Viewer *viewerCreate() {
     Viewer *v = malloc(sizeof(Viewer));
     if (!v) return NULL;
 
     v->cursor = NULL;
-    v->currentBackground = NULL;
-    v->loadedBackground = BG_NONE;
+    v->bgMenu = NULL;
+    v->bgArena = NULL;
+    v->bgShop = NULL;
+    v->bgGameOverBlue = NULL;
+    v->bgGameOverRed = NULL;
     v->gameViewer = NULL;
     v->menuViewer = NULL;
     v->shopViewer = NULL;
@@ -47,6 +28,22 @@ Viewer *viewerCreate() {
 
     v->cursor = spriteCreate((xpm_map_t) cursor_xpm);
     if (!v->cursor) { viewerDestroy(v); return NULL; }
+
+    v->bgMenu = spriteCreate((xpm_map_t) home_xpm);
+    if (!v->bgMenu) { viewerDestroy(v); return NULL; }
+
+    v->bgArena = spriteCreate((xpm_map_t) background_xpm);
+    if (!v->bgArena) { viewerDestroy(v); return NULL; }
+
+    v->bgShop = spriteCreate((xpm_map_t) shop_xpm);
+    if (!v->bgShop) { viewerDestroy(v); return NULL; }
+
+
+    v->bgGameOverBlue = spriteCreate((xpm_map_t) p1_lose_xpm);
+    if (!v->bgGameOverBlue) { viewerDestroy(v); return NULL; }
+
+    v->bgGameOverRed = spriteCreate((xpm_map_t) p2_lose_xpm);
+    if (!v->bgGameOverRed) { viewerDestroy(v); return NULL; }
 
     v->gameViewer = gameViewerCreate();
     if (!v->gameViewer) { viewerDestroy(v); return NULL; }
@@ -67,7 +64,11 @@ void viewerDestroy(Viewer *v) {
     if (!v) return;
 
     if (v->cursor) spriteDestroy(v->cursor);
-    if (v->currentBackground) spriteDestroy(v->currentBackground);
+    if (v->bgMenu) spriteDestroy(v->bgMenu);
+    if (v->bgArena) spriteDestroy(v->bgArena);
+    if (v->bgShop) spriteDestroy(v->bgShop);
+    if (v->bgGameOverBlue) spriteDestroy(v->bgGameOverBlue);
+    if (v->bgGameOverRed) spriteDestroy(v->bgGameOverRed);
     if (v->gameViewer) gameViewerDestroy(v->gameViewer);
     if (v->menuViewer) menuViewerDestroy(v->menuViewer);
     if (v->shopViewer) shopViewerDestroy(v->shopViewer);
@@ -79,27 +80,20 @@ void viewerDestroy(Viewer *v) {
 static const uint8_t *viewerGetBackground(Viewer *v, State *state) {
     if (!v || !state) return NULL;
 
-    BackgroundType needed;
-
     switch (state->state) {
         case STATE_MENU:
-            needed = BG_MENU;
-            break;
+            return spriteGetMap(v->bgMenu);
         case STATE_PLAYING:
+            return spriteGetMap(v->bgArena);
         case STATE_PAUSED:
-            needed = BG_ARENA;
-            break;
+            return spriteGetMap(v->bgShop);
         case STATE_GAME_OVER:
-            if (state->winner == TEAM_BLUE)      needed = BG_GAME_OVER_RED;
-            else if (state->winner == TEAM_RED)  needed = BG_GAME_OVER_BLUE;
-            else return NULL;
-            break;
+            if (state->winner == TEAM_BLUE)     return spriteGetMap(v->bgGameOverRed);
+            else if (state->winner == TEAM_RED) return spriteGetMap(v->bgGameOverBlue);
+            return NULL;
         default:
             return NULL;
     }
-
-    if (viewerLoadBackground(v, needed) != 0) return NULL;
-    return spriteGetMap(v->currentBackground);
 }
 
 void viewerDraw(Viewer *v, State *state, int cursor_x, int cursor_y) {

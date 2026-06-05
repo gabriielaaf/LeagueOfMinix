@@ -13,7 +13,8 @@ typedef struct {
     HpBarViewer *hpBar;
     Sprite *blue;
     Sprite *red;
-
+    AnimSprite *blueProjectile;
+    AnimSprite *redProjectile;
 } TowerViewer;
 
 

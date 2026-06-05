@@ -81,6 +81,11 @@ void controllerUpdate(Controller *ctrl, bool second_elapsed) {
                 p2_looped
             );
 
+            if (ctrl->state.game->towers.blue.hp <= 0)
+                gameOver(&ctrl->state, TEAM_RED);
+            else if (ctrl->state.game->towers.red.hp <= 0)
+                gameOver(&ctrl->state, TEAM_BLUE);
+
             break;
         }
 
