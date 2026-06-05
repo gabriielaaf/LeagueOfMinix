@@ -87,26 +87,6 @@ static const uint8_t *textGetGlyph(char c) {
     return unknownGlyph;
 }
 
-/**
- * @brief Draws a scaled pixel block at the given screen coordinate.
- * Draws a single pixel when scale is 1, otherwise draws a filled rectangle.
- * @param x Screen X coordinate of the block's top-left corner.
- * @param y Screen Y coordinate of the block's top-left corner.
- * @param color 32-bit ARGB colour.
- * @param scale Side length of the pixel block in screen pixels.
- */
-static void textDrawPixelBlock(int x, int y, uint32_t color, uint8_t scale) {
-    if (x < 0 || y < 0) {
-        return;
-    }
-
-    if (scale <= 1) {
-        vg_draw_pixel((uint16_t)x, (uint16_t)y, color);
-    }
-    else {
-        vg_draw_rectangle((uint16_t)x, (uint16_t)y, scale, scale, color);
-    }
-}
 
 void textDrawChar(char c,
                   int x,
@@ -124,14 +104,48 @@ void textDrawChar(char c,
     const uint8_t *glyph = textGetGlyph(c);
 
     for (int row = 0; row < TEXT_CHAR_H; row++) {
-        for (int col = 0; col < TEXT_CHAR_W; col++) {
-            if (glyph[row] & (1 << (TEXT_CHAR_W - 1 - col))) {
-                textDrawPixelBlock(
-                    x + col * scale,
-                    y + row * scale,
-                    color,
-                    scale
-                );
+        int col = 0;
+
+        while (col < TEXT_CHAR_W) {
+            while (col < TEXT_CHAR_W &&
+                   !(glyph[row] & (1 << (TEXT_CHAR_W - 1 - col)))) {
+                col++;
+            }
+
+            int start = col;
+
+            while (col < TEXT_CHAR_W &&
+                   (glyph[row] & (1 << (TEXT_CHAR_W - 1 - col)))) {
+                col++;
+            }
+
+            int run = col - start;
+
+            if (run > 0) {
+                int draw_x = x + start * scale;
+                int draw_y = y + row * scale;
+
+                if (draw_x < 0 || draw_y < 0) {
+                    continue;
+                }
+
+                if (scale == 1) {
+                    vg_draw_hline(
+                        (uint16_t) draw_x,
+                        (uint16_t) draw_y,
+                        (uint16_t) run,
+                        color
+                    );
+                }
+                else {
+                    vg_draw_rectangle(
+                        (uint16_t) draw_x,
+                        (uint16_t) draw_y,
+                        (uint16_t) (run * scale),
+                        scale,
+                        color
+                    );
+                }
             }
         }
     }
