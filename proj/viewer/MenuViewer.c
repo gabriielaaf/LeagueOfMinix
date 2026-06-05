@@ -1,6 +1,6 @@
 #include "MenuViewer.h"
-#define PLAY_BUTTON_X 250
-#define PLAY_BUTTON_Y 400
+#define PLAY_BUTTON_X 320
+#define PLAY_BUTTON_Y 470
 
 #include "../assets/menu/play_buttons_xpms.h"
 

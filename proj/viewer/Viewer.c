@@ -40,6 +40,7 @@ Viewer *viewerCreate() {
     v->bgShop = spriteCreate((xpm_map_t) shop_xpm);
     if (!v->bgShop) { viewerDestroy(v); return NULL; }
 
+
     v->bgGameOverBlue = spriteCreate((xpm_map_t) p1_lose_xpm);
     if (!v->bgGameOverBlue) { viewerDestroy(v); return NULL; }
 
@@ -85,8 +86,9 @@ static const uint8_t *viewerGetBackground(Viewer *v, State *state) {
         case STATE_MENU:
             return spriteGetMap(v->bgMenu);
         case STATE_PLAYING:
-        case STATE_PAUSED:
             return spriteGetMap(v->bgArena);
+        case STATE_PAUSED:
+            return spriteGetMap(v->bgShop);
         case STATE_GAME_OVER:
             if (state->winner == TEAM_BLUE)     return spriteGetMap(v->bgGameOverRed);
             else if (state->winner == TEAM_RED) return spriteGetMap(v->bgGameOverBlue);
