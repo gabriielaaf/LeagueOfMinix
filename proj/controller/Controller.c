@@ -1,15 +1,5 @@
 #include "Controller.h"
 
-#include "MenuController.h"
-#include "GameController.h"
-#include "../input/MouseInterpreter.h"
-
-#include "vbe.h"
-
-#include <lcom/lcf.h>
-#include <stdlib.h>
-#include <stdbool.h>
-
 Controller *controllerCreate() {
     Controller *ctrl = malloc(sizeof(Controller));
     if (!ctrl) return NULL;

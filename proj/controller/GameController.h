@@ -1,10 +1,15 @@
 #pragma once
 
+#include <lcom/lcf.h>
+#include <stdlib.h>
+
 #include "ChampionController.h"
 #include "MinionController.h"
 #include "TowerController.h"
+
 #include "../input/KeyboardInterpreter.h"
 #include "../input/MouseInterpreter.h"
+
 #include "vbe.h"
 
 typedef struct {

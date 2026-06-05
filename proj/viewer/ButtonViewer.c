@@ -1,7 +1,5 @@
 #include "ButtonViewer.h"
 
-#include <stdlib.h>
-
 ButtonViewer *buttonViewerCreate(xpm_map_t normal_xpm, xpm_map_t hover_xpm) {
     ButtonViewer *viewer = malloc(sizeof(ButtonViewer));
     if (!viewer) return NULL;

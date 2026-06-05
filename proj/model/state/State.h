@@ -1,5 +1,6 @@
 #pragma once
 
+#include <lcom/lcf.h>
 #include <stdbool.h>
 
 #include "GameState.h"

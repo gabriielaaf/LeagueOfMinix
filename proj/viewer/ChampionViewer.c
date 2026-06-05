@@ -1,5 +1,4 @@
 #include "ChampionViewer.h"
-#include <stdlib.h>
 
 ChampionViewer *createChampionViewer(AnimSprite **animations, int numAnimations) {
     if (animations == NULL || numAnimations <= 0) {

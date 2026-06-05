@@ -1,6 +1,9 @@
 #pragma once
 
+#include <stdbool.h>
 #include <stdint.h>
+
+#include "video.h"
 
 void textDrawChar(char c,
                   int x,

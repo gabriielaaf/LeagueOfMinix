@@ -1,13 +1,24 @@
-
 #pragma once
 
-#include "../model/state/State.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "sprite/Sprite.h"
 #include "GameViewer.h"
 #include "MenuViewer.h"
 #include "ShopViewer.h"
 #include "GameOverViewer.h"
+
+#include "../assets/cursor/cursor_xpms.h"
+#include "../assets/arena.h"
+#include "../assets/home.h"
+#include "../assets/p1_lose_xpm.h"
+#include "../assets/p2_lose_xpm.h"
+#include "../assets/shop_xpm.h"
+
+#include "../model/state/State.h"
+
+#include "video.h"
 
 typedef enum {
     BG_NONE = -1,

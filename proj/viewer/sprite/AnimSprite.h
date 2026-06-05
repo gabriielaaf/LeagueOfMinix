@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdlib.h>
+
 #include "Sprite.h"
 
 typedef struct AnimSprite AnimSprite;

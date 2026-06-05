@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdlib.h>
 #include "../Button.h"
 
 typedef struct {

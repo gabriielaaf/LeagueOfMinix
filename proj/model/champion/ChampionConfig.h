@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Position.h"
+
 #include "vbe.h"
 
 #define CHAMPION_W 64

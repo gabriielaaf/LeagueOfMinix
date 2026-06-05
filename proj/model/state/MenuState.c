@@ -1,7 +1,5 @@
 #include "MenuState.h"
 
-#include <stdlib.h>
-
 #define PLAY_BUTTON_X 262
 #define PLAY_BUTTON_Y 380
 #define PLAY_BUTTON_W 500

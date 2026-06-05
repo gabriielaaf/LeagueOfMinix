@@ -1,12 +1,21 @@
 #pragma once
 
 #include <stdbool.h>
-#include "../model/champion/Champion.h"
-#include "../model/minion/Minion.h"
-#include "../model/tower/Tower.h"
+#include <stdlib.h>
+
+#include "sprite/BuildSprites.h"
 #include "ChampionViewer.h"
 #include "MinionViewer.h"
 #include "TowerViewer.h"
+
+#include "../assets/minion_p1/minion_p1_xpms.h"
+#include "../assets/minion_p2/minion_p2_xpms.h"
+#include "../assets/tower_p1_xpm.h"
+#include "../assets/tower_p2_xpm.h"
+
+#include "../model/champion/Champion.h"
+#include "../model/minion/Minion.h"
+#include "../model/tower/Tower.h"
 
 typedef struct {
     ChampionViewer *p1;

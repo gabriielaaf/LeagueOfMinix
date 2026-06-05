@@ -1,7 +1,13 @@
 #pragma once
 
-#include "../model/state/State.h"
+#include <stdlib.h>
+
 #include "ButtonViewer.h"
+#include "TextDrawer.h"
+
+#include "../assets/menu/play_buttons_xpms.h"
+
+#include "../model/state/State.h"
 
 typedef struct {
     ButtonViewer *restartButtonViewer;

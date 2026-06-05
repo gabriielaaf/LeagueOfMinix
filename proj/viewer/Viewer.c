@@ -1,17 +1,4 @@
-
-
 #include "Viewer.h"
-
-#include "../assets/cursor/cursor_xpms.h"
-#include "../assets/arena.h"
-#include "../assets/home.h"
-#include "../assets/p1_lose_xpm.h"
-#include "../assets/p2_lose_xpm.h"
-#include "../assets/shop_xpm.h"
-#include "video.h"
-
-#include <stdlib.h>
-#include <stdio.h>
 
 static xpm_map_t backgroundXpm(BackgroundType type) {
     switch (type) {

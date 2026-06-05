@@ -1,8 +1,13 @@
 #pragma once
 
-#include "../model/tower/Tower.h"
-#include "HpBarViewer.h"
 #include "sprite/Sprite.h"
+#include "HpBarViewer.h"
+
+#include "../model/tower/Tower.h"
+#include "../model/tower/TowerConfig.h"
+
+#include "video.h"
+
 
 typedef struct {
     HpBarViewer *hpBar;

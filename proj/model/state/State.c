@@ -1,5 +1,3 @@
-#include <lcom/lcf.h>
-
 #include "State.h"
 
 bool stateInit(State *state) {

@@ -1,8 +1,5 @@
 #include "ShopViewer.h"
 
-
-#include <stdlib.h>
-
 ShopViewer *shopViewerCreate() {
     ShopViewer *viewer = malloc(sizeof(ShopViewer));
     if (!viewer) return NULL;

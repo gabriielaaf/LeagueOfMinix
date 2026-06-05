@@ -1,9 +1,4 @@
 #include "TowerController.h"
-#include "ChampionController.h"
-#include "../model/minion/MinionConfig.h"
-#include "../model/tower/TowerConfig.h"
-#include "../model/Box.h"
-#include <math.h>
 
 static bool minionInRange(Tower *t, Minion *m) {
     int tcx = position_px(t->pos) + TOWER_W / 2;

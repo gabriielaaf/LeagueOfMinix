@@ -1,9 +1,5 @@
 #include "shopBarViewer.h"
 
-#include "video.h"
-
-#include <stdlib.h>
-
 #define BAR_BORDER_COLOR 7
 #define BAR_EMPTY_COLOR 0
 #define BAR_FILL_COLOR 6

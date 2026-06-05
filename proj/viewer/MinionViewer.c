@@ -1,9 +1,4 @@
 #include "MinionViewer.h"
-#include "../model/minion/MinionConfig.h"
-#include "../assets/minion_p1/minion_p1_xpms.h"
-#include "../assets/minion_p2/minion_p2_xpms.h"
-
-#include <stdlib.h>
 
 #define MINION_ANIM_TIME 25
 

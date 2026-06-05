@@ -1,12 +1,5 @@
 #include "GameState.h"
 
-#include "../champion/ChampionConfig.h"
-#include "../../controller/MinionController.h"
-
-#include <lcom/lcf.h>
-#include "vbe.h"
-#include <stdlib.h>
-
 GameState *gameStateCreate() {
     GameState *gs = malloc(sizeof(GameState));
     if (!gs) return NULL;

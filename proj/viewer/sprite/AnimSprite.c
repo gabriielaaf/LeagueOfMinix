@@ -1,5 +1,4 @@
 #include "AnimSprite.h"
-#include <stdlib.h>
 
 struct AnimSprite {
     int x;

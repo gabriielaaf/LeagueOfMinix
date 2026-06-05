@@ -1,6 +1,4 @@
 #include "HpBarViewer.h"
-#include "video.h"
-#include <stdlib.h>
 
 HpBarViewer *createHpBarViewer(void) {
     HpBarViewer *viewer = malloc(sizeof(HpBarViewer));

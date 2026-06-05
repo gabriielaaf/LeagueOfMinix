@@ -1,9 +1,5 @@
 #include "MenuViewer.h"
 
-#include "../assets/menu/play_buttons_xpms.h"
-
-#include <stdlib.h>
-
 MenuViewer *menuViewerCreate() {
     MenuViewer *viewer = malloc(sizeof(MenuViewer));
     if (!viewer) return NULL;

@@ -3,6 +3,7 @@
 #include <lcom/lcf.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 typedef struct {
     bool attack;  // true só no momento em que o botão é pressionado

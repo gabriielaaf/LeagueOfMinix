@@ -1,14 +1,9 @@
 #include "GameOverViewer.h"
 
-#include "TextDrawer.h"
-#include "../assets/menu/play_buttons_xpms.h" // temporário: button_xpm e button_hover_xpm
-
-#include <stdlib.h>
-
-#define COLOR_WHITE  0xFFFFFF
-#define COLOR_RED    0xFF3333
-#define COLOR_BLUE   0x3399FF
-#define COLOR_GOLD   0xFFD700
+#define COLOR_WHITE 0xFFFFFF
+#define COLOR_RED 0xFF3333
+#define COLOR_BLUE 0x3399FF
+#define COLOR_GOLD 0xFFD700
 
 GameOverViewer *gameOverViewerCreate() {
     GameOverViewer *viewer = malloc(sizeof(GameOverViewer));

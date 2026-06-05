@@ -1,7 +1,5 @@
 #include "shopBarState.h"
 
-#include <stdlib.h>
-
 #define SHOP_BAR_W 300
 #define SHOP_BAR_H 40
 

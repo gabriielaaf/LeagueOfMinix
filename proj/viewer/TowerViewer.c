@@ -1,6 +1,4 @@
 #include "TowerViewer.h"
-#include "../model/tower/TowerConfig.h"
-#include "video.h"
 
 TowerViewer *createTowerViewer(xpm_map_t xpm_blue, xpm_map_t xpm_red) {
     TowerViewer *viewer = malloc(sizeof(TowerViewer));
