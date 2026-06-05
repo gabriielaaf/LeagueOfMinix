@@ -66,6 +66,12 @@ void viewerDestroy(Viewer *v) {
     free(v);
 }
 
+/**
+ * @brief Returns the raw pixel data of the background sprite for the current game state.
+ * @param v Viewer owning the background sprites.
+ * @param state Application state selecting which background to use.
+ * @return Pointer to the background pixel buffer, or NULL if v or state is NULL.
+ */
 static const uint8_t *viewerGetBackground(Viewer *v, State *state) {
     if (!v || !state) return NULL;
 

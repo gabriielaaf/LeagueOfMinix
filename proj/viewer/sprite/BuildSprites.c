@@ -66,6 +66,12 @@ static xpm_row_t *p2_attack_xpms[8][ATTACK_FRAMES] = {
     {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
 };
 
+/**
+ * @brief Destroys the first count elements of an AnimSprite array and frees the array itself.
+ * Used for cleanup when buildAnimations() fails partway through construction.
+ * @param animations Array of AnimSprite pointers to destroy.
+ * @param count Number of elements to destroy.
+ */
 static void destroyAnimations(AnimSprite **animations, int count) {
     for (int i = 0; i < count; i++)
         destroyAnimSprite(animations[i]);

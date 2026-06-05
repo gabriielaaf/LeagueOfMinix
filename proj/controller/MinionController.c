@@ -1,6 +1,12 @@
 #include "MinionController.h"
 #include "ChampionController.h"
 
+/**
+ * @brief Initialises a MinionWave with fresh minions placed at the team's lane start.
+ * @param wave Wave to initialise.
+ * @param team Team the minions belong to (determines starting X position).
+ * @param map_w Map width in pixels (used to position red-team minions).
+ */
 static void initWave(MinionWave *wave, Team team, int map_w) {
     wave->active = true;
     for (int i = 0; i < MINION_COUNT; i++) {
@@ -13,6 +19,12 @@ static void initWave(MinionWave *wave, Team team, int map_w) {
     }
 }
 
+/**
+ * @brief Spawns one new wave for each team, using the first available inactive slot.
+ * Does nothing if either team has no free wave slots.
+ * @param minions Minions container to spawn waves into.
+ * @param map_w Map width in pixels (passed through to initWave).
+ */
 static void spawnWavePair(Minions *minions, int map_w) {
     int ri = -1, bi = -1;
     for (int i = 0; i < MAX_WAVES; i++) {
@@ -27,16 +39,33 @@ static void spawnWavePair(Minions *minions, int map_w) {
     minions->blue_count++;
 }
 
+/**
+ * @brief Returns true if every minion in the wave has state MINION_DEAD.
+ * @param wave Wave to check.
+ * @return true when the wave is exhausted.
+ */
 static bool waveAllDead(MinionWave *wave) {
     for (int i = 0; i < MINION_COUNT; i++)
         if (wave->minions[i].state != MINION_DEAD) return false;
     return true;
 }
 
+/**
+ * @brief Returns the axis-aligned bounding box of a minion at its current position.
+ * @param m Source minion.
+ * @return Bounding box covering the minion sprite.
+ */
 static Box minionBox(Minion *m) {
     return (Box){position_px(m->pos), position_py(m->pos), MINION_W, MINION_H};
 }
 
+/**
+ * @brief Tests whether a proposed bounding box would overlap any other living minion.
+ * @param self The minion being moved (excluded from the test).
+ * @param next_box Proposed bounding box after the move.
+ * @param minions All active minion waves to test against.
+ * @return true if next_box intersects another living minion's box.
+ */
 static bool minionOverlapsMinions(Minion *self, Box next_box, Minions *minions) {
     MinionWave *all_waves[2] = {minions->red_waves, minions->blue_waves};
     for (int t = 0; t < 2; t++) {
@@ -52,23 +81,47 @@ static bool minionOverlapsMinions(Minion *self, Box next_box, Minions *minions) 
     return false;
 }
 
+/**
+ * @brief Tests whether a proposed bounding box would overlap a living champion's collision box.
+ * @param next_box Proposed bounding box after the move.
+ * @param c Champion to test against (dead or NULL returns false).
+ * @return true if next_box intersects the champion's collision box.
+ */
 static bool minionOverlapsChampion(Box next_box, Champion *c) {
     if (!c || championGetRespawnTimer(c) != ALIVE) return false;
     return boxesOverlap(next_box, championGetCollisionBox(c));
 }
 
+/**
+ * @brief Tests whether two minions are within ATTACK_RANGE of each other (centre to centre).
+ * @param a First minion.
+ * @param b Second minion.
+ * @return true if the centres are within ATTACK_RANGE pixels.
+ */
 static bool inAttackRange(Minion *a, Minion *b) {
     int dx = (position_px(a->pos) + MINION_W / 2) - (position_px(b->pos) + MINION_W / 2);
     int dy = (position_py(a->pos) + MINION_H / 2) - (position_py(b->pos) + MINION_H / 2);
     return (dx * dx + dy * dy) <= (ATTACK_RANGE * ATTACK_RANGE);
 }
 
+/**
+ * @brief Tests whether a minion is within ATTACK_RANGE of a tower (centre to centre).
+ * @param m Attacking minion.
+ * @param t Target tower.
+ * @return true if the minion centre is within ATTACK_RANGE pixels of the tower centre.
+ */
 static bool inTowerAttackRange(Minion *m, Tower *t) {
     int dx = (position_px(m->pos) + MINION_W / 2) - (position_px(t->pos) + TOWER_W / 2);
     int dy = (position_py(m->pos) + MINION_H / 2) - (position_py(t->pos) + TOWER_H / 2);
     return (dx * dx + dy * dy) <= (ATTACK_RANGE * ATTACK_RANGE);
 }
 
+/**
+ * @brief Tests whether a minion is within ATTACK_RANGE of a champion (centre to centre).
+ * @param m Attacking minion.
+ * @param c Target champion.
+ * @return true if the minion centre is within ATTACK_RANGE pixels of the champion centre.
+ */
 static bool inChampionRange(Minion *m, Champion *c) {
     Position cp = championGetPos(c);
     int cx = position_px(cp) + championGetWidth(c) / 2;
@@ -79,6 +132,12 @@ static bool inChampionRange(Minion *m, Champion *c) {
 }
 
 
+/**
+ * @brief Finds the closest living enemy minion across all active waves.
+ * @param m Source minion (team determines which waves are enemies).
+ * @param minions All active minion waves.
+ * @return Pointer to the nearest living enemy minion, or NULL if none exist.
+ */
 static Minion *findNearestEnemy(Minion *m, Minions *minions) {
     MinionWave *enemy_waves = (m->team == TEAM_RED) ? minions->blue_waves : minions->red_waves;
     Minion *nearest = NULL;
@@ -101,6 +160,18 @@ static Minion *findNearestEnemy(Minion *m, Minions *minions) {
     return nearest;
 }
 
+/**
+ * @brief Runs one tick of AI for a single minion.
+ * Priority: attack nearest enemy minion in range > attack enemy champion in range >
+ * attack enemy tower in range > move toward the enemy base.
+ * Collision against other minions and champions is checked before applying movement.
+ * @param m Minion to update.
+ * @param minions All active minion waves (used for targeting and collision).
+ * @param enemy_tower Enemy team's tower (attack target of last resort).
+ * @param ally_champ Friendly champion (used as the attacker when dealing champion damage).
+ * @param enemy_champ Enemy champion (attack and collision target).
+ * @param dir Horizontal direction of travel (-1 for red, 1 for blue).
+ */
 static void updateMinion(Minion *m, Minions *minions, Tower *enemy_tower, Champion *ally_champ, Champion *enemy_champ, int dir) {
     if (m->state == MINION_DEAD) return;
     if (m->hp <= 0) { m->state = MINION_DEAD; return; }
