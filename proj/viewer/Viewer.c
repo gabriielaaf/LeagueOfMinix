@@ -76,21 +76,27 @@ void viewerDestroy(Viewer *v) {
     free(v);
 }
 
-static const uint8_t *viewerGetBackground(Viewer *v, StateType state) {
-    if (!v) return NULL;
+static const uint8_t *viewerGetBackground(Viewer *v, State *state) {
+    if (!v || !state) return NULL;
 
-    switch (state) {
+    switch (state->state) {
+        case STATE_MENU:
+            return spriteGetMap(v->menuBackground);
+
         case STATE_PLAYING:
             return spriteGetMap(v->arenaBackground);
 
         case STATE_PAUSED:
             return spriteGetMap(v->arenaBackground);
 
-        case STATE_MENU:
-            return spriteGetMap(v->menuBackground);
-
         case STATE_GAME_OVER:
-            return spriteGetMap(v->gameOverBackground);
+            if (state->winner == TEAM_BLUE) {
+                return spriteGetMap(v->gameOverBlueBackground);
+            }
+            else if (state->winner == TEAM_RED) {
+                return spriteGetMap(v->gameOverRedBackground);
+            }
+            return NULL;
 
         default:
             return NULL;
