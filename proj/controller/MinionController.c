@@ -1,4 +1,5 @@
 #include "MinionController.h"
+#include "ChampionController.h"
 
 static void initWave(MinionWave *wave, Team team, int map_w) {
     wave->active = true;
@@ -120,7 +121,7 @@ static void updateMinion(Minion *m, Minions *minions, Tower *enemy_tower, Champi
         m->state = MINION_ATTACKING;
         m->attack_timer++;
         if (m->attack_timer >= MINION_ATTACK_SPEED) {
-            championAddHp(enemy_champ, -MINION_ATTACK_DMG);
+            championDecreaseHp(ally_champ, enemy_champ, MINION_ATTACK_DMG);
             m->attack_timer = 0;
         }
         return;
