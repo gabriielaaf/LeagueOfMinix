@@ -29,9 +29,7 @@ GameOverViewer *gameOverViewerCreate() {
     }
 
     viewer->quitButtonViewer = buttonViewerCreate(
-        (xpm_map_t) home_xpm,
-        (xpm_map_t) home_xpm
-    );
+        (xpm_map_t)quit_button_xpm, (xpm_map_t)quit_button_hover_xpm);
 
     if (!viewer->quitButtonViewer) {
         gameOverViewerDestroy(viewer);

@@ -7,20 +7,12 @@
 #include "../assets/tower_p2_xpm.h"
 
 #include <stdlib.h>
-#include <stdio.h>
 
 #define HUD_SCALE   2
 #define HUD_SPACING 1
 
 GameViewer *gameViewerCreate() {
-    printf("[GAMEVIEWER] gameViewerCreate START\n");
-    fflush(stdout);
-
     GameViewer *gv = malloc(sizeof(GameViewer));
-
-    printf("[GAMEVIEWER] malloc gv = %p\n", gv);
-    fflush(stdout);
-
     if (!gv) return NULL;
 
     gv->p1 = NULL;
@@ -29,26 +21,10 @@ GameViewer *gameViewerCreate() {
     gv->minion_red = NULL;
     gv->tower = NULL;
 
-    printf("[GAMEVIEWER] before buildAnimations(1)\n");
-    fflush(stdout);
-
     AnimSprite **anim1 = buildAnimations(1);
-
-    printf("[GAMEVIEWER] after buildAnimations(1): anim1 = %p\n", anim1);
-    fflush(stdout);
-
-    printf("[GAMEVIEWER] before buildAnimations(2)\n");
-    fflush(stdout);
-
     AnimSprite **anim2 = buildAnimations(2);
 
-    printf("[GAMEVIEWER] after buildAnimations(2): anim2 = %p\n", anim2);
-    fflush(stdout);
-
     if (!anim1 || !anim2) {
-        printf("[GAMEVIEWER ERROR] buildAnimations failed\n");
-        fflush(stdout);
-
         if (anim1) {
             for (int i = 0; i < NUM_ANIMS; i++) {
                 if (anim1[i]) destroyAnimSprite(anim1[i]);
@@ -67,65 +43,28 @@ GameViewer *gameViewerCreate() {
         return NULL;
     }
 
-    printf("[GAMEVIEWER] before createChampionViewer p1\n");
-    fflush(stdout);
-
     gv->p1 = createChampionViewer(anim1, NUM_ANIMS);
-
-    printf("[GAMEVIEWER] after createChampionViewer p1: p1 = %p\n", gv->p1);
-    fflush(stdout);
-
-    printf("[GAMEVIEWER] before createChampionViewer p2\n");
-    fflush(stdout);
-
     gv->p2 = createChampionViewer(anim2, NUM_ANIMS);
-
-    printf("[GAMEVIEWER] after createChampionViewer p2: p2 = %p\n", gv->p2);
-    fflush(stdout);
-
-    printf("[GAMEVIEWER] before createMinionViewer blue\n");
-    fflush(stdout);
 
     gv->minion_blue = createMinionViewer(
         (xpm_row_t *) minion_p1_stop,
         (xpm_row_t *) minion_p1_attack
     );
 
-    printf("[GAMEVIEWER] after createMinionViewer blue: minion_blue = %p\n", gv->minion_blue);
-    fflush(stdout);
-
-    printf("[GAMEVIEWER] before createMinionViewer red\n");
-    fflush(stdout);
-
     gv->minion_red = createMinionViewer(
         (xpm_row_t *) minion_p2_stop,
         (xpm_row_t *) minion_p2_attack
     );
-
-    printf("[GAMEVIEWER] after createMinionViewer red: minion_red = %p\n", gv->minion_red);
-    fflush(stdout);
-
-    printf("[GAMEVIEWER] before createTowerViewer\n");
-    fflush(stdout);
 
     gv->tower = createTowerViewer(
         (xpm_map_t) blue_tower_xpm,
         (xpm_map_t) red_tower_xpm
     );
 
-    printf("[GAMEVIEWER] after createTowerViewer: tower = %p\n", gv->tower);
-    fflush(stdout);
-
     if (!gv->p1 || !gv->p2 || !gv->minion_blue || !gv->minion_red || !gv->tower) {
-        printf("[GAMEVIEWER ERROR] one viewer returned NULL\n");
-        fflush(stdout);
-
         gameViewerDestroy(gv);
         return NULL;
     }
-
-    printf("[GAMEVIEWER] gameViewerCreate END OK\n");
-    fflush(stdout);
 
     return gv;
 }

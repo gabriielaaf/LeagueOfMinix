@@ -7,7 +7,8 @@
 
 #include "../assets/retry_button_xpm.h"
 #include "../assets/retry_button_hover_xpm.h"
-#include "../assets/home.h"
+#include "../assets/quit_button_xpm.h"
+#include "../assets/quit_button_hover_xpm.h"
 
 #include "../model/state/State.h"
 

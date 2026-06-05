@@ -8,9 +8,9 @@
  * @brief Upgrade bars for a single player in the shop.
  */
 typedef struct {
-    ShopBarState *attackBar;  /**< Attack damage upgrade bar. */
-    ShopBarState *defenseBar; /**< Movement speed upgrade bar. */
-    ShopBarState *hpBar;      /**< Maximum HP upgrade bar. */
+    ShopBarState *attackBar; /**< Attack damage upgrade bar. */
+    ShopBarState *speedBar;  /**< Movement speed upgrade bar. */
+    ShopBarState *hpBar;     /**< Maximum HP upgrade bar. */
 } PlayerShopState;
 
 /**

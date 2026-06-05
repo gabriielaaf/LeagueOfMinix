@@ -52,15 +52,9 @@ void shopBarViewerDraw(ShopBarViewer *viewer, ShopBarState *bar) {
         );
     }
 
-    vg_draw_rectangle(
-        bar->buyButton->x - 3,
-        bar->buyButton->y - 3,
-        bar->buyButton->width + 6,
-        bar->buyButton->height + 6,
-        viewer->border_color
-    );
-
-    buttonViewerDraw(viewer->buttonViewer, bar->buyButton, bar->x + bar->width + 10, bar->y);
+    int btn_h = getHeight(viewer->buttonViewer->normal);
+    int btn_y = bar->y + (bar->height - btn_h) / 2;
+    buttonViewerDraw(viewer->buttonViewer, bar->buyButton, bar->x + bar->width + 10, btn_y);
 
 }
 

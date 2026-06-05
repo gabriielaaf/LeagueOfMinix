@@ -1,4 +1,7 @@
-/* XPM */
+#pragma once
+
+#include <lcom/lcf.h>
+
 static xpm_row_t quit_button_xpm[] = {
 "134 138 256 2",
 "  	c None",
