@@ -57,6 +57,8 @@ Viewer *viewerCreate() {
     v->gameOverViewer = gameOverViewerCreate();
     if (!v->gameOverViewer) { viewerDestroy(v); return NULL; }
 
+    //adicionar aqui os background
+
     return v;
 }
 

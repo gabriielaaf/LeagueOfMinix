@@ -1,9 +1,11 @@
 #pragma once
 
 #include "../model/state/State.h"
+#include "ButtonViewer.h"
 
 typedef struct {
-    int dummy;
+    ButtonViewer *restartButtonViewer;
+    ButtonViewer *quitButtonViewer;
 } GameOverViewer;
 
 GameOverViewer *gameOverViewerCreate();

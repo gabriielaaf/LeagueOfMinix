@@ -5,6 +5,7 @@
 #include "GameState.h"
 #include "MenuState.h"
 #include "ShopState.h"
+#include "GameOverState.h"
 
 #include "../../input/KeyboardInterpreter.h"
 #include "../../input/MouseInterpreter.h"
@@ -24,6 +25,7 @@ typedef struct {
     GameState *game;
     MenuState *menu;
     ShopState *shop;
+    GameOverState *gameOver;
 
 } State;
 
