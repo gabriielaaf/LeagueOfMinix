@@ -23,7 +23,7 @@ void championUpdate(Champion *champion, bool animationLooped, bool second_elapse
     }
 }
 
-void championMove(Champion *champion1, Champion *champion2, Tower *tower, Minions *minions, int dx, int dy, int map_w, int map_h) {
+void championMove(Champion *champion1, Champion *champion2, Towers *towers, Minions *minions, int dx, int dy, int map_w, int map_h) {
   if (champion1 == NULL || championGetHp(champion1) <= 0) {
     return;
   }
@@ -74,7 +74,8 @@ void championMove(Champion *champion1, Champion *champion2, Tower *tower, Minion
       return;
   }
 
-  if (boxesOverlap(cb, towerGetBox(tower)))
+  if ((towers->blue.hp > 0 && boxesOverlap(cb, towerGetBox(&towers->blue))) ||
+      (towers->red.hp > 0 && boxesOverlap(cb, towerGetBox(&towers->red))))
     return;
 
   if (minions != NULL) {

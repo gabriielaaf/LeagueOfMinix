@@ -39,7 +39,7 @@ static Minion *findNearestMinion(Tower *t, Minions *minions) {
     return best;
 }
 
-static void updateProjectile(TowerProjectile *p, Champion *friend_champ, Champion *enemy_champ) {
+static void updateProjectile(TowerProjectile *p, Team team, Champion *friend_champ, Champion *enemy_champ) {
     if (!p->active) return;
 
     float tx, ty;
@@ -54,8 +54,11 @@ static void updateProjectile(TowerProjectile *p, Champion *friend_champ, Champio
         ty = cp.y + championGetHeight(enemy_champ) / 2.0f;
     }
 
-    float dx = tx - p->pos.x;
-    float dy = ty - p->pos.y;
+    float tip_x = p->pos.x + (team == TEAM_BLUE ? PROJECTILE_TIP_BLUE_X : PROJECTILE_TIP_RED_X);
+    float tip_y = p->pos.y + PROJECTILE_TIP_Y;
+
+    float dx = tx - tip_x;
+    float dy = ty - tip_y;
     float dist = sqrtf(dx * dx + dy * dy);
 
     if (dist <= PROJECTILE_HIT_RADIUS) {
@@ -74,7 +77,7 @@ static void updateProjectile(TowerProjectile *p, Champion *friend_champ, Champio
 static void updateTower(Tower *t, Minions *minions, Champion *friend_champ, Champion *enemy_champ) {
     if (t->hp <= 0) return;
 
-    updateProjectile(&t->projectile, friend_champ, enemy_champ);
+    updateProjectile(&t->projectile, t->team, friend_champ, enemy_champ);
 
     t->attack_timer++;
     if (t->attack_timer < TOWER_ATTACK_SPEED) return;
@@ -98,8 +101,10 @@ static void updateTower(Tower *t, Minions *minions, Champion *friend_champ, Cham
 
     if (t->minion_target == NULL && !t->targeting_champion) return;
 
-    t->projectile.pos.x = position_px(t->pos) + TOWER_W / 2.0f;
-    t->projectile.pos.y = position_py(t->pos) + TOWER_H / 2.0f;
+    t->projectile.pos.x = (t->team == TEAM_BLUE)
+        ? position_px(t->pos) + TOWER_W - PROJECTILE_TIP_BLUE_X
+        : position_px(t->pos) - PROJECTILE_TIP_RED_X;
+    t->projectile.pos.y = position_py(t->pos) - PROJECTILE_TIP_Y + 10;
     t->projectile.minion_target    = t->minion_target;
     t->projectile.targeting_champion = t->targeting_champion;
     t->projectile.damage = TOWER_DMG;

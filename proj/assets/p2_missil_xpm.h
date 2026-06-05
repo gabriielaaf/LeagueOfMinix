@@ -358,7 +358,7 @@ static xpm_row_t p2_missil1_xpm[] = {
 "                                                                                                                                                                                                                                                                                                            ",
 "                                                                                                                                                                                                                                                                                                            "};
 
-static xpm_row_t p2_missil2_xpm[] {
+static xpm_row_t p2_missil2_xpm[] = {
 
 "150 100 256 2",
 "  	c None",
