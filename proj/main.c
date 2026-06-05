@@ -48,7 +48,7 @@ int(proj_main_loop)(int argc, char *argv[]) {
         return 1;
     }
 
-    Sprite *tower = spriteCreate(tower_xpm);
+    Sprite *tower = spriteCreate(blue_tower_xpm);
     if (tower == NULL) {
         spriteDestroy(background);
         vg_exit();

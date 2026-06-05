@@ -2,6 +2,8 @@
 #include "sprite/BuildSprites.h"
 #include "../assets/minion_p1/minion_p1_xpms.h"
 #include "../assets/minion_p2/minion_p2_xpms.h"
+#include "../assets/tower_p1_xpm.h"
+#include "../assets/tower_p2_xpm.h"
 
 #include <stdlib.h>
 
@@ -22,7 +24,7 @@ GameViewer *gameViewerCreate() {
     gv->p2 = createChampionViewer(anim2, NUM_ANIMS);
     gv->minion_blue = createMinionViewer((xpm_row_t *)minion_p1_stop, (xpm_row_t *)minion_p1_attack);
     gv->minion_red = createMinionViewer((xpm_row_t *)minion_p2_stop, (xpm_row_t *)minion_p2_attack);
-    gv->tower = createTowerViewer();
+    gv->tower = createTowerViewer((xpm_map_t)blue_tower_xpm, (xpm_map_t)red_tower_xpm);
 
     if (!gv->p1 || !gv->p2 || !gv->minion_blue || !gv->minion_red || !gv->tower) {
         gameViewerDestroy(gv);
