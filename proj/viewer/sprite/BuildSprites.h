@@ -1,7 +1,7 @@
 #pragma once
 
 /** @brief Total number of champion animation clips (8 directions × 3 states). */
-#define NUM_ANIMS 24
+#define NUM_ANIMS 12
 /** @brief Number of frames in each attack animation. */
 #define ATTACK_FRAMES 2
 /** @brief Ticks per frame for attack animations. */
@@ -20,19 +20,6 @@
 #include "../../assets/p1/p1_south_xpms.h"
 #include "../../assets/p1/p1_east_xpms.h"
 #include "../../assets/p1/p1_west_xpms.h"
-#include "../../assets/p1/p1_north_east_xpms.h"
-#include "../../assets/p1/p1_north_west_xpms.h"
-#include "../../assets/p1/p1_south_east_xpms.h"
-#include "../../assets/p1/p1_south_west_xpms.h"
-
-#include "../../assets/p2/p2_north_xpms.h"
-#include "../../assets/p2/p2_south_xpms.h"
-#include "../../assets/p2/p2_east_xpms.h"
-#include "../../assets/p2/p2_west_xpms.h"
-#include "../../assets/p2/p2_north_east_xpms.h"
-#include "../../assets/p2/p2_north_west_xpms.h"
-#include "../../assets/p2/p2_south_east_xpms.h"
-#include "../../assets/p2/p2_south_west_xpms.h"
 
 /**
  * @brief Builds the full set of champion AnimSprite clips for the given player.

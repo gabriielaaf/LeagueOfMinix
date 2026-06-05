@@ -1,66 +1,42 @@
 #include "BuildSprites.h"
 
-static xpm_row_t *p1_idle_xpms[8] = {
+static xpm_row_t *p1_idle_xpms[4] = {
     p1_north_stop_xpm,
     p1_south_stop_xpm,
     p1_south_stop_xpm,
     p1_south_stop_xpm,
-    p1_south_stop_xpm,
-    p1_south_stop_xpm,
-    p1_south_stop_xpm,
-    p1_south_stop_xpm,
 };
 
-static xpm_row_t *p1_move_xpms[8][MOVE_FRAMES] = {
+static xpm_row_t *p1_move_xpms[4][MOVE_FRAMES] = {
     {p1_north_move1_xpm, p1_north_move2_xpm},
     {p1_south_move1_xpm, p1_south_move2_xpm},
     {p1_south_move1_xpm, p1_south_move2_xpm},
     {p1_south_move1_xpm, p1_south_move2_xpm},
-    {p1_south_move1_xpm, p1_south_move2_xpm},
-    {p1_south_move1_xpm, p1_south_move2_xpm},
-    {p1_south_move1_xpm, p1_south_move2_xpm},
-    {p1_south_move1_xpm, p1_south_move2_xpm},
 };
 
-static xpm_row_t *p1_attack_xpms[8][ATTACK_FRAMES] = {
+static xpm_row_t *p1_attack_xpms[4][ATTACK_FRAMES] = {
     {p1_north_attack_up_xpm, p1_north_attack_mid_xpm},
     {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
     {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
     {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
-    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
-    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
-    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
-    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
 };
 
-static xpm_row_t *p2_idle_xpms[8] = {
+static xpm_row_t *p2_idle_xpms[4] = {
     p1_north_stop_xpm,
     p1_south_stop_xpm,
     p1_south_stop_xpm,
     p1_south_stop_xpm,
-    p1_south_stop_xpm,
-    p1_south_stop_xpm,
-    p1_south_stop_xpm,
-    p1_south_stop_xpm,
 };
 
-static xpm_row_t *p2_move_xpms[8][MOVE_FRAMES] = {
+static xpm_row_t *p2_move_xpms[4][MOVE_FRAMES] = {
     {p1_north_move1_xpm, p1_north_move2_xpm},
     {p1_south_move1_xpm, p1_south_move2_xpm},
     {p1_south_move1_xpm, p1_south_move2_xpm},
     {p1_south_move1_xpm, p1_south_move2_xpm},
-    {p1_south_move1_xpm, p1_south_move2_xpm},
-    {p1_south_move1_xpm, p1_south_move2_xpm},
-    {p1_south_move1_xpm, p1_south_move2_xpm},
-    {p1_south_move1_xpm, p1_south_move2_xpm},
 };
 
-static xpm_row_t *p2_attack_xpms[8][ATTACK_FRAMES] = {
+static xpm_row_t *p2_attack_xpms[4][ATTACK_FRAMES] = {
     {p1_north_attack_up_xpm, p1_north_attack_mid_xpm},
-    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
-    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
-    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
-    {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
     {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
     {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
     {p1_south_attack_up_xpm, p1_south_attack_mid_xpm},
@@ -85,7 +61,7 @@ AnimSprite **buildAnimations(int player) {
 
     int anims_created = 0;
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 4; i++) {
         Sprite *s = NULL;
         switch (player) {
             case 1:
@@ -122,7 +98,7 @@ AnimSprite **buildAnimations(int player) {
         anims_created++;
     }
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 4; i++) {
         Sprite **frames = malloc(ATTACK_FRAMES * sizeof(Sprite *));
         if (frames == NULL) {
             destroyAnimations(animations, anims_created);
@@ -152,8 +128,8 @@ AnimSprite **buildAnimations(int player) {
             frames_ok++;
         }
         
-        animations[8 + i] = createAnimSprite(ATTACK_TIME, ATTACK_FRAMES, 350, 220, frames);
-        if (animations[8 + i] == NULL) {
+        animations[4 + i] = createAnimSprite(ATTACK_TIME, ATTACK_FRAMES, 350, 220, frames);
+        if (animations[4 + i] == NULL) {
             for (int f = 0; f < ATTACK_FRAMES; f++)
                 spriteDestroy(frames[f]);
             free(frames);
@@ -163,7 +139,7 @@ AnimSprite **buildAnimations(int player) {
         anims_created++;
     }
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 4; i++) {
         Sprite **frames = malloc(MOVE_FRAMES * sizeof(Sprite *));
         if (frames == NULL) {
             destroyAnimations(animations, anims_created);
@@ -182,8 +158,8 @@ AnimSprite **buildAnimations(int player) {
             frames_ok++;
         }
 
-        animations[16 + i] = createAnimSprite(MOVE_TIME, MOVE_FRAMES, 350, 220, frames);
-        if (animations[16 + i] == NULL) {
+        animations[8 + i] = createAnimSprite(MOVE_TIME, MOVE_FRAMES, 350, 220, frames);
+        if (animations[8 + i] == NULL) {
             for (int f = 0; f < MOVE_FRAMES; f++) spriteDestroy(frames[f]);
             free(frames);
             destroyAnimations(animations, anims_created);

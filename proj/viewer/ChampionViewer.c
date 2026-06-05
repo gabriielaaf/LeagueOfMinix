@@ -36,6 +36,16 @@ void destroyChampionViewer(ChampionViewer *viewer) {
     free(viewer);
 }
 
+static Direction mapDir(Direction dir) {
+    switch (dir) {
+        case NORTHEAST: return NORTH;
+        case NORTHWEST: return NORTH;
+        case SOUTHEAST: return SOUTH;
+        case SOUTHWEST: return SOUTH;
+        default: return dir;
+    }
+}
+
 bool championViewerUpdate(ChampionViewer *viewer, Champion *champion) {
     if (viewer == NULL || champion == NULL) {
         return false;
@@ -43,17 +53,17 @@ bool championViewerUpdate(ChampionViewer *viewer, Champion *champion) {
 
     int targetAnimation;
     ChampionState state = championGetState(champion);
-    Direction dir = championGetDir(champion);
+    Direction dir = mapDir(championGetDir(champion));
 
     switch (state) {
         case CHAMPION_MOVING:
-            targetAnimation = (int)dir + 16;
+            targetAnimation = (int)dir + 8;
             break;
         case CHAMPION_ATTACKING:
-            if (viewer->currentAnimation >= 8 && viewer->currentAnimation < 16) {
+            if (viewer->currentAnimation >= 4 && viewer->currentAnimation < 8) {
                 targetAnimation = viewer->currentAnimation;
             } else {
-                targetAnimation = (int)dir + 8;
+                targetAnimation = (int)dir + 4;
             }
             break;
         default:
