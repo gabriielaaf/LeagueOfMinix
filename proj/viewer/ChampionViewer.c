@@ -36,6 +36,15 @@ void destroyChampionViewer(ChampionViewer *viewer) {
     free(viewer);
 }
 
+/**
+ * @brief Maps diagonal directions to their nearest cardinal equivalent.
+ *
+ * Since only 4-direction sprites exist, NORTHEAST/NORTHWEST collapse to NORTH
+ * and SOUTHEAST/SOUTHWEST collapse to SOUTH. All cardinal directions pass through unchanged.
+ *
+ * @param dir The direction to map.
+ * @return The nearest supported cardinal Direction.
+ */
 static Direction mapDir(Direction dir) {
     switch (dir) {
         case NORTHEAST: return NORTH;

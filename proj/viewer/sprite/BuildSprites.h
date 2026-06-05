@@ -1,6 +1,6 @@
 #pragma once
 
-/** @brief Total number of champion animation clips (8 directions × 3 states). */
+/** @brief Total number of champion animation clips (4 directions × 3 states). */
 #define NUM_ANIMS 12
 /** @brief Number of frames in each attack animation. */
 #define ATTACK_FRAMES 2
@@ -25,12 +25,11 @@
  * @brief Builds the full set of champion AnimSprite clips for the given player.
  *
  * Returns a heap-allocated array of NUM_ANIMS pointers laid out as:
- *  - [0..7]   Idle animations for each of the 8 directions.
- *  - [8..15]  Attack animations for each of the 8 directions.
- *  - [16..23] Walk animations for each of the 8 directions.
+ *  - [0..3] Idle animations for each of the 4 directions.
+ *  - [4..7] Attack animations for each of the 4 directions.
+ *  - [8..11] Walk animations for each of the 4 directions.
  *
- * The direction order within each group matches the Direction enum
- * (NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST).
+ * The direction order within each group is (NORTH, SOUTH, EAST, WEST).
  *
  * @param player Player index (1 for blue, 2 for red).
  * @return Heap-allocated array of NUM_ANIMS AnimSprite pointers, or NULL on failure.

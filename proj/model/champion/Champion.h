@@ -39,7 +39,7 @@ typedef enum {
 } ChampionState;
 
 /**
- * @brief Opaque champion model.
+ * @brief Champion model.
  */
 typedef struct Champion Champion;
 
