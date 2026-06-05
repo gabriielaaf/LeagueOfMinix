@@ -16,10 +16,10 @@
 #include "Sprite.h"
 #include "AnimSprite.h"
 
-#include "../../assets/p1/p1_north_xpms.h"
-#include "../../assets/p1/p1_south_xpms.h"
-#include "../../assets/p1/p1_east_xpms.h"
-#include "../../assets/p1/p1_west_xpms.h"
+#include "../../assets/game/players/players_north_xpms.h"
+#include "../../assets/game/players/players_south_xpms.h"
+#include "../../assets/game/players/players_east_xpms.h"
+#include "../../assets/game/players/players_west_xpms.h"
 
 /**
  * @brief Builds the full set of champion AnimSprite clips for the given player.

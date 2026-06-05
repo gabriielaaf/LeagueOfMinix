@@ -4,10 +4,10 @@
 
 #include "ButtonViewer.h"
 
-#include "../assets/retry_button_xpm.h"
-#include "../assets/retry_button_hover_xpm.h"
-#include "../assets/quit_button_xpm.h"
-#include "../assets/quit_button_hover_xpm.h"
+#include "../assets/game_over/retry_button_xpm.h"
+#include "../assets/game_over/retry_button_hover_xpm.h"
+#include "../assets/game_over/quit_button_xpm.h"
+#include "../assets/game_over/quit_button_hover_xpm.h"
 
 #include "../model/state/State.h"
 

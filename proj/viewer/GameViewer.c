@@ -1,9 +1,9 @@
 #include "GameViewer.h"
 #include "sprite/BuildSprites.h"
-#include "../assets/minion_p1/minion_p1_xpms.h"
-#include "../assets/minion_p2/minion_p2_xpms.h"
-#include "../assets/tower_p1_xpm.h"
-#include "../assets/tower_p2_xpm.h"
+#include "../assets/game/minion_p1/minion_p1_xpms.h"
+#include "../assets/game/minion_p2/minion_p2_xpms.h"
+#include "../assets/game/tower/tower_p1_xpm.h"
+#include "../assets/game/tower/tower_p2_xpm.h"
 
 #include <stdlib.h>
 

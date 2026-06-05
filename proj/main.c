@@ -11,8 +11,6 @@
 
 #include "input/TimerInterpreter.h"
 #include "controller/Controller.h"
-#include "assets/gabiteste.h"
-#include "viewer/sprite/Sprite.h"
 
 void lazy_link();
 

@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../assets/arena.h"
+#include "../assets/game/arena.h"
 #include "../assets/cursor/cursor_xpms.h"
-#include "../assets/home.h"
-#include "../assets/p1_lose_xpm.h"
-#include "../assets/p2_lose_xpm.h"
-#include "../assets/shop_xpm.h"
+#include "../assets/menu/home.h"
+#include "../assets/game_over/p1_lose_xpm.h"
+#include "../assets/game_over/p2_lose_xpm.h"
+#include "../assets/pause/shop_xpm.h"
 #include "GameOverViewer.h"
 #include "GameViewer.h"
 #include "MenuViewer.h"

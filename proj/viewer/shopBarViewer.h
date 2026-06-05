@@ -4,7 +4,7 @@
 
 #include "../model/state/shopBarState.h"
 
-#include "../assets/buttons/buy_buttons.h"
+#include "../assets/pause/buy_buttons.h"
 
 #include "ButtonViewer.h"
 

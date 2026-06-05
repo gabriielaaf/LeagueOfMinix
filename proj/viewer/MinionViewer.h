@@ -6,8 +6,8 @@
 #include "sprite/AnimSprite.h"
 #include "HpBarViewer.h"
 
-#include "../assets/minion_p1/minion_p1_xpms.h"
-#include "../assets/minion_p2/minion_p2_xpms.h"
+#include "../assets/game/minion_p1/minion_p1_xpms.h"
+#include "../assets/game/minion_p2/minion_p2_xpms.h"
 
 #include "../model/minion/MinionConfig.h"
 #include "../model/minion/Minion.h"

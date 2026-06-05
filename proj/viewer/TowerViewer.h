@@ -6,8 +6,8 @@
 #include "sprite/Sprite.h"
 #include <stdlib.h>
 #include "./sprite/AnimSprite.h"
-#include "../assets/p1_missil_xpm.h"
-#include "../assets/p2_missil_xpm.h"
+#include "../assets/game/tower/p1_missil_xpm.h"
+#include "../assets/game/tower/p2_missil_xpm.h"
 
 #include "video.h"
 

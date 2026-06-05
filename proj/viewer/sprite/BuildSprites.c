@@ -4,7 +4,7 @@ static xpm_row_t *p1_idle_xpms[4] = {
     p1_north_stop_xpm,
     p1_south_stop_xpm,
     p1_east_stop_xpm,
-    p1_south_stop_xpm,
+    p1_west_stop_xpm,
 };
 
 static xpm_row_t *p1_move_xpms[4][MOVE_FRAMES] = {
