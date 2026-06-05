@@ -113,7 +113,7 @@ void controllerUpdate(Controller *ctrl, bool second_elapsed) {
         }
 
         case STATE_PAUSED:
-            shopControllerUpdate(ctrl->shopCtrl, ctrl->state.shop, &ctrl->mouse);
+            shopControllerUpdate(ctrl->shopCtrl, ctrl->state.shop, &ctrl->mouse, ctrl->state.game);
             break;
 
         case STATE_GAME_OVER:

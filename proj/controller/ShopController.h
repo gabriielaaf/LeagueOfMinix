@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "../model/state/GameState.h"
 #include "../model/state/ShopState.h"
 #include "../input/MouseInterpreter.h"
 #include "ShopBarController.h"
@@ -33,4 +34,4 @@ void shopControllerDestroy(ShopController *controller);
  * @param shop ShopState containing all upgrade bars.
  * @param mouse Current mouse state providing cursor position and click events.
  */
-void shopControllerUpdate(ShopController *controller, ShopState *shop, MouseState *mouse);
+void shopControllerUpdate(ShopController *controller, ShopState *shop, MouseState *mouse, GameState *game);
