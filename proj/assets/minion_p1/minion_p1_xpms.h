@@ -3,6 +3,7 @@
 #include <lcom/lcf.h>
 
 static xpm_row_t minion_p1_stop[] = {
+
 "90 60 256 2",
 "  	c None",
 ". 	c #000000",
