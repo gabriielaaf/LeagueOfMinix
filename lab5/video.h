@@ -28,7 +28,7 @@ int video_init_page_flipping(uint16_t mode);
 
 int video_swap_buffers(void);
 
-int video_clear_back_buffer(uint32_t color);
+int video_clear_back_buffer(const uint8_t *background);
 
 #endif
 

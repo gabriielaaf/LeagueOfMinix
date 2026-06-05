@@ -1,7 +1,8 @@
 #pragma once
 
+#include <lcom/lcf.h>
 
-static xpm_row_t gabi_test_xpm[] = {
+static xpm_row_t red_tower_xpm[] = {
 "150 225 256 2",
 "  	c None",
 ". 	c #000000",

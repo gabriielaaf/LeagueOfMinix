@@ -2,7 +2,7 @@
 #include "../model/tower/TowerConfig.h"
 #include "video.h"
 
-TowerViewer *createTowerViewer(){
+TowerViewer *createTowerViewer(xpm_map_t xpm_blue, xpm_map_t xpm_red) {
     TowerViewer *viewer = malloc(sizeof(TowerViewer));
 
     if (viewer == NULL) {
@@ -10,8 +10,11 @@ TowerViewer *createTowerViewer(){
     }
 
     viewer->hpBar = createHpBarViewer();
-    if (!viewer->hpBar) {
-        free(viewer);
+    viewer->blue = spriteCreate(xpm_blue);
+    viewer->red = spriteCreate(xpm_red);
+
+    if (!viewer->hpBar || !viewer->blue || !viewer->red) {
+        destroyTowerViewer(viewer);
         return NULL;
     }
 
@@ -23,43 +26,31 @@ void destroyTowerViewer(TowerViewer *viewer) {
         return;
     }
 
-    destroyHpBarViewer(viewer->hpBar);
+    if (viewer->hpBar) destroyHpBarViewer(viewer->hpBar);
+    if (viewer->blue) spriteDestroy(viewer->blue);
+    if (viewer->red) spriteDestroy(viewer->red);
     free(viewer);
 }
 
 
 void towerViewerDraw(TowerViewer *viewer, Towers *towers) {
-    if (!towers) return;
+    if (!viewer || !towers) return;
 
-    Tower *t;
-    t = &towers->blue;
-
-    hpBarViewerDraw(viewer->hpBar,
-                    position_px(t->pos), position_py(t->pos),
-                    TOWER_W,
-                    t->hp,
-                    TOWER_HP);
+    Tower *t = &towers->blue;
 
     if (t->hp > 0) {
+        spriteDraw(viewer->blue, position_px(t->pos), position_py(t->pos));
         hpBarViewerDraw(viewer->hpBar,
-                    position_px(t->pos), position_py(t->pos),
-                    TOWER_W,
-                    t->hp,
-                    TOWER_HP);
-        vg_draw_rectangle(position_px(t->pos), position_py(t->pos), TOWER_W, TOWER_H, 1);
+                        position_px(t->pos), position_py(t->pos),
+                        TOWER_W, t->hp, TOWER_HP);
     }
-
-    t = &towers->red;
-
     
+    t = &towers->red;
     if (t->hp > 0) {
+        spriteDraw(viewer->red, position_px(t->pos), position_py(t->pos));
         hpBarViewerDraw(viewer->hpBar,
-                    position_px(t->pos), position_py(t->pos),
-                    TOWER_W,
-                    t->hp,
-                    TOWER_HP);
-        
-        vg_draw_rectangle(position_px(t->pos), position_py(t->pos), TOWER_W, TOWER_H, 4);
+                        position_px(t->pos), position_py(t->pos),
+                        TOWER_W, t->hp, TOWER_HP);
     }
 
     if (towers->blue.projectile.active)
