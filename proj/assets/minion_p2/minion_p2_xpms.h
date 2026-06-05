@@ -1,5 +1,4 @@
-#ifndef MINIONS_P2_XPMS_H
-#define MINIONS_P2_XPMS_H
+#pragma once
 
 #include <lcom/lcf.h>
 

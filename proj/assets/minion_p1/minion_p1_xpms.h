@@ -1,5 +1,4 @@
-#ifndef MINIONS_P1_XPMS_H
-#define MINIONS_P1_XPMS_H
+#pragma once
 
 #include <lcom/lcf.h>
 
@@ -640,4 +639,3 @@ static xpm_row_t minion_p1_attack[] = {
 "                                                                                                                                                                                    ",
 "                                                                                                                                                                                    ",
 "                                                                                                                                                                                    "};
-#endif
