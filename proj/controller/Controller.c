@@ -1,4 +1,5 @@
 #include "Controller.h"
+#include "ButtonController.h"
 
 Controller *controllerCreate() {
     Controller *ctrl = malloc(sizeof(Controller));
@@ -104,10 +105,13 @@ void controllerUpdate(Controller *ctrl, bool second_elapsed) {
                 p2_looped
             );
 
-            if (ctrl->state.game->towers.blue.hp <= 0)
+            if (ctrl->state.game->towers.blue.hp <= 0) {
+                mouseClearEvents(&ctrl->mouse);
                 gameOver(&ctrl->state, TEAM_RED);
-            else if (ctrl->state.game->towers.red.hp <= 0)
+            } else if (ctrl->state.game->towers.red.hp <= 0) {
+                mouseClearEvents(&ctrl->mouse);
                 gameOver(&ctrl->state, TEAM_BLUE);
+            }
 
             break;
         }
@@ -117,8 +121,18 @@ void controllerUpdate(Controller *ctrl, bool second_elapsed) {
             break;
 
         case STATE_GAME_OVER:
+            buttonControllerUpdate(ctrl->state.gameOver->restartButton, &ctrl->mouse);
+            buttonControllerUpdate(ctrl->state.gameOver->quitButton, &ctrl->mouse);
+
+            if (ctrl->state.gameOver->restartButton->clicked) {
+                gameRestart(&ctrl->state);
+            } else if (ctrl->state.gameOver->quitButton->clicked) {
+                gameQuit(&ctrl->state);
+            }
             break;
     }
+
+    mouseClearEvents(&ctrl->mouse);
 }
 
 void controllerDraw(Controller *ctrl) {

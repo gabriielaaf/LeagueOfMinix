@@ -7,7 +7,7 @@ void buttonControllerUpdate(ButtonState *button, MouseState *mouse) {
 
     button->clicked = false;
 
-    if (button->hovered && mouse->p1.attack_pressed) {
+    if (button->hovered && mouse->p1.attack) {
         button->clicked = true;
     }
 }

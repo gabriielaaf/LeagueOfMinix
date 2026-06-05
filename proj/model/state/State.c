@@ -10,6 +10,7 @@ bool stateInit(State *state) {
     state->game = NULL;
     state->menu = NULL;
     state->shop = NULL;
+    state->gameOver = NULL;
 
     state->game = gameStateCreate();
     if (state->game == NULL) {
@@ -44,11 +45,22 @@ bool stateInit(State *state) {
         return false;
     }
 
+    state->gameOver = gameOverStateCreate();
+    if (state->gameOver == NULL) {
+        stateDestroy(state);
+        return false;
+    }
+
     return true;
 }
 
 void stateDestroy(State *state) {
     if (state == NULL) return;
+
+    if (state->gameOver != NULL) {
+        gameOverStateDestroy(state->gameOver);
+        state->gameOver = NULL;
+    }
 
     if (state->shop != NULL) {
         shopStateDestroy(state->shop);
@@ -96,5 +108,19 @@ void gameQuit(State *state) {
     if (state == NULL) return;
 
     state->running = false;
+}
+
+void gameRestart(State *state) {
+    if (state == NULL) return;
+
+    gameStateDestroy(state->game);
+    state->game = gameStateCreate();
+    if (state->game == NULL) {
+        state->running = false;
+        return;
+    }
+
+    state->winner = 0;
+    state->state = STATE_PLAYING;
 }
 

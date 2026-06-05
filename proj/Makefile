@@ -28,6 +28,7 @@ SRCS = main.c \
        Minion.c \
        Tower.c \
        GameState.c \
+       GameOverState.c \
        State.c \
        MenuState.c \
        Button.c \

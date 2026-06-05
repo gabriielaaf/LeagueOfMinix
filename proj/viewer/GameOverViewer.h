@@ -5,7 +5,9 @@
 #include "ButtonViewer.h"
 #include "TextDrawer.h"
 
-#include "../assets/menu/play_buttons_xpms.h"
+#include "../assets/retry_button_xpm.h"
+#include "../assets/retry_button_hover_xpm.h"
+#include "../assets/home.h"
 
 #include "../model/state/State.h"
 

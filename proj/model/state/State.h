@@ -77,3 +77,9 @@ void gameOver(State *state, int winner);
  * @param state Application state.
  */
 void gameQuit(State *state);
+
+/**
+ * @brief Resets the game state and transitions back to STATE_PLAYING.
+ * @param state Application state.
+ */
+void gameRestart(State *state);

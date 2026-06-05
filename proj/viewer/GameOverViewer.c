@@ -19,8 +19,8 @@ GameOverViewer *gameOverViewerCreate() {
     viewer->quitButtonViewer = NULL;
 
     viewer->restartButtonViewer = buttonViewerCreate(
-        (xpm_map_t) play_button_xpm,
-        (xpm_map_t) play_button_hover_xpm
+        (xpm_map_t) retry_button_xpm,
+        (xpm_map_t) retry_button_hover_xpm
     );
 
     if (!viewer->restartButtonViewer) {
@@ -29,8 +29,8 @@ GameOverViewer *gameOverViewerCreate() {
     }
 
     viewer->quitButtonViewer = buttonViewerCreate(
-        (xpm_map_t) play_button_xpm,
-        (xpm_map_t) play_button_hover_xpm
+        (xpm_map_t) home_xpm,
+        (xpm_map_t) home_xpm
     );
 
     if (!viewer->quitButtonViewer) {
