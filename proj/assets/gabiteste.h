@@ -2,7 +2,7 @@
 
 
 static xpm_row_t gabi_test_xpm[] = {
-    
+
 "120 104 2185 2",
 "  	c None",
 ". 	c #BDBDBD",
@@ -40,7 +40,7 @@ static xpm_row_t gabi_test_xpm[] = {
 "5 	c #808080",
 "6 	c #6B6A6A",
 "7 	c #C5C5C5",
-"8 	c #999898",
+"8 	c #999898",git 
 "9 	c #787677",
 "0 	c #C7C7C7",
 "a 	c #B6B5B6",
