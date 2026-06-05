@@ -170,6 +170,10 @@ int(vg_draw_rectangle)(uint16_t x, uint16_t y,
     return 1;
   }
 
+  if (width == 0 || height == 0) {
+    return 0;
+  }
+
   if ((uint32_t) x + width > vmi.XResolution) {
     return 1;
   }
@@ -192,14 +196,22 @@ int(vg_draw_rectangle)(uint16_t x, uint16_t y,
     return 0;
   }
 
-  for (uint16_t row = 0; row < height; row++) {
+  unsigned int row_bytes = width * bytes_per_pixel;
+
+  char *first_row = buffer +
+                    y * vmi.BytesPerScanLine +
+                    x * bytes_per_pixel;
+
+  for (uint16_t col = 0; col < width; col++) {
+    memcpy(first_row + col * bytes_per_pixel, &color, bytes_per_pixel);
+  }
+
+  for (uint16_t row = 1; row < height; row++) {
     char *dst = buffer +
                 (y + row) * vmi.BytesPerScanLine +
                 x * bytes_per_pixel;
 
-    for (uint16_t col = 0; col < width; col++) {
-      memcpy(dst + col * bytes_per_pixel, &color, bytes_per_pixel);
-    }
+    memcpy(dst, first_row, row_bytes);
   }
 
   return 0;

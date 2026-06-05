@@ -1,9 +1,11 @@
 #include "MenuState.h"
 
-#define PLAY_BUTTON_X 262
-#define PLAY_BUTTON_Y 380
-#define PLAY_BUTTON_W 500
-#define PLAY_BUTTON_H 333
+#include <stdlib.h>
+
+#define PLAY_BUTTON_X 250
+#define PLAY_BUTTON_Y 350
+#define PLAY_BUTTON_W 96
+#define PLAY_BUTTON_H 32
 
 MenuState *menuStateCreate() {
     MenuState *menu = malloc(sizeof(MenuState));
